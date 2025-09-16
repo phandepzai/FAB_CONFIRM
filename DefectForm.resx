@@ -1,0 +1,287 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAEAMDAAAAEAIACoJQAAFgAAACgAAAAwAAAAYAAAAAEAIAAAAAAAgCUAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAATYusNHGH6Px5h+msfYfuLH2H7oB9h/KofYfyqH2H7oB9h+4seYfprIGH/PxNi
+        6w0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAaYP8dHmH8dh9h/MUfYfz6IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/x9h+/sfYfzFHmH8dhpg/x0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAHmD6Oh9h/LEfYfv8IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/x9h+/wfYfyxHmD6OgAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAABtg+CUfYPyzH2H7/iBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/H2H7/h9g
+        /LMbYPglAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP8BH2H8cx9h+/YgYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8fYfv2H2H8cwAA/wEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB9f7xAeYfy1IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/x5g+rYfX+8QAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAG2T/HB9g+9UgYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8fYvvVG2T/HAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAbZP8cH2L73SBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/H2L73Rtk/xwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB9f
+        7xAfYPvVIGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/x9i+9UfX+8QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAD/AR5h/LUgYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8eYPq2AAD/AQAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAH2H8cyBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/H2H8cwAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcY/8kH2H79iBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/H2H79htg+CUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAfYPqzIGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/RHz8/6bA
+        /f+mwP3/RHz8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/x9g/LMAAAAAAAAAAAAAAAAAAAAAAAAAAB5g+jofYfv+IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/y1r
+        /P+kv/3/vM/+/1KF/P9Shfz/u8/+/6W//f8ta/z/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/x9h+/4eYPo6AAAAAAAAAAAAAAAAAAAAAB9h
+        +rEgYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/TIH8/8/d/v9kkvz/IGL8/yJj/P/C1P7/TIH8/2SS/P/P3f7/TIH8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8fYfyxAAAAAAAA
+        AAAAAAAAGmD/HR9h+/wgYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P9cjPz/ytn+/zdy/P8gYvz/IGL8/yJj/P/+/v7//P3+/5W0/f87dfz/ydn+/1yM
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8fYfv8GmD/HQAAAAAAAAAAHmH8diBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/1OG/P/H2P7/LGv8/yBi/P8gYvz/IGL8/yJj/P/+/v7/////////
+        ///B0/7/NnL8/8fY/v9Thvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/HmH8dgAAAAAAAAAAH2H7xSBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/NnH8/8/d/v8ybvz/IGL8/yBi/P8gYvz/IGL8/yJj
+        /P/+/v7/////////////////xtf+/zhy/P/P3f7/NnH8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/H2H8xQAAAAAVVf8MH2H7+iBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/us7+/1KF/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yJj/P/+/v7//////////////////////6bA/f9Rhfz/us7+/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/H2H7+xNi6w0cYfo/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P9fjvz/o779/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yJj/P/+/v7///////////////////////7+/v9hj/z/o779/2CP
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBh
+        /z8fYvxqIGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P/G1/7/NnH8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yJj/P/+/v7/////////////////////////
+        ///d5/7/OHP8/8bX/v8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/x5h+msfYfuLIGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/0h+/P+uxv3/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yJj/P/+/v7/////////
+        ////////////////////////aZX8/63F/f9Jfvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/x9h+4sfYfugIGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/5Ky/f9gj/z/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yJj
+        /P/+/v7/////////////////////////////////vtH+/1+O/P+Ts/3/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/x9h+6AfYfyqIGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/8jY/v8nZ/z/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yJj/P/+/v7/////////////////////////////////+Pr+/y9t/P/I2P7/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/x9h/KofYfyqIGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/I2T8/8rZ/v9Pg/z/4ur+/+Lq
+        /v/i6v7/4ur+/+Lq/v/i6v7/4ur+/+Lr/v8/d/z/P3f8/z93/P8/d/z/P3f8/z93/P8/d/z/P3f8/yRl
+        /P/K2f7/I2T8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/x9h
+        /KofYfugIGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/PHb8/6/G
+        /f93n/3///////////////////////////////////////////8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P+uxv3/PHb8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/x9h+6AfYfuLIGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/UIP8/5q4/f+Nr/3///////////////////////////////////////////8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P+at/3/UIT8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/x9h+4sfYvxqIGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/Voj8/5Oz/f+UtP3/////////////////////////////////////////
+        //8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P+Ssv3/V4j8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/x5h+mscYfo/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/WYr8/5Gx/f+Xtv3/////////////////////////
+        //////////////////8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P+Qsf3/WYr8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/xxh+j8VVf8MH2H7+iBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/W4v8/46w/f+Yt/3/////////
+        //////////////////////////////////8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P+Or/3/W4v8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/H2H8+hNi
+        6w0AAAAAH2H7xSBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/W4v8/6jC
+        /f8xbvz/aJX8/8XW/v/+/v7///////////////////////////8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/ylo/P+owf3/W4v8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/H2H8xQAAAAAAAAAAHmH6diBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/L2z8/46v/f/K2f7/sMf9/02C/P9Vh/z/0t/+//////////////////////8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P9Ngvz/sMf9/8rZ/v+OsP3/L2z8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/HmH8dgAAAAAAAAAAGmD/HR9h+/wgYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/SH78/7LJ/f+0yv3/PHX8/4Kn/f/1+P7/////////
+        //8gYvz/IGL8/yBi/P8gYvz/OXP8/7TK/f+yyf3/SH78/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8fYfv8GmD/HQAAAAAAAAAAAAAAAB9h/LAgYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P9Shfz/zNv+/36k
+        /f88dvz/rMT9//b5/v8gYvz/IGL8/yJj/P9+pP3/zNv+/1KF/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8fYfyxAAAAAAAAAAAAAAAAAAAAAB9i
+        /zkfYfv+IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/JGX8/4ut/f/L2v7/aZX8/y9s/P8ravz/aZX8/8va/v+Lrv3/JWX8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/x9h+/4eYPo6AAAAAAAA
+        AAAAAAAAAAAAAAAAAAAfYfyyIGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P81cfz/ja/9/8HT/v/B0/7/jq/9/zZx/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/x9g
+        /LMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcY/8kH2H79iBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/H2H79hxj/yQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH2H8cyBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/H2H8cwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/AR5h
+        /LUgYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8eYfy1AAD/AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAABFm/w8fYfzUIGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/x9g+9UiZv8PAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAbW/8cH2D73SBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/H2L73Rtb/xwAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAG1v/HB9h/NQgYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8fYPvVG1v/HAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABFm
+        /w8eYfy1IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/x5h
+        /LUiZv8PAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAP8BH2H8cx9h+/YgYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8fYfv2H2H8cwAA/wEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABxj/yQfYfyyH2H7/iBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/H2H7/h9g+rMcY/8kAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH2L/OR9h
+        /LAfYfv8IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/x9h+/wfYfqxH2L/OQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAaYP8dHmH6dh9h+8UfYfv6IGL8/yBi/P8gYvz/IGL8/yBi/P8gYvz/IGL8/yBi
+        /P8gYvz/IGL8/x9h+/ofYfvFHmH8dhpg/x0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVVf8MHGH6Px9i/GofYfuLH2H7oB9h
+        /KofYfyqH2H7oB9h+4sfYvxqHGH6PxVV/wwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//8AD//8AAP/+AAB//wAA//gAAB//
+        AAD/4AAAB/8AAP+AAAAB/wAA/wAAAAD/AAD+AAAAAH8AAPwAAAAAPwAA+AAAAAAfAADwAAAAAA8AAPAA
+        AAAADwAA4AAAAAAHAADgAAAAAAcAAMAAAAAAAwAAwAAAAAADAACAAAAAAAEAAIAAAAAAAQAAgAAAAAAB
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAEAAIAAAAAAAQAAgAAAAAAB
+        AADAAAAAAAMAAMAAAAAAAwAA4AAAAAAHAADgAAAAAAcAAPAAAAAADwAA8AAAAAAPAAD4AAAAAB8AAPwA
+        AAAAPwAA/gAAAAB/AAD/AAAAAP8AAP+AAAAB/wAA/+AAAAf/AAD/+AAAH/8AAP/+AAB//wAA///AA///
+        AAA=
+</value>
+  </data>
+</root>
