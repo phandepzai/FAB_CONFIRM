@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -24,6 +27,12 @@ namespace FAB_CONFIRM
         private bool isRainbowActive = false;
         private Color originalAuthorColor;
         private double rainbowPhase = 0;
+
+        // Đọc danh sách từ các file .ini
+        private List<string> patternList;
+        private List<string> defectList;
+        private ConfigManager patternConfigManager;
+        private ConfigManager defectConfigManager;
         #endregion
 
         #region KHỞI TẠO FORM ỨNG DỤNG
@@ -58,6 +67,13 @@ namespace FAB_CONFIRM
             txtX3.Enter += OnTextBoxEnter;
             txtY3.Enter += OnTextBoxEnter;
 
+            //Cảnh báo tooltip khi nhập từ bàn phím vật lý trên 3 số
+            txtX1.KeyPress += new KeyPressEventHandler(CoordinateTextBox_KeyPress);
+            txtY1.KeyPress += new KeyPressEventHandler(CoordinateTextBox_KeyPress);
+            txtX2.KeyPress += new KeyPressEventHandler(CoordinateTextBox_KeyPress);
+            txtY2.KeyPress += new KeyPressEventHandler(CoordinateTextBox_KeyPress);
+            txtX3.KeyPress += new KeyPressEventHandler(CoordinateTextBox_KeyPress);
+            txtY3.KeyPress += new KeyPressEventHandler(CoordinateTextBox_KeyPress);
 
             // Gán sự kiện KeyDown để chỉ cho phép nhập số cho các ô tọa độ
             txtX1.KeyDown += txtCoord_KeyDown;
@@ -133,6 +149,23 @@ namespace FAB_CONFIRM
 
             // Cập nhật trạng thái ban đầu
             UpdateStatus("Sẵn sàng nhập liệu...", System.Drawing.Color.Green);
+
+            // Khai báo các danh sách mặc định
+            string defaultPatterns = "PATTERN-001,PATTERN-002,PATTERN-003,PATTERN-004,PATTERN-005,PATTERN-006,PATTERN-007,PATTERN-008,PATTERN-009,PATTERN-010,PATTERN-011,PATTERN-012,PATTERN-013,PATTERN-014,PATTERN-015,PATTERN-016,PATTERN-017,PATTERN-018,PATTERN-019,PATTERN-020,PATTERN-021,PATTERN-022,PATTERN-023,PATTERN-024,PATTERN-025,PATTERN-026,PATTERN-027";
+            string defaultDefects = "Lỗi phần mềm hệ thống,Lỗi phần mềm ứng dụng,Lỗi phần mềm bảo mật,Lỗi phần mềm giao diện,Lỗi phần mềm dữ liệu,Lỗi phần mềm kết nối,Lỗi phần mềm hiệu suất,Lỗi phần mềm tương thích,Lỗi phần mềm cập nhật,Lỗi phần mềm bảo mật,Lỗi phần mềm nền tảng,Lỗi phần mềm di động,Lỗi phần mềm web,Lỗi phần mềm cloud,Lỗi phần mềm AI,Lỗi phần mềm IoT,Lỗi phần mềm big data,Lỗi phần mềm học máy,Lỗi phần mềm mạng,Lỗi phần mềm game,Lỗi phần mềm tài chính,Lỗi phần mềm y tế,Lỗi phần mềm giáo dục,Lỗi phần mềm thương mại,Lỗi phần mềm quản lý,Lỗi phần mềm nông nghiệp,Lỗi phần mềm giao thông,Lỗi phần mềm năng lượng,Lỗi phần mềm môi trường,Lỗi phần mềm xã hội,Lỗi phần mềm chính phủ,Lỗi phần mềm quân sự,Lỗi phần mềm không gian,Lỗi phần mềm robot,Lỗi phần mềm tự động hóa,Lỗi phần mềm kiểm soát,Lỗi phần mềm mô phỏng,Lỗi phần mềm phân tích,Lỗi phần mềm tối ưu hóa,Lỗi phần mềm dự báo,Lỗi phần mềm học sâu,Lỗi phần cứng bộ nhớ,Lỗi phần cứng CPU,Lỗi phần cứng GPU,Lỗi phần cứng đầu vào,Lỗi phần cứng đầu ra,Lỗi phần cứng xử lý,Lỗi phần cứng nguồn,Lỗi phần cứng nhiệt,Lỗi phần cứng tổng hợp";
+
+            // Khởi tạo ConfigManager cho mỗi file
+            patternConfigManager = new ConfigManager("C:\\FAB_CONFIRM\\Config\\", "PATTERN.ini");
+            defectConfigManager = new ConfigManager("C:\\FAB_CONFIRM\\Config\\", "DEFECT.ini");
+
+            // Khởi tạo file nếu chưa tồn tại
+            patternConfigManager.InitializeConfigFile(defaultPatterns, "PatternNames");
+            defectConfigManager.InitializeConfigFile(defaultDefects, "DefectNames");
+
+            // Đọc danh sách từ các file
+            patternList = patternConfigManager.ReadList("PatternNames");
+            defectList = defectConfigManager.ReadList("DefectNames");
+
         }
         #endregion
 
@@ -162,24 +195,15 @@ namespace FAB_CONFIRM
         }
 
         // Hiệu ứng nhấn nút
+        // Phương thức xử lý hiệu ứng nhấp chuột trên các nút
         private async void ApplyButtonClickEffect(Button button)
         {
-            Color originalColor = button.BackColor;
-            button.BackColor = ColorTranslator.FromHtml("#00BFFF"); // Màu khi nhấn
-            await Task.Delay(200); // Chờ 200ms
-
-            // Nếu là nút số hoặc nút dấu chấm thì khôi phục về trắng
-            if (button.Name.StartsWith("btn") &&
-                (button.Text.All(char.IsDigit) || button.Text == "."))
+            if (button != null)
             {
+                button.BackColor = Color.LightGreen;
+                await Task.Delay(150); // Chờ 150ms để hiệu ứng hiển thị
                 button.BackColor = Color.White;
             }
-            else
-            {
-                button.BackColor = originalColor; // Các nút đặc biệt giữ màu gốc
-            }
-
-            this.ActiveControl = null; // 👈 thêm dòng này
         }
 
         // Sự kiện thay đổi màu nền khi TextBox được focus
@@ -291,9 +315,39 @@ namespace FAB_CONFIRM
             }
         }
 
+        private void CoordinateTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox currentTextBox = sender as TextBox;
+
+            // Kiểm tra xem phím được gõ có phải là số hoặc dấu chấm không
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true; // Ngăn không cho ký tự không hợp lệ được nhập
+                return;
+            }
+
+            // Kiểm tra nếu nhập thêm ký tự sẽ vượt quá MaxLength
+            if (currentTextBox.Text.Length >= currentTextBox.MaxLength && !char.IsControl(e.KeyChar))
+            {
+                toolTip.Show("Chỉ cho phép nhập tối đa 3 số!", currentTextBox, 0, currentTextBox.Height, 3500);
+                e.Handled = true; // Ngăn không cho ký tự được nhập
+            }
+        }
+
+        private async void ApplyButtonClickEffectWithOriginalColor(Button button, Color originalColor)
+        {
+            if (button != null)
+            {
+                button.BackColor = Color.LightGreen;
+                await Task.Delay(150); // Chờ 150ms để hiệu ứng hiển thị
+                button.BackColor = originalColor;
+            }
+        }
+
+        //Phương thức xử lý dữ liệu bàn phím số
         private void btnNumber_Click(object sender, EventArgs e)
         {
-            ApplyButtonClickEffect(sender as Button); // Thêm hiệu ứng
+            ApplyButtonClickEffect(sender as Button);
             if (activeTextBox != null)
             {
                 Button btn = sender as Button;
@@ -304,16 +358,18 @@ namespace FAB_CONFIRM
                     string newText = activeTextBox.Text + btn.Text;
                     if (newText.Length > activeTextBox.MaxLength)
                     {
-                        return; // Ngăn không cho nhập quá giới hạn
+                        // Hiển thị tooltip cảnh báo khi nhập quá số ký tự tối đa
+                        toolTip.Show("Chỉ cho phép nhập tối đa 3 số!", activeTextBox, 0, activeTextBox.Height, 3500);
+                        return; // Ngăn không cho nhập thêm
                     }
 
-                    // Ngăn không cho nhập dấu trừ ở giữa, cuối hoặc nhiều lần
+                    // Ngăn không cho nhập dấu chấm ở bất kỳ vị trí nào trừ vị trí đầu tiên
                     if (btn.Text == "." && activeTextBox.Text.Length > 0)
                     {
                         return;
                     }
 
-                    // Ngăn không cho nhập số 0 đầu tiên
+                    // Ngăn không cho nhập '0' ở vị trí đầu tiên
                     if (btn.Text != "." && activeTextBox.Text.Length == 0 && btn.Text == "0")
                     {
                         return;
@@ -321,7 +377,7 @@ namespace FAB_CONFIRM
                 }
 
                 activeTextBox.Text += btn.Text;
-                activeTextBox.SelectionStart = activeTextBox.Text.Length;               
+                activeTextBox.SelectionStart = activeTextBox.Text.Length;
                 activeTextBox.Focus();
             }
         }
@@ -337,15 +393,33 @@ namespace FAB_CONFIRM
             }
         }
 
+        private void btnPattern_Click(object sender, EventArgs e)
+        {
+            ApplyButtonClickEffect(sender as Button); // Thêm hiệu ứng
+            this.ActiveControl = null;
+
+            // Tạo một instance của PatternForm và truyền danh sách pattern đã đọc từ file
+            using (var patternForm = new PatternForm(patternList))
+            {
+                if (patternForm.ShowDialog() == DialogResult.OK)
+                {
+                    labelPattern.Text = patternForm.SelectedPattern;
+                    UpdateStatus("Đã chọn Pattern.", System.Drawing.Color.Blue);
+                }
+            }
+        }
+
         private void btnTenLoi_Click(object sender, EventArgs e)
         {
             ApplyButtonClickEffect(sender as Button); // Thêm hiệu ứng
             this.ActiveControl = null;
-            using (var DefectForm = new DefectForm())
+
+            // Tạo một instance của DefectForm và truyền danh sách defect đã đọc từ file
+            using (var defectForm = new DefectForm(defectList))
             {
-                if (DefectForm.ShowDialog() == DialogResult.OK)
+                if (defectForm.ShowDialog() == DialogResult.OK)
                 {
-                    labelTenLoi.Text = DefectForm.SelectedDefect;
+                    labelTenLoi.Text = defectForm.SelectedDefect;
                     UpdateStatus("Đã chọn tên lỗi.", System.Drawing.Color.Blue);
                 }
             }
@@ -367,8 +441,7 @@ namespace FAB_CONFIRM
         }
         private void btnDK_Click(object sender, EventArgs e)
         {
-            ApplyButtonClickEffect(sender as Button); // Thêm hiệu ứng
-            this.ActiveControl = null;
+            ApplyButtonClickEffectWithOriginalColor(btnDK, btnDK.BackColor);
             if (!string.IsNullOrEmpty(labelLevel.Text))
             {
                 if (labelLevel.Text.EndsWith("^DK"))
@@ -392,8 +465,7 @@ namespace FAB_CONFIRM
 
         private void btnBR_Click(object sender, EventArgs e)
         {
-            ApplyButtonClickEffect(sender as Button); // Thêm hiệu ứng
-            this.ActiveControl = null;
+            ApplyButtonClickEffectWithOriginalColor(btnBR, btnBR.BackColor);
             if (!string.IsNullOrEmpty(labelLevel.Text))
             {
                 if (labelLevel.Text.EndsWith("^BR"))
@@ -414,19 +486,6 @@ namespace FAB_CONFIRM
                 }
             }
         }
-        private void btnPattern_Click(object sender, EventArgs e)
-        {
-            ApplyButtonClickEffect(sender as Button); // Thêm hiệu ứng
-            this.ActiveControl = null;
-            using (var patternForm = new PatternForm())
-            {
-                if (patternForm.ShowDialog() == DialogResult.OK)
-                {
-                    labelPattern.Text = patternForm.SelectedPattern;
-                    UpdateStatus("Đã chọn Pattern.", System.Drawing.Color.Blue);
-                }
-            }
-        }
 
         private void btnMapping_Click(object sender, EventArgs e)
         {
@@ -444,7 +503,7 @@ namespace FAB_CONFIRM
 
         private void btnXacNhan_Click(object sender, EventArgs e)
         {
-            ApplyButtonClickEffect(sender as Button); // Thêm hiệu ứng
+            ApplyButtonClickEffectWithOriginalColor(btnXacNhan, btnXacNhan.BackColor);
             // Kiểm tra các trường bắt buộc
             if (string.IsNullOrWhiteSpace(txtAPN.Text))
             {
@@ -565,7 +624,7 @@ namespace FAB_CONFIRM
 
         private void btnReset_Click(object sender, EventArgs e)
         {
-            ApplyButtonClickEffect(sender as Button); // Thêm hiệu ứng
+            ApplyButtonClickEffectWithOriginalColor(btnReset, btnReset.BackColor);
             txtAPN.Text = "";
             txtX1.Text = "";
             txtY1.Text = "";

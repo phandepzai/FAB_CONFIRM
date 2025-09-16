@@ -65,7 +65,7 @@
             // labelTitle
             // 
             this.labelTitle.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTitle.Location = new System.Drawing.Point(153, 9);
+            this.labelTitle.Location = new System.Drawing.Point(196, 9);
             this.labelTitle.Name = "labelTitle";
             this.labelTitle.Size = new System.Drawing.Size(176, 30);
             this.labelTitle.TabIndex = 0;
@@ -77,7 +77,7 @@
             this.btnLevel05.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLevel05.Location = new System.Drawing.Point(13, 47);
             this.btnLevel05.Name = "btnLevel05";
-            this.btnLevel05.Size = new System.Drawing.Size(80, 51);
+            this.btnLevel05.Size = new System.Drawing.Size(99, 51);
             this.btnLevel05.TabIndex = 1;
             this.btnLevel05.Text = "Lv0.5";
             this.btnLevel05.UseVisualStyleBackColor = true;
@@ -86,9 +86,9 @@
             // btnLevel10
             // 
             this.btnLevel10.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLevel10.Location = new System.Drawing.Point(106, 47);
+            this.btnLevel10.Location = new System.Drawing.Point(124, 47);
             this.btnLevel10.Name = "btnLevel10";
-            this.btnLevel10.Size = new System.Drawing.Size(80, 51);
+            this.btnLevel10.Size = new System.Drawing.Size(99, 51);
             this.btnLevel10.TabIndex = 2;
             this.btnLevel10.Text = "Lv1.0";
             this.btnLevel10.UseVisualStyleBackColor = true;
@@ -97,9 +97,9 @@
             // btnLevel15
             // 
             this.btnLevel15.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLevel15.Location = new System.Drawing.Point(201, 47);
+            this.btnLevel15.Location = new System.Drawing.Point(235, 47);
             this.btnLevel15.Name = "btnLevel15";
-            this.btnLevel15.Size = new System.Drawing.Size(80, 51);
+            this.btnLevel15.Size = new System.Drawing.Size(99, 51);
             this.btnLevel15.TabIndex = 3;
             this.btnLevel15.Text = "Lv1.5";
             this.btnLevel15.UseVisualStyleBackColor = true;
@@ -108,9 +108,9 @@
             // btnLevel20
             // 
             this.btnLevel20.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLevel20.Location = new System.Drawing.Point(297, 47);
+            this.btnLevel20.Location = new System.Drawing.Point(346, 47);
             this.btnLevel20.Name = "btnLevel20";
-            this.btnLevel20.Size = new System.Drawing.Size(80, 51);
+            this.btnLevel20.Size = new System.Drawing.Size(99, 51);
             this.btnLevel20.TabIndex = 4;
             this.btnLevel20.Text = "Lv2.0";
             this.btnLevel20.UseVisualStyleBackColor = true;
@@ -119,9 +119,9 @@
             // btnLevel25
             // 
             this.btnLevel25.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLevel25.Location = new System.Drawing.Point(392, 47);
+            this.btnLevel25.Location = new System.Drawing.Point(457, 47);
             this.btnLevel25.Name = "btnLevel25";
-            this.btnLevel25.Size = new System.Drawing.Size(80, 51);
+            this.btnLevel25.Size = new System.Drawing.Size(99, 51);
             this.btnLevel25.TabIndex = 5;
             this.btnLevel25.Text = "Lv2.5";
             this.btnLevel25.UseVisualStyleBackColor = true;
@@ -132,7 +132,7 @@
             this.btnLevel30.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLevel30.Location = new System.Drawing.Point(13, 101);
             this.btnLevel30.Name = "btnLevel30";
-            this.btnLevel30.Size = new System.Drawing.Size(80, 51);
+            this.btnLevel30.Size = new System.Drawing.Size(99, 51);
             this.btnLevel30.TabIndex = 6;
             this.btnLevel30.Text = "Lv3.0";
             this.btnLevel30.UseVisualStyleBackColor = true;
@@ -141,9 +141,9 @@
             // btnLevel35
             // 
             this.btnLevel35.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLevel35.Location = new System.Drawing.Point(106, 101);
+            this.btnLevel35.Location = new System.Drawing.Point(124, 101);
             this.btnLevel35.Name = "btnLevel35";
-            this.btnLevel35.Size = new System.Drawing.Size(80, 51);
+            this.btnLevel35.Size = new System.Drawing.Size(99, 51);
             this.btnLevel35.TabIndex = 7;
             this.btnLevel35.Text = "Lv3.5";
             this.btnLevel35.UseVisualStyleBackColor = true;
@@ -152,9 +152,9 @@
             // btnLevel40
             // 
             this.btnLevel40.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLevel40.Location = new System.Drawing.Point(201, 101);
+            this.btnLevel40.Location = new System.Drawing.Point(235, 101);
             this.btnLevel40.Name = "btnLevel40";
-            this.btnLevel40.Size = new System.Drawing.Size(80, 51);
+            this.btnLevel40.Size = new System.Drawing.Size(99, 51);
             this.btnLevel40.TabIndex = 8;
             this.btnLevel40.Text = "Lv4.0";
             this.btnLevel40.UseVisualStyleBackColor = true;
@@ -163,9 +163,9 @@
             // btnLevel45
             // 
             this.btnLevel45.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLevel45.Location = new System.Drawing.Point(297, 101);
+            this.btnLevel45.Location = new System.Drawing.Point(346, 101);
             this.btnLevel45.Name = "btnLevel45";
-            this.btnLevel45.Size = new System.Drawing.Size(80, 51);
+            this.btnLevel45.Size = new System.Drawing.Size(99, 51);
             this.btnLevel45.TabIndex = 9;
             this.btnLevel45.Text = "Lv4.5";
             this.btnLevel45.UseVisualStyleBackColor = true;
@@ -174,9 +174,9 @@
             // btnLevel50
             // 
             this.btnLevel50.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLevel50.Location = new System.Drawing.Point(392, 101);
+            this.btnLevel50.Location = new System.Drawing.Point(457, 101);
             this.btnLevel50.Name = "btnLevel50";
-            this.btnLevel50.Size = new System.Drawing.Size(80, 51);
+            this.btnLevel50.Size = new System.Drawing.Size(99, 51);
             this.btnLevel50.TabIndex = 10;
             this.btnLevel50.Text = "Lv5.0";
             this.btnLevel50.UseVisualStyleBackColor = true;
@@ -187,7 +187,7 @@
             this.btnRatNang.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRatNang.Location = new System.Drawing.Point(13, 156);
             this.btnRatNang.Name = "btnRatNang";
-            this.btnRatNang.Size = new System.Drawing.Size(80, 51);
+            this.btnRatNang.Size = new System.Drawing.Size(99, 51);
             this.btnRatNang.TabIndex = 11;
             this.btnRatNang.Text = "RẤT NẶNG";
             this.btnRatNang.UseVisualStyleBackColor = true;
@@ -196,9 +196,9 @@
             // btnNang
             // 
             this.btnNang.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNang.Location = new System.Drawing.Point(106, 156);
+            this.btnNang.Location = new System.Drawing.Point(124, 156);
             this.btnNang.Name = "btnNang";
-            this.btnNang.Size = new System.Drawing.Size(80, 51);
+            this.btnNang.Size = new System.Drawing.Size(99, 51);
             this.btnNang.TabIndex = 12;
             this.btnNang.Text = "NẶNG";
             this.btnNang.UseVisualStyleBackColor = true;
@@ -207,9 +207,9 @@
             // btnVua1
             // 
             this.btnVua1.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnVua1.Location = new System.Drawing.Point(201, 156);
+            this.btnVua1.Location = new System.Drawing.Point(235, 156);
             this.btnVua1.Name = "btnVua1";
-            this.btnVua1.Size = new System.Drawing.Size(80, 51);
+            this.btnVua1.Size = new System.Drawing.Size(99, 51);
             this.btnVua1.TabIndex = 13;
             this.btnVua1.Text = "VỪA";
             this.btnVua1.UseVisualStyleBackColor = true;
@@ -218,9 +218,9 @@
             // btnNhe
             // 
             this.btnNhe.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnNhe.Location = new System.Drawing.Point(297, 156);
+            this.btnNhe.Location = new System.Drawing.Point(346, 156);
             this.btnNhe.Name = "btnNhe";
-            this.btnNhe.Size = new System.Drawing.Size(80, 51);
+            this.btnNhe.Size = new System.Drawing.Size(99, 51);
             this.btnNhe.TabIndex = 14;
             this.btnNhe.Text = "NHẸ";
             this.btnNhe.UseVisualStyleBackColor = true;
@@ -229,9 +229,9 @@
             // btnRatNhe
             // 
             this.btnRatNhe.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRatNhe.Location = new System.Drawing.Point(392, 156);
+            this.btnRatNhe.Location = new System.Drawing.Point(457, 156);
             this.btnRatNhe.Name = "btnRatNhe";
-            this.btnRatNhe.Size = new System.Drawing.Size(80, 51);
+            this.btnRatNhe.Size = new System.Drawing.Size(99, 51);
             this.btnRatNhe.TabIndex = 15;
             this.btnRatNhe.Text = "RẤT NHẸ";
             this.btnRatNhe.UseVisualStyleBackColor = true;
@@ -242,7 +242,7 @@
             this.btnRatManh.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRatManh.Location = new System.Drawing.Point(13, 212);
             this.btnRatManh.Name = "btnRatManh";
-            this.btnRatManh.Size = new System.Drawing.Size(80, 51);
+            this.btnRatManh.Size = new System.Drawing.Size(99, 51);
             this.btnRatManh.TabIndex = 16;
             this.btnRatManh.Text = "RẤT MẠNH";
             this.btnRatManh.UseVisualStyleBackColor = true;
@@ -251,9 +251,9 @@
             // btnManh
             // 
             this.btnManh.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnManh.Location = new System.Drawing.Point(106, 212);
+            this.btnManh.Location = new System.Drawing.Point(124, 212);
             this.btnManh.Name = "btnManh";
-            this.btnManh.Size = new System.Drawing.Size(80, 51);
+            this.btnManh.Size = new System.Drawing.Size(99, 51);
             this.btnManh.TabIndex = 17;
             this.btnManh.Text = "MẠNH";
             this.btnManh.UseVisualStyleBackColor = true;
@@ -262,9 +262,9 @@
             // btnVua2
             // 
             this.btnVua2.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnVua2.Location = new System.Drawing.Point(201, 212);
+            this.btnVua2.Location = new System.Drawing.Point(235, 212);
             this.btnVua2.Name = "btnVua2";
-            this.btnVua2.Size = new System.Drawing.Size(80, 51);
+            this.btnVua2.Size = new System.Drawing.Size(99, 51);
             this.btnVua2.TabIndex = 18;
             this.btnVua2.Text = "VỪA";
             this.btnVua2.UseVisualStyleBackColor = true;
@@ -273,9 +273,9 @@
             // btnYeu
             // 
             this.btnYeu.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnYeu.Location = new System.Drawing.Point(297, 212);
+            this.btnYeu.Location = new System.Drawing.Point(346, 212);
             this.btnYeu.Name = "btnYeu";
-            this.btnYeu.Size = new System.Drawing.Size(80, 51);
+            this.btnYeu.Size = new System.Drawing.Size(99, 51);
             this.btnYeu.TabIndex = 19;
             this.btnYeu.Text = "YẾU";
             this.btnYeu.UseVisualStyleBackColor = true;
@@ -284,9 +284,9 @@
             // btnRatYeu
             // 
             this.btnRatYeu.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRatYeu.Location = new System.Drawing.Point(392, 212);
+            this.btnRatYeu.Location = new System.Drawing.Point(457, 212);
             this.btnRatYeu.Name = "btnRatYeu";
-            this.btnRatYeu.Size = new System.Drawing.Size(80, 51);
+            this.btnRatYeu.Size = new System.Drawing.Size(99, 51);
             this.btnRatYeu.TabIndex = 20;
             this.btnRatYeu.Text = "RẤT YẾU";
             this.btnRatYeu.UseVisualStyleBackColor = true;
@@ -295,19 +295,19 @@
             // btnCancel
             // 
             this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancel.Location = new System.Drawing.Point(201, 272);
+            this.btnCancel.Location = new System.Drawing.Point(235, 273);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(80, 47);
+            this.btnCancel.Size = new System.Drawing.Size(99, 47);
             this.btnCancel.TabIndex = 21;
-            this.btnCancel.Text = "Hủy";
+            this.btnCancel.Text = "✘ Hủy";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
-            // LevelSelectionForm
+            // LevelForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(482, 327);
+            this.ClientSize = new System.Drawing.Size(565, 327);
             this.ControlBox = false;
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnRatYeu);
@@ -335,7 +335,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "LevelSelectionForm";
+            this.Name = "LevelForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "CHỌN LEVEL";
             this.ResumeLayout(false);
