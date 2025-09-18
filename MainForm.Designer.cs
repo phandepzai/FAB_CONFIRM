@@ -49,7 +49,8 @@ namespace FAB_CONFIRM
         private System.Windows.Forms.Button btnDK;
         private System.Windows.Forms.Button btnBR;
         private System.Windows.Forms.Label labelAuthor;
-        private System.Windows.Forms.Label labelDateTime;
+        private System.Windows.Forms.Label labelTime;
+        private System.Windows.Forms.Label labelDate;
         private System.Windows.Forms.PictureBox pictureBox;
         protected override void Dispose(bool disposing)
         {
@@ -61,7 +62,7 @@ namespace FAB_CONFIRM
         }
 #endregion
 
-        #region CÁC THÀNH PHẦN UI
+        #region CÁC THÀNH PHẦN UI CỦA ỨNG DỤNG
 
         private void InitializeComponent()
         {
@@ -106,11 +107,12 @@ namespace FAB_CONFIRM
             this.labelCount = new System.Windows.Forms.Label();
             this.labelDaLuuVao = new System.Windows.Forms.Label();
             this.labelStatus = new System.Windows.Forms.Label();
-            this.labelDateTime = new System.Windows.Forms.Label();
+            this.labelTime = new System.Windows.Forms.Label();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.btnDK = new System.Windows.Forms.Button();
             this.btnBR = new System.Windows.Forms.Button();
             this.labelAuthor = new System.Windows.Forms.Label();
+            this.labelDate = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -409,7 +411,7 @@ namespace FAB_CONFIRM
             // labelTenLoi
             // 
             this.labelTenLoi.AllowDrop = true;
-            this.labelTenLoi.BackColor = System.Drawing.SystemColors.Window;
+            this.labelTenLoi.BackColor = System.Drawing.SystemColors.Info;
             this.labelTenLoi.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelTenLoi.ForeColor = System.Drawing.Color.Blue;
             this.labelTenLoi.Location = new System.Drawing.Point(155, 264);
@@ -432,7 +434,7 @@ namespace FAB_CONFIRM
             // labelLevel
             // 
             this.labelLevel.AllowDrop = true;
-            this.labelLevel.BackColor = System.Drawing.SystemColors.Window;
+            this.labelLevel.BackColor = System.Drawing.SystemColors.Info;
             this.labelLevel.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelLevel.ForeColor = System.Drawing.Color.Blue;
             this.labelLevel.Location = new System.Drawing.Point(155, 394);
@@ -455,7 +457,7 @@ namespace FAB_CONFIRM
             // labelPattern
             // 
             this.labelPattern.AllowDrop = true;
-            this.labelPattern.BackColor = System.Drawing.SystemColors.Window;
+            this.labelPattern.BackColor = System.Drawing.SystemColors.Info;
             this.labelPattern.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelPattern.ForeColor = System.Drawing.Color.Blue;
             this.labelPattern.Location = new System.Drawing.Point(155, 329);
@@ -478,7 +480,7 @@ namespace FAB_CONFIRM
             // labelMapping
             // 
             this.labelMapping.AllowDrop = true;
-            this.labelMapping.BackColor = System.Drawing.SystemColors.Window;
+            this.labelMapping.BackColor = System.Drawing.SystemColors.Info;
             this.labelMapping.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelMapping.ForeColor = System.Drawing.Color.Blue;
             this.labelMapping.Location = new System.Drawing.Point(155, 460);
@@ -553,16 +555,19 @@ namespace FAB_CONFIRM
             this.labelStatus.TabIndex = 0;
             this.labelStatus.Text = "Trạng thái";
             // 
-            // labelDateTime
+            // labelTime
             // 
-            this.labelDateTime.AutoSize = true;
-            this.labelDateTime.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDateTime.ForeColor = System.Drawing.Color.Red;
-            this.labelDateTime.Location = new System.Drawing.Point(536, 480);
-            this.labelDateTime.Name = "labelDateTime";
-            this.labelDateTime.Size = new System.Drawing.Size(0, 17);
-            this.labelDateTime.TabIndex = 1;
-            this.labelDateTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelTime.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelTime.AutoSize = true;
+            this.labelTime.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelTime.ForeColor = System.Drawing.Color.Red;
+            this.labelTime.Location = new System.Drawing.Point(545, 480);
+            this.labelTime.Name = "labelTime";
+            this.labelTime.Size = new System.Drawing.Size(0, 17);
+            this.labelTime.TabIndex = 1;
+            this.labelTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pictureBox
             // 
@@ -608,15 +613,30 @@ namespace FAB_CONFIRM
             this.labelAuthor.TabIndex = 45;
             this.labelAuthor.Text = "©Nông Văn Phấn";
             // 
+            // labelDate
+            // 
+            this.labelDate.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelDate.AutoSize = true;
+            this.labelDate.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelDate.ForeColor = System.Drawing.Color.Red;
+            this.labelDate.Location = new System.Drawing.Point(536, 505);
+            this.labelDate.Name = "labelDate";
+            this.labelDate.Size = new System.Drawing.Size(0, 17);
+            this.labelDate.TabIndex = 46;
+            this.labelDate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(700, 571);
+            this.Controls.Add(this.labelDate);
             this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.labelStatus);
-            this.Controls.Add(this.labelDateTime);
+            this.Controls.Add(this.labelTime);
             this.Controls.Add(this.labelDaLuuVao);
             this.Controls.Add(this.labelCount);
             this.Controls.Add(this.labelSoCellDaLuu);
@@ -670,6 +690,6 @@ namespace FAB_CONFIRM
             this.PerformLayout();
 
         }
-#endregion
+        #endregion
     }
 }

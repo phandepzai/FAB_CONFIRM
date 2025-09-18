@@ -16,7 +16,7 @@ namespace FAB_CONFIRM
     
     public partial class MainForm : Form
     {
-        #region KHAI BÁO BIẾN
+        #region KHAI BÁO BIẾN CÁC THUỘC TÍNH
         private TextBox activeTextBox;
         private int savedCellCount = 0;
         private string filePath;
@@ -35,7 +35,7 @@ namespace FAB_CONFIRM
         private ConfigManager defectConfigManager;
         #endregion
 
-        #region KHỞI TẠO FORM ỨNG DỤNG
+        #region KHỞI TẠO GIAO DIỆN VÀ CHỨC NĂNG
         public MainForm()
         {
             InitializeComponent();
@@ -195,7 +195,6 @@ namespace FAB_CONFIRM
         }
 
         // Hiệu ứng nhấn nút
-        // Phương thức xử lý hiệu ứng nhấp chuột trên các nút
         private async void ApplyButtonClickEffect(Button button)
         {
             if (button != null)
@@ -218,18 +217,40 @@ namespace FAB_CONFIRM
             TextBox textBox = sender as TextBox;
             textBox.BackColor = SystemColors.Window; // Trở về màu trắng mặc định khi mất focus
         }
+        #endregion
 
+        #region ĐỒNG HỒ CHẠY THEO GMT +7
         // Sự kiện cho đồng hồ
         private void Timer_Tick(object sender, EventArgs e)
         {
-            // Cập nhật thời gian theo GMT+7
-            TimeZoneInfo vietnamZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time"); // GMT+7
-            DateTime vietnamTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamZone);
-            labelDateTime.Text = vietnamTime.ToString("HH:mm:ss\ndd/MM/yyyy");
+            try
+            {
+                // Lấy múi giờ GMT+7
+                TimeZoneInfo vietnamZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+                // Lấy thời gian hiện tại theo UTC (GMT+0)
+                DateTime utcTime = DateTime.UtcNow;
+                // Chuyển đổi thời gian UTC sang thời gian Việt Nam (GMT+7)
+                DateTime vietnamTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, vietnamZone);
+
+                // Hiển thị thời gian đã chuyển đổi
+                labelTime.Text = vietnamTime.ToString("HH:mm:ss");
+                labelDate.Text = vietnamTime.ToString("dd/MM/yyyy");
+            }
+            catch (TimeZoneNotFoundException ex)
+            {
+                // Xử lý ngoại lệ nếu không tìm thấy múi giờ "SE Asia Standard Time"
+                UpdateStatus($"Lỗi múi giờ: {ex.Message}", Color.Red);
+            }
+            catch (Exception ex)
+            {
+                // Xử lý các lỗi khác
+                UpdateStatus($"Lỗi cập nhật đồng hồ: {ex.Message}", Color.Red);
+            }
         }
+
         #endregion
 
-        #region THAY ĐỔI MÀU SẮC KHI DI CHUỘT VÀO TÊN TÁC GIẢ
+        #region THAY ĐỔI MÀU SẮC KHI DI CHUỘT VÀO TÊN
         // Sự kiện Tick của timer, cập nhật màu sắc
         private void RainbowTimer_Tick(object sender, EventArgs e)
         {
@@ -585,7 +606,7 @@ namespace FAB_CONFIRM
 
                 savedCellCount++;
                 labelCount.Text = savedCellCount.ToString();
-                labelDateTime.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+                labelTime.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
                 UpdateStatus($"Lưu thành công !\nDữ liệu đã được ghi lại: {DateTime.Now:dd/MM/yyyy HH:mm:ss}\nĐường dẫn file: {filePath}", System.Drawing.Color.ForestGreen);
 
                 // Xóa dữ liệu các trường sau khi lưu thành công

@@ -74,7 +74,7 @@
             // 
             // btnLevel05
             // 
-            this.btnLevel05.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLevel05.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLevel05.Location = new System.Drawing.Point(13, 47);
             this.btnLevel05.Name = "btnLevel05";
             this.btnLevel05.Size = new System.Drawing.Size(99, 51);
@@ -85,7 +85,7 @@
             // 
             // btnLevel10
             // 
-            this.btnLevel10.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLevel10.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLevel10.Location = new System.Drawing.Point(124, 47);
             this.btnLevel10.Name = "btnLevel10";
             this.btnLevel10.Size = new System.Drawing.Size(99, 51);
@@ -96,7 +96,7 @@
             // 
             // btnLevel15
             // 
-            this.btnLevel15.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLevel15.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLevel15.Location = new System.Drawing.Point(235, 47);
             this.btnLevel15.Name = "btnLevel15";
             this.btnLevel15.Size = new System.Drawing.Size(99, 51);
@@ -107,7 +107,7 @@
             // 
             // btnLevel20
             // 
-            this.btnLevel20.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLevel20.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLevel20.Location = new System.Drawing.Point(346, 47);
             this.btnLevel20.Name = "btnLevel20";
             this.btnLevel20.Size = new System.Drawing.Size(99, 51);
@@ -118,7 +118,7 @@
             // 
             // btnLevel25
             // 
-            this.btnLevel25.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLevel25.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLevel25.Location = new System.Drawing.Point(457, 47);
             this.btnLevel25.Name = "btnLevel25";
             this.btnLevel25.Size = new System.Drawing.Size(99, 51);
@@ -129,7 +129,7 @@
             // 
             // btnLevel30
             // 
-            this.btnLevel30.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLevel30.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLevel30.Location = new System.Drawing.Point(13, 101);
             this.btnLevel30.Name = "btnLevel30";
             this.btnLevel30.Size = new System.Drawing.Size(99, 51);
@@ -140,7 +140,7 @@
             // 
             // btnLevel35
             // 
-            this.btnLevel35.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLevel35.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLevel35.Location = new System.Drawing.Point(124, 101);
             this.btnLevel35.Name = "btnLevel35";
             this.btnLevel35.Size = new System.Drawing.Size(99, 51);
@@ -151,7 +151,7 @@
             // 
             // btnLevel40
             // 
-            this.btnLevel40.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLevel40.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLevel40.Location = new System.Drawing.Point(235, 101);
             this.btnLevel40.Name = "btnLevel40";
             this.btnLevel40.Size = new System.Drawing.Size(99, 51);
@@ -162,7 +162,7 @@
             // 
             // btnLevel45
             // 
-            this.btnLevel45.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLevel45.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLevel45.Location = new System.Drawing.Point(346, 101);
             this.btnLevel45.Name = "btnLevel45";
             this.btnLevel45.Size = new System.Drawing.Size(99, 51);
@@ -173,7 +173,7 @@
             // 
             // btnLevel50
             // 
-            this.btnLevel50.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLevel50.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLevel50.Location = new System.Drawing.Point(457, 101);
             this.btnLevel50.Name = "btnLevel50";
             this.btnLevel50.Size = new System.Drawing.Size(99, 51);
@@ -299,7 +299,7 @@
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(99, 47);
             this.btnCancel.TabIndex = 21;
-            this.btnCancel.Text = "✘ Hủy";
+            this.btnCancel.Text = "❌ Hủy";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 

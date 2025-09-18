@@ -5,6 +5,7 @@ using System.Drawing;
 
 namespace FAB_CONFIRM
 {
+    #region HIỂN THỊ FORM PATTERN
     public partial class PatternForm : Form
     {
         public string SelectedPattern { get; private set; }
@@ -92,4 +93,5 @@ namespace FAB_CONFIRM
             this.Close();
         }
     }
+    #endregion
 }

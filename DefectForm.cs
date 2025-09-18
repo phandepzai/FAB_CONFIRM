@@ -4,6 +4,7 @@ using System.Windows.Forms;
 
 namespace FAB_CONFIRM
 {
+    #region HIỂN THỊ FORM DEFECT
     public partial class DefectForm : Form
     {
         public string SelectedDefect { get; private set; }
@@ -75,4 +76,5 @@ namespace FAB_CONFIRM
             this.Close();
         }
     }
+    #endregion
 }

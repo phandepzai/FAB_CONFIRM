@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace FAB_CONFIRM
 {
+    #region QUẢN LÝ FILE CẤU HÌNH
     public partial class ConfigManager
     {
         private readonly string configPath; // Đường dẫn đầy đủ đến file cấu hình.
@@ -75,4 +76,5 @@ namespace FAB_CONFIRM
             return resultList;
         }
     }
+    #endregion
 }

@@ -5,7 +5,7 @@ namespace FAB_CONFIRM
 {
     public partial class LevelForm : Form
     {
-        // Property to store the selected level
+        // Thuộc tính để lưu trữ LEVEL đã chọn
         public string SelectedLevel { get; private set; }
 
         public LevelForm()
