@@ -29,7 +29,7 @@
             // labelTitle
             // 
             this.labelTitle.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTitle.Location = new System.Drawing.Point(252, 9);
+            this.labelTitle.Location = new System.Drawing.Point(235, 7);
             this.labelTitle.Name = "labelTitle";
             this.labelTitle.Size = new System.Drawing.Size(200, 23);
             this.labelTitle.TabIndex = 0;
@@ -41,13 +41,13 @@
             this.flowLayoutPanel.AutoScroll = true;
             this.flowLayoutPanel.Location = new System.Drawing.Point(15, 35);
             this.flowLayoutPanel.Name = "flowLayoutPanel";
-            this.flowLayoutPanel.Size = new System.Drawing.Size(700, 503);
+            this.flowLayoutPanel.Size = new System.Drawing.Size(656, 503);
             this.flowLayoutPanel.TabIndex = 0;
             // 
             // btnSelect
             // 
             this.btnSelect.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSelect.Location = new System.Drawing.Point(282, 544);
+            this.btnSelect.Location = new System.Drawing.Point(261, 544);
             this.btnSelect.Name = "btnSelect";
             this.btnSelect.Size = new System.Drawing.Size(80, 40);
             this.btnSelect.TabIndex = 61;
@@ -57,7 +57,7 @@
             // btnCancel
             // 
             this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancel.Location = new System.Drawing.Point(372, 544);
+            this.btnCancel.Location = new System.Drawing.Point(351, 544);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(80, 40);
             this.btnCancel.TabIndex = 62;
@@ -69,7 +69,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(731, 596);
+            this.ClientSize = new System.Drawing.Size(684, 596);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSelect);
             this.Controls.Add(this.flowLayoutPanel);

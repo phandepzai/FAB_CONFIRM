@@ -569,7 +569,7 @@ namespace FAB_CONFIRM
             this.pictureBox.Image = global::FAB_CONFIRM.Properties.Resources.OYX_MAP;
             this.pictureBox.Location = new System.Drawing.Point(294, 69);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(136, 162);
+            this.pictureBox.Size = new System.Drawing.Size(143, 170);
             this.pictureBox.TabIndex = 44;
             this.pictureBox.TabStop = false;
             // 

@@ -30,7 +30,7 @@
             // labelTitle
             // 
             this.labelTitle.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTitle.Location = new System.Drawing.Point(225, 9);
+            this.labelTitle.Location = new System.Drawing.Point(201, 9);
             this.labelTitle.Name = "labelTitle";
             this.labelTitle.Size = new System.Drawing.Size(269, 21);
             this.labelTitle.TabIndex = 0;
@@ -40,26 +40,26 @@
             // flowLayoutPanel
             // 
             this.flowLayoutPanel.AutoScroll = true;
-            this.flowLayoutPanel.Location = new System.Drawing.Point(12, 45);
+            this.flowLayoutPanel.Location = new System.Drawing.Point(12, 33);
             this.flowLayoutPanel.Name = "flowLayoutPanel";
-            this.flowLayoutPanel.Size = new System.Drawing.Size(707, 396);
+            this.flowLayoutPanel.Size = new System.Drawing.Size(654, 427);
             this.flowLayoutPanel.TabIndex = 60;
             // 
             // btnSelect
             // 
             this.btnSelect.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSelect.Location = new System.Drawing.Point(270, 459);
+            this.btnSelect.Location = new System.Drawing.Point(248, 466);
             this.btnSelect.Name = "btnSelect";
             this.btnSelect.Size = new System.Drawing.Size(80, 40);
             this.btnSelect.TabIndex = 61;
-            this.btnSelect.Text = "CHỌN";
+            this.btnSelect.Text = "XÁC ĐỊNH";
             this.btnSelect.UseVisualStyleBackColor = true;
             this.btnSelect.Click += new System.EventHandler(this.btnSelect_Click);
             // 
             // btnCancel
             // 
             this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancel.Location = new System.Drawing.Point(375, 459);
+            this.btnCancel.Location = new System.Drawing.Point(353, 466);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(80, 40);
             this.btnCancel.TabIndex = 62;
@@ -71,7 +71,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(731, 508);
+            this.ClientSize = new System.Drawing.Size(676, 518);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSelect);
             this.Controls.Add(this.flowLayoutPanel);
@@ -82,7 +82,7 @@
             this.MinimizeBox = false;
             this.Name = "PatternForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Chọn Pattern";
+            this.Text = "CHỌN PATTERN";
             this.ResumeLayout(false);
 
         }
