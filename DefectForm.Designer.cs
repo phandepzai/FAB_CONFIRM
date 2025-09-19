@@ -1,5 +1,6 @@
 ﻿namespace FAB_CONFIRM
 {
+    #region HIỂN THỊ FORM DEFECT
     partial class DefectForm
     {
         private System.ComponentModel.IContainer components = null;
@@ -7,6 +8,7 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel;
         private System.Windows.Forms.Button btnSelect;
         private System.Windows.Forms.Button btnCancel;
+        private System.Windows.Forms.Label labelDefect;
 
         protected override void Dispose(bool disposing)
         {
@@ -24,6 +26,7 @@
             this.flowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.btnSelect = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.labelDefect = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // labelTitle
@@ -41,7 +44,7 @@
             this.flowLayoutPanel.AutoScroll = true;
             this.flowLayoutPanel.Location = new System.Drawing.Point(15, 35);
             this.flowLayoutPanel.Name = "flowLayoutPanel";
-            this.flowLayoutPanel.Size = new System.Drawing.Size(656, 503);
+            this.flowLayoutPanel.Size = new System.Drawing.Size(657, 503);
             this.flowLayoutPanel.TabIndex = 0;
             // 
             // btnSelect
@@ -65,11 +68,24 @@
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // labelDefect
+            // 
+            this.labelDefect.AutoSize = true;
+            this.labelDefect.BackColor = System.Drawing.Color.Transparent;
+            this.labelDefect.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelDefect.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.labelDefect.Location = new System.Drawing.Point(14, 555);
+            this.labelDefect.Name = "labelDefect";
+            this.labelDefect.Size = new System.Drawing.Size(181, 26);
+            this.labelDefect.TabIndex = 63;
+            this.labelDefect.Text = "Tips: Thêm, xóa, sắp xếp tên lỗi trong\r\nC:\\FAB_CONFIRM\\DEFECT.ini";
+            // 
             // DefectForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(684, 596);
+            this.Controls.Add(this.labelDefect);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnSelect);
             this.Controls.Add(this.flowLayoutPanel);
@@ -82,7 +98,9 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "CHỌN TÊN LỖI";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
     }
+    #endregion
 }

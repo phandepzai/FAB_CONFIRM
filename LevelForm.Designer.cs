@@ -1,5 +1,6 @@
 ﻿namespace FAB_CONFIRM
 {
+    #region HIỂN THỊ FORM LEVEL
     partial class LevelForm
     {
         private System.ComponentModel.IContainer components = null;
@@ -342,4 +343,5 @@
 
         }
     }
+    #endregion
 }
