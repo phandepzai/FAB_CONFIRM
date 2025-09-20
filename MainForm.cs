@@ -39,7 +39,8 @@ namespace FAB_CONFIRM
         public MainForm()
         {
             InitializeComponent();
-
+            string eqpid = ReadEQPIDFromIniFile();
+            this.Text = "FAB CONFIRM " + (string.IsNullOrEmpty(eqpid) ? "" : "_ " + eqpid + "");
             Button[] numericButtons = new Button[] {
                 btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btnDot
             };
@@ -745,16 +746,22 @@ namespace FAB_CONFIRM
                 UpdateStatus($"Lỗi khi mở thư mục: {ex.Message}", System.Drawing.Color.Red);
             }
         }
+        #endregion
+
+        #region PHƯƠNG THỨC LƯU FILE
+        //PHƯƠNG THỨC LƯU DỮ LIỆU VÀO FILE
         private void SetFilePath()
         {
             // Lấy múi giờ GMT+7
             TimeZoneInfo vietnamZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
             DateTime vietnamTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamZone);
             string dateString = vietnamTime.ToString("yyyyMMdd");
+            string eqpid = ReadEQPIDFromIniFile(); // Lấy EQPID từ file ini
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             string directoryPath = Path.Combine(desktopPath, "FAB_CONFIRM");
-            filePath = Path.Combine(directoryPath, $"FAB_CONFIRM_{dateString}.csv");
-
+            // Tạo tên file với EQPID (nếu có)
+            string fileName = string.IsNullOrEmpty(eqpid) ? $"FAB_CONFIRM_{dateString}.csv" : $"FAB_CONFIRM_{eqpid}_{dateString}.csv";
+            filePath = Path.Combine(directoryPath, fileName);
             // Đảm bảo thư mục tồn tại
             try
             {
@@ -780,6 +787,37 @@ namespace FAB_CONFIRM
             {
                 return false;
             }
+        }
+        #endregion
+
+        #region ĐỌC THÔNG TIN TỪ FILE INI
+        /// <summary>
+        /// Đọc giá trị EQPID từ file MachineParam.ini
+        /// </summary>
+        /// <returns>Giá trị EQPID hoặc chuỗi rỗng nếu không tìm thấy.</returns>
+        private string ReadEQPIDFromIniFile()
+        {
+            string filePath = @"C:\samsung\Debug\Config\MachineParam.ini";
+            if (File.Exists(filePath))
+            {
+                try
+                {
+                    string[] lines = File.ReadAllLines(filePath);
+                    foreach (string line in lines)
+                    {
+                        if (line.StartsWith("EQPID = "))
+                        {
+                            return line.Substring("EQPID = ".Length);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Xử lý lỗi khi đọc file, ví dụ: không có quyền truy cập
+                    MessageBox.Show("Lỗi khi đọc file MachineParam.ini: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            return "";
         }
         #endregion
     }
