@@ -6,51 +6,51 @@ namespace FAB_CONFIRM
     {
         #region KHAI BÁO CÁC THÀNH PHẦN UI
         private System.ComponentModel.IContainer components = null;
-        private System.Windows.Forms.Label labelAPN;
-        private System.Windows.Forms.TextBox txtAPN;
-        private System.Windows.Forms.Label labelX1;
-        private System.Windows.Forms.TextBox txtX1;
-        private System.Windows.Forms.Label labelY1;
-        private System.Windows.Forms.TextBox txtY1;
-        private System.Windows.Forms.Label labelX2;
-        private System.Windows.Forms.TextBox txtX2;
-        private System.Windows.Forms.Label labelY2;
-        private System.Windows.Forms.TextBox txtY2;
-        private System.Windows.Forms.Label labelX3;
-        private System.Windows.Forms.TextBox txtX3;
-        private System.Windows.Forms.Label labelY3;
-        private System.Windows.Forms.TextBox txtY3;
-        private System.Windows.Forms.Button btn7;
-        private System.Windows.Forms.Button btn8;
-        private System.Windows.Forms.Button btn9;
-        private System.Windows.Forms.Button btn4;
-        private System.Windows.Forms.Button btn5;
-        private System.Windows.Forms.Button btn6;
-        private System.Windows.Forms.Button btn1;
-        private System.Windows.Forms.Button btn2;
-        private System.Windows.Forms.Button btn3;
-        private System.Windows.Forms.Button btn0;
-        private System.Windows.Forms.Button btnDot;
-        private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.Button btnTenLoi;
-        private System.Windows.Forms.Label labelTenLoi;
-        private System.Windows.Forms.Button btnLevel;
-        private System.Windows.Forms.Label labelLevel;
-        private System.Windows.Forms.Button btnPattern;
-        private System.Windows.Forms.Label labelPattern;
-        private System.Windows.Forms.Button btnMapping;
-        private System.Windows.Forms.Label labelMapping;
-        private System.Windows.Forms.Button btnXacNhan;
-        private System.Windows.Forms.Button btnReset;
-        private System.Windows.Forms.Label labelSoCellDaLuu;
-        private System.Windows.Forms.Label labelDaLuuVao;
-        private System.Windows.Forms.Label labelStatus;
-        private System.Windows.Forms.Label labelCount;
-        private System.Windows.Forms.Button btnDK;
-        private System.Windows.Forms.Button btnBR;
-        private System.Windows.Forms.Label labelAuthor;
-        private System.Windows.Forms.Label labelTime;
-        private System.Windows.Forms.Label labelDate;
+        private System.Windows.Forms.Label LabelAPN;
+        private System.Windows.Forms.TextBox TxtAPN;
+        private System.Windows.Forms.Label LabelX1;
+        private System.Windows.Forms.TextBox TxtX1;
+        private System.Windows.Forms.Label LabelY1;
+        private System.Windows.Forms.TextBox TxtY1;
+        private System.Windows.Forms.Label LabelX2;
+        private System.Windows.Forms.TextBox TxtX2;
+        private System.Windows.Forms.Label LabelY2;
+        private System.Windows.Forms.TextBox TxtY2;
+        private System.Windows.Forms.Label LabelX3;
+        private System.Windows.Forms.TextBox TxtX3;
+        private System.Windows.Forms.Label LabelY3;
+        private System.Windows.Forms.TextBox TxtY3;
+        private System.Windows.Forms.Button Btn7;
+        private System.Windows.Forms.Button Btn8;
+        private System.Windows.Forms.Button Btn9;
+        private System.Windows.Forms.Button Btn4;
+        private System.Windows.Forms.Button Btn5;
+        private System.Windows.Forms.Button Btn6;
+        private System.Windows.Forms.Button Btn1;
+        private System.Windows.Forms.Button Btn2;
+        private System.Windows.Forms.Button Btn3;
+        private System.Windows.Forms.Button Btn0;
+        private System.Windows.Forms.Button BtnDot;
+        private System.Windows.Forms.Button BtnDelete;
+        private System.Windows.Forms.Button BtnTenLoi;
+        private System.Windows.Forms.Label LabelTenLoi;
+        private System.Windows.Forms.Button BtnLevel;
+        private System.Windows.Forms.Label LabelLevel;
+        private System.Windows.Forms.Button BtnPattern;
+        private System.Windows.Forms.Label LabelPattern;
+        private System.Windows.Forms.Button BtnMapping;
+        private System.Windows.Forms.Label LabelMapping;
+        private System.Windows.Forms.Button BtnXacNhan;
+        private System.Windows.Forms.Button BtnReset;
+        private System.Windows.Forms.Label LabelSoCellDaLuu;
+        private System.Windows.Forms.Label LabelDaLuuVao;
+        private System.Windows.Forms.Label LabelStatus;
+        private System.Windows.Forms.Label LabelCount;
+        private System.Windows.Forms.Button BtnDK;
+        private System.Windows.Forms.Button BtnBR;
+        private System.Windows.Forms.Label LabelAuthor;
+        private System.Windows.Forms.Label LabelTime;
+        private System.Windows.Forms.Label LabelDate;
         private System.Windows.Forms.PictureBox pictureBox;
         protected override void Dispose(bool disposing)
         {
@@ -67,507 +67,507 @@ namespace FAB_CONFIRM
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.labelAPN = new System.Windows.Forms.Label();
-            this.txtAPN = new System.Windows.Forms.TextBox();
-            this.labelX1 = new System.Windows.Forms.Label();
-            this.txtX1 = new System.Windows.Forms.TextBox();
-            this.labelY1 = new System.Windows.Forms.Label();
-            this.txtY1 = new System.Windows.Forms.TextBox();
-            this.labelX2 = new System.Windows.Forms.Label();
-            this.txtX2 = new System.Windows.Forms.TextBox();
-            this.labelY2 = new System.Windows.Forms.Label();
-            this.txtY2 = new System.Windows.Forms.TextBox();
-            this.labelX3 = new System.Windows.Forms.Label();
-            this.txtX3 = new System.Windows.Forms.TextBox();
-            this.labelY3 = new System.Windows.Forms.Label();
-            this.txtY3 = new System.Windows.Forms.TextBox();
-            this.btn7 = new System.Windows.Forms.Button();
-            this.btn8 = new System.Windows.Forms.Button();
-            this.btn9 = new System.Windows.Forms.Button();
-            this.btn4 = new System.Windows.Forms.Button();
-            this.btn5 = new System.Windows.Forms.Button();
-            this.btn6 = new System.Windows.Forms.Button();
-            this.btn1 = new System.Windows.Forms.Button();
-            this.btn2 = new System.Windows.Forms.Button();
-            this.btn3 = new System.Windows.Forms.Button();
-            this.btn0 = new System.Windows.Forms.Button();
-            this.btnDot = new System.Windows.Forms.Button();
-            this.btnDelete = new System.Windows.Forms.Button();
-            this.btnTenLoi = new System.Windows.Forms.Button();
-            this.labelTenLoi = new System.Windows.Forms.Label();
-            this.btnLevel = new System.Windows.Forms.Button();
-            this.labelLevel = new System.Windows.Forms.Label();
-            this.btnPattern = new System.Windows.Forms.Button();
-            this.labelPattern = new System.Windows.Forms.Label();
-            this.btnMapping = new System.Windows.Forms.Button();
-            this.labelMapping = new System.Windows.Forms.Label();
-            this.btnXacNhan = new System.Windows.Forms.Button();
-            this.btnReset = new System.Windows.Forms.Button();
-            this.labelSoCellDaLuu = new System.Windows.Forms.Label();
-            this.labelCount = new System.Windows.Forms.Label();
-            this.labelDaLuuVao = new System.Windows.Forms.Label();
-            this.labelStatus = new System.Windows.Forms.Label();
-            this.labelTime = new System.Windows.Forms.Label();
+            this.LabelAPN = new System.Windows.Forms.Label();
+            this.TxtAPN = new System.Windows.Forms.TextBox();
+            this.LabelX1 = new System.Windows.Forms.Label();
+            this.TxtX1 = new System.Windows.Forms.TextBox();
+            this.LabelY1 = new System.Windows.Forms.Label();
+            this.TxtY1 = new System.Windows.Forms.TextBox();
+            this.LabelX2 = new System.Windows.Forms.Label();
+            this.TxtX2 = new System.Windows.Forms.TextBox();
+            this.LabelY2 = new System.Windows.Forms.Label();
+            this.TxtY2 = new System.Windows.Forms.TextBox();
+            this.LabelX3 = new System.Windows.Forms.Label();
+            this.TxtX3 = new System.Windows.Forms.TextBox();
+            this.LabelY3 = new System.Windows.Forms.Label();
+            this.TxtY3 = new System.Windows.Forms.TextBox();
+            this.Btn7 = new System.Windows.Forms.Button();
+            this.Btn8 = new System.Windows.Forms.Button();
+            this.Btn9 = new System.Windows.Forms.Button();
+            this.Btn4 = new System.Windows.Forms.Button();
+            this.Btn5 = new System.Windows.Forms.Button();
+            this.Btn6 = new System.Windows.Forms.Button();
+            this.Btn1 = new System.Windows.Forms.Button();
+            this.Btn2 = new System.Windows.Forms.Button();
+            this.Btn3 = new System.Windows.Forms.Button();
+            this.Btn0 = new System.Windows.Forms.Button();
+            this.BtnDot = new System.Windows.Forms.Button();
+            this.BtnDelete = new System.Windows.Forms.Button();
+            this.BtnTenLoi = new System.Windows.Forms.Button();
+            this.LabelTenLoi = new System.Windows.Forms.Label();
+            this.BtnLevel = new System.Windows.Forms.Button();
+            this.LabelLevel = new System.Windows.Forms.Label();
+            this.BtnPattern = new System.Windows.Forms.Button();
+            this.LabelPattern = new System.Windows.Forms.Label();
+            this.BtnMapping = new System.Windows.Forms.Button();
+            this.LabelMapping = new System.Windows.Forms.Label();
+            this.BtnXacNhan = new System.Windows.Forms.Button();
+            this.BtnReset = new System.Windows.Forms.Button();
+            this.LabelSoCellDaLuu = new System.Windows.Forms.Label();
+            this.LabelCount = new System.Windows.Forms.Label();
+            this.LabelDaLuuVao = new System.Windows.Forms.Label();
+            this.LabelStatus = new System.Windows.Forms.Label();
+            this.LabelTime = new System.Windows.Forms.Label();
             this.pictureBox = new System.Windows.Forms.PictureBox();
-            this.btnDK = new System.Windows.Forms.Button();
-            this.btnBR = new System.Windows.Forms.Button();
-            this.labelAuthor = new System.Windows.Forms.Label();
-            this.labelDate = new System.Windows.Forms.Label();
+            this.BtnDK = new System.Windows.Forms.Button();
+            this.BtnBR = new System.Windows.Forms.Button();
+            this.LabelAuthor = new System.Windows.Forms.Label();
+            this.LabelDate = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
             // 
-            // labelAPN
-            // 
-            this.labelAPN.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelAPN.Location = new System.Drawing.Point(12, 19);
-            this.labelAPN.Name = "labelAPN";
-            this.labelAPN.Size = new System.Drawing.Size(40, 20);
-            this.labelAPN.TabIndex = 43;
-            this.labelAPN.Text = "APN:";
-            this.labelAPN.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // txtAPN
-            // 
-            this.txtAPN.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.txtAPN.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtAPN.Location = new System.Drawing.Point(53, 12);
-            this.txtAPN.MaxLength = 300;
-            this.txtAPN.Multiline = true;
-            this.txtAPN.Name = "txtAPN";
-            this.txtAPN.Size = new System.Drawing.Size(622, 36);
-            this.txtAPN.TabIndex = 0;
-            this.txtAPN.Enter += new System.EventHandler(this.OnTextBoxEnter);
-            // 
-            // labelX1
-            // 
-            this.labelX1.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelX1.Location = new System.Drawing.Point(18, 75);
-            this.labelX1.Name = "labelX1";
-            this.labelX1.Size = new System.Drawing.Size(35, 31);
-            this.labelX1.TabIndex = 42;
-            this.labelX1.Text = "X1:";
-            this.labelX1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // txtX1
-            // 
-            this.txtX1.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtX1.Location = new System.Drawing.Point(53, 70);
-            this.txtX1.MaxLength = 3;
-            this.txtX1.Name = "txtX1";
-            this.txtX1.Size = new System.Drawing.Size(85, 39);
-            this.txtX1.TabIndex = 1;
-            this.txtX1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtX1.Enter += new System.EventHandler(this.OnTextBoxEnter);
-            // 
-            // labelY1
-            // 
-            this.labelY1.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelY1.Location = new System.Drawing.Point(159, 75);
-            this.labelY1.Name = "labelY1";
-            this.labelY1.Size = new System.Drawing.Size(37, 31);
-            this.labelY1.TabIndex = 41;
-            this.labelY1.Text = "Y1:";
-            this.labelY1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // txtY1
-            // 
-            this.txtY1.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtY1.Location = new System.Drawing.Point(192, 70);
-            this.txtY1.MaxLength = 3;
-            this.txtY1.Name = "txtY1";
-            this.txtY1.Size = new System.Drawing.Size(85, 39);
-            this.txtY1.TabIndex = 2;
-            this.txtY1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtY1.Enter += new System.EventHandler(this.OnTextBoxEnter);
-            // 
-            // labelX2
-            // 
-            this.labelX2.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelX2.Location = new System.Drawing.Point(18, 135);
-            this.labelX2.Name = "labelX2";
-            this.labelX2.Size = new System.Drawing.Size(35, 31);
-            this.labelX2.TabIndex = 40;
-            this.labelX2.Text = "X2:";
-            this.labelX2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // txtX2
-            // 
-            this.txtX2.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtX2.Location = new System.Drawing.Point(53, 130);
-            this.txtX2.MaxLength = 3;
-            this.txtX2.Name = "txtX2";
-            this.txtX2.Size = new System.Drawing.Size(85, 39);
-            this.txtX2.TabIndex = 3;
-            this.txtX2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtX2.Enter += new System.EventHandler(this.OnTextBoxEnter);
-            // 
-            // labelY2
-            // 
-            this.labelY2.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelY2.Location = new System.Drawing.Point(159, 135);
-            this.labelY2.Name = "labelY2";
-            this.labelY2.Size = new System.Drawing.Size(37, 31);
-            this.labelY2.TabIndex = 39;
-            this.labelY2.Text = "Y2:";
-            this.labelY2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // txtY2
-            // 
-            this.txtY2.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtY2.Location = new System.Drawing.Point(192, 130);
-            this.txtY2.MaxLength = 3;
-            this.txtY2.Name = "txtY2";
-            this.txtY2.Size = new System.Drawing.Size(85, 39);
-            this.txtY2.TabIndex = 4;
-            this.txtY2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtY2.Enter += new System.EventHandler(this.OnTextBoxEnter);
-            // 
-            // labelX3
-            // 
-            this.labelX3.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelX3.Location = new System.Drawing.Point(18, 195);
-            this.labelX3.Name = "labelX3";
-            this.labelX3.Size = new System.Drawing.Size(35, 31);
-            this.labelX3.TabIndex = 38;
-            this.labelX3.Text = "X3:";
-            this.labelX3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // txtX3
-            // 
-            this.txtX3.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtX3.Location = new System.Drawing.Point(53, 190);
-            this.txtX3.MaxLength = 3;
-            this.txtX3.Name = "txtX3";
-            this.txtX3.Size = new System.Drawing.Size(85, 39);
-            this.txtX3.TabIndex = 5;
-            this.txtX3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtX3.Enter += new System.EventHandler(this.OnTextBoxEnter);
-            // 
-            // labelY3
-            // 
-            this.labelY3.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelY3.Location = new System.Drawing.Point(159, 195);
-            this.labelY3.Name = "labelY3";
-            this.labelY3.Size = new System.Drawing.Size(37, 31);
-            this.labelY3.TabIndex = 37;
-            this.labelY3.Text = "Y3:";
-            this.labelY3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // txtY3
-            // 
-            this.txtY3.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtY3.Location = new System.Drawing.Point(192, 190);
-            this.txtY3.MaxLength = 3;
-            this.txtY3.Name = "txtY3";
-            this.txtY3.Size = new System.Drawing.Size(85, 39);
-            this.txtY3.TabIndex = 6;
-            this.txtY3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtY3.Enter += new System.EventHandler(this.OnTextBoxEnter);
-            // 
-            // btn7
-            // 
-            this.btn7.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn7.Location = new System.Drawing.Point(452, 65);
-            this.btn7.Name = "btn7";
-            this.btn7.Size = new System.Drawing.Size(64, 58);
-            this.btn7.TabIndex = 11;
-            this.btn7.Text = "7";
-            this.btn7.UseVisualStyleBackColor = true;
-            this.btn7.Click += new System.EventHandler(this.btnNumber_Click);
-            // 
-            // btn8
-            // 
-            this.btn8.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn8.Location = new System.Drawing.Point(539, 65);
-            this.btn8.Name = "btn8";
-            this.btn8.Size = new System.Drawing.Size(64, 58);
-            this.btn8.TabIndex = 12;
-            this.btn8.Text = "8";
-            this.btn8.UseVisualStyleBackColor = true;
-            this.btn8.Click += new System.EventHandler(this.btnNumber_Click);
-            // 
-            // btn9
-            // 
-            this.btn9.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn9.Location = new System.Drawing.Point(624, 65);
-            this.btn9.Name = "btn9";
-            this.btn9.Size = new System.Drawing.Size(64, 58);
-            this.btn9.TabIndex = 13;
-            this.btn9.Text = "9";
-            this.btn9.UseVisualStyleBackColor = true;
-            this.btn9.Click += new System.EventHandler(this.btnNumber_Click);
-            // 
-            // btn4
-            // 
-            this.btn4.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn4.Location = new System.Drawing.Point(452, 136);
-            this.btn4.Name = "btn4";
-            this.btn4.Size = new System.Drawing.Size(64, 58);
-            this.btn4.TabIndex = 14;
-            this.btn4.Text = "4";
-            this.btn4.UseVisualStyleBackColor = true;
-            this.btn4.Click += new System.EventHandler(this.btnNumber_Click);
-            // 
-            // btn5
-            // 
-            this.btn5.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn5.Location = new System.Drawing.Point(539, 136);
-            this.btn5.Name = "btn5";
-            this.btn5.Size = new System.Drawing.Size(64, 58);
-            this.btn5.TabIndex = 15;
-            this.btn5.Text = "5";
-            this.btn5.UseVisualStyleBackColor = true;
-            this.btn5.Click += new System.EventHandler(this.btnNumber_Click);
-            // 
-            // btn6
-            // 
-            this.btn6.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn6.Location = new System.Drawing.Point(624, 136);
-            this.btn6.Name = "btn6";
-            this.btn6.Size = new System.Drawing.Size(64, 58);
-            this.btn6.TabIndex = 16;
-            this.btn6.Text = "6";
-            this.btn6.UseVisualStyleBackColor = true;
-            this.btn6.Click += new System.EventHandler(this.btnNumber_Click);
-            // 
-            // btn1
-            // 
-            this.btn1.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn1.Location = new System.Drawing.Point(452, 207);
-            this.btn1.Name = "btn1";
-            this.btn1.Size = new System.Drawing.Size(64, 58);
-            this.btn1.TabIndex = 17;
-            this.btn1.Text = "1";
-            this.btn1.UseVisualStyleBackColor = true;
-            this.btn1.Click += new System.EventHandler(this.btnNumber_Click);
-            // 
-            // btn2
-            // 
-            this.btn2.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn2.Location = new System.Drawing.Point(539, 207);
-            this.btn2.Name = "btn2";
-            this.btn2.Size = new System.Drawing.Size(64, 58);
-            this.btn2.TabIndex = 18;
-            this.btn2.Text = "2";
-            this.btn2.UseVisualStyleBackColor = true;
-            this.btn2.Click += new System.EventHandler(this.btnNumber_Click);
-            // 
-            // btn3
-            // 
-            this.btn3.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn3.Location = new System.Drawing.Point(624, 207);
-            this.btn3.Name = "btn3";
-            this.btn3.Size = new System.Drawing.Size(64, 58);
-            this.btn3.TabIndex = 19;
-            this.btn3.Text = "3";
-            this.btn3.UseVisualStyleBackColor = true;
-            this.btn3.Click += new System.EventHandler(this.btnNumber_Click);
-            // 
-            // btn0
-            // 
-            this.btn0.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn0.Location = new System.Drawing.Point(452, 278);
-            this.btn0.Name = "btn0";
-            this.btn0.Size = new System.Drawing.Size(64, 58);
-            this.btn0.TabIndex = 20;
-            this.btn0.Text = "0";
-            this.btn0.UseVisualStyleBackColor = true;
-            this.btn0.Click += new System.EventHandler(this.btnNumber_Click);
-            // 
-            // btnDot
-            // 
-            this.btnDot.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDot.Location = new System.Drawing.Point(539, 278);
-            this.btnDot.Name = "btnDot";
-            this.btnDot.Size = new System.Drawing.Size(64, 58);
-            this.btnDot.TabIndex = 21;
-            this.btnDot.Text = ".";
-            this.btnDot.UseVisualStyleBackColor = true;
-            this.btnDot.Click += new System.EventHandler(this.btnNumber_Click);
-            // 
-            // btnDelete
-            // 
-            this.btnDelete.BackColor = System.Drawing.Color.Tomato;
-            this.btnDelete.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDelete.Location = new System.Drawing.Point(624, 278);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(64, 58);
-            this.btnDelete.TabIndex = 22;
-            this.btnDelete.Text = "◄Xóa";
-            this.btnDelete.UseVisualStyleBackColor = false;
-            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
-            // 
-            // btnTenLoi
-            // 
-            this.btnTenLoi.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTenLoi.Location = new System.Drawing.Point(40, 261);
-            this.btnTenLoi.Name = "btnTenLoi";
-            this.btnTenLoi.Size = new System.Drawing.Size(100, 46);
-            this.btnTenLoi.TabIndex = 23;
-            this.btnTenLoi.Text = "TÊN LỖI";
-            this.btnTenLoi.UseVisualStyleBackColor = true;
-            this.btnTenLoi.Click += new System.EventHandler(this.btnTenLoi_Click);
-            // 
-            // labelTenLoi
-            // 
-            this.labelTenLoi.AllowDrop = true;
-            this.labelTenLoi.BackColor = System.Drawing.SystemColors.Info;
-            this.labelTenLoi.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTenLoi.ForeColor = System.Drawing.Color.Blue;
-            this.labelTenLoi.Location = new System.Drawing.Point(155, 264);
-            this.labelTenLoi.Name = "labelTenLoi";
-            this.labelTenLoi.Size = new System.Drawing.Size(197, 40);
-            this.labelTenLoi.TabIndex = 27;
-            this.labelTenLoi.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // btnLevel
-            // 
-            this.btnLevel.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLevel.Location = new System.Drawing.Point(40, 391);
-            this.btnLevel.Name = "btnLevel";
-            this.btnLevel.Size = new System.Drawing.Size(100, 45);
-            this.btnLevel.TabIndex = 25;
-            this.btnLevel.Text = "LEVEL";
-            this.btnLevel.UseVisualStyleBackColor = true;
-            this.btnLevel.Click += new System.EventHandler(this.btnLevel_Click);
-            // 
-            // labelLevel
-            // 
-            this.labelLevel.AllowDrop = true;
-            this.labelLevel.BackColor = System.Drawing.SystemColors.Info;
-            this.labelLevel.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelLevel.ForeColor = System.Drawing.Color.Blue;
-            this.labelLevel.Location = new System.Drawing.Point(155, 394);
-            this.labelLevel.Name = "labelLevel";
-            this.labelLevel.Size = new System.Drawing.Size(86, 40);
-            this.labelLevel.TabIndex = 29;
-            this.labelLevel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // btnPattern
-            // 
-            this.btnPattern.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPattern.Location = new System.Drawing.Point(40, 326);
-            this.btnPattern.Name = "btnPattern";
-            this.btnPattern.Size = new System.Drawing.Size(100, 46);
-            this.btnPattern.TabIndex = 27;
-            this.btnPattern.Text = "PATTERN";
-            this.btnPattern.UseVisualStyleBackColor = true;
-            this.btnPattern.Click += new System.EventHandler(this.btnPattern_Click);
-            // 
-            // labelPattern
-            // 
-            this.labelPattern.AllowDrop = true;
-            this.labelPattern.BackColor = System.Drawing.SystemColors.Info;
-            this.labelPattern.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelPattern.ForeColor = System.Drawing.Color.Blue;
-            this.labelPattern.Location = new System.Drawing.Point(155, 329);
-            this.labelPattern.Name = "labelPattern";
-            this.labelPattern.Size = new System.Drawing.Size(197, 40);
-            this.labelPattern.TabIndex = 31;
-            this.labelPattern.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // btnMapping
-            // 
-            this.btnMapping.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnMapping.Location = new System.Drawing.Point(40, 456);
-            this.btnMapping.Name = "btnMapping";
-            this.btnMapping.Size = new System.Drawing.Size(100, 46);
-            this.btnMapping.TabIndex = 29;
-            this.btnMapping.Text = "MAPPING";
-            this.btnMapping.UseVisualStyleBackColor = true;
-            this.btnMapping.Click += new System.EventHandler(this.btnMapping_Click);
-            // 
-            // labelMapping
-            // 
-            this.labelMapping.AllowDrop = true;
-            this.labelMapping.BackColor = System.Drawing.SystemColors.Info;
-            this.labelMapping.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelMapping.ForeColor = System.Drawing.Color.Blue;
-            this.labelMapping.Location = new System.Drawing.Point(155, 460);
-            this.labelMapping.Name = "labelMapping";
-            this.labelMapping.Size = new System.Drawing.Size(197, 40);
-            this.labelMapping.TabIndex = 33;
-            this.labelMapping.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // btnXacNhan
-            // 
-            this.btnXacNhan.BackColor = System.Drawing.Color.SeaGreen;
-            this.btnXacNhan.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnXacNhan.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnXacNhan.Location = new System.Drawing.Point(471, 365);
-            this.btnXacNhan.Name = "btnXacNhan";
-            this.btnXacNhan.Size = new System.Drawing.Size(88, 45);
-            this.btnXacNhan.TabIndex = 31;
-            this.btnXacNhan.Text = "SAVE";
-            this.btnXacNhan.UseVisualStyleBackColor = false;
-            this.btnXacNhan.Click += new System.EventHandler(this.btnXacNhan_Click);
-            // 
-            // btnReset
-            // 
-            this.btnReset.BackColor = System.Drawing.Color.Goldenrod;
-            this.btnReset.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnReset.Location = new System.Drawing.Point(578, 365);
-            this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(88, 45);
-            this.btnReset.TabIndex = 32;
-            this.btnReset.Text = "RESET";
-            this.btnReset.UseVisualStyleBackColor = false;
-            this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
-            // 
-            // labelSoCellDaLuu
-            // 
-            this.labelSoCellDaLuu.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.labelSoCellDaLuu.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelSoCellDaLuu.ForeColor = System.Drawing.Color.Blue;
-            this.labelSoCellDaLuu.Location = new System.Drawing.Point(518, 436);
-            this.labelSoCellDaLuu.Name = "labelSoCellDaLuu";
-            this.labelSoCellDaLuu.Size = new System.Drawing.Size(100, 20);
-            this.labelSoCellDaLuu.TabIndex = 4;
-            this.labelSoCellDaLuu.Text = "Số cell đã lưu:";
-            // 
-            // labelCount
-            // 
-            this.labelCount.AutoSize = true;
-            this.labelCount.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelCount.Location = new System.Drawing.Point(608, 436);
-            this.labelCount.Name = "labelCount";
-            this.labelCount.Size = new System.Drawing.Size(15, 17);
-            this.labelCount.TabIndex = 3;
-            this.labelCount.Text = "0";
-            // 
-            // labelDaLuuVao
-            // 
-            this.labelDaLuuVao.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.labelDaLuuVao.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDaLuuVao.ForeColor = System.Drawing.Color.Blue;
-            this.labelDaLuuVao.Location = new System.Drawing.Point(31, 546);
-            this.labelDaLuuVao.Name = "labelDaLuuVao";
-            this.labelDaLuuVao.Size = new System.Drawing.Size(448, 20);
-            this.labelDaLuuVao.TabIndex = 2;
-            // 
-            // labelStatus
-            // 
-            this.labelStatus.AutoSize = true;
-            this.labelStatus.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelStatus.Location = new System.Drawing.Point(31, 521);
-            this.labelStatus.Name = "labelStatus";
-            this.labelStatus.Size = new System.Drawing.Size(60, 15);
-            this.labelStatus.TabIndex = 0;
-            this.labelStatus.Text = "Trạng thái";
-            // 
-            // labelTime
-            // 
-            this.labelTime.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            // LabelAPN
+            // 
+            this.LabelAPN.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelAPN.Location = new System.Drawing.Point(12, 19);
+            this.LabelAPN.Name = "LabelAPN";
+            this.LabelAPN.Size = new System.Drawing.Size(40, 20);
+            this.LabelAPN.TabIndex = 43;
+            this.LabelAPN.Text = "APN:";
+            this.LabelAPN.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // TxtAPN
+            // 
+            this.TxtAPN.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.TxtAPN.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtAPN.Location = new System.Drawing.Point(53, 12);
+            this.TxtAPN.MaxLength = 300;
+            this.TxtAPN.Multiline = true;
+            this.TxtAPN.Name = "TxtAPN";
+            this.TxtAPN.Size = new System.Drawing.Size(622, 36);
+            this.TxtAPN.TabIndex = 0;
+            this.TxtAPN.Enter += new System.EventHandler(this.OnTextBoxEnter);
+            // 
+            // LabelX1
+            // 
+            this.LabelX1.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelX1.Location = new System.Drawing.Point(18, 75);
+            this.LabelX1.Name = "LabelX1";
+            this.LabelX1.Size = new System.Drawing.Size(35, 31);
+            this.LabelX1.TabIndex = 42;
+            this.LabelX1.Text = "X1:";
+            this.LabelX1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // TxtX1
+            // 
+            this.TxtX1.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtX1.Location = new System.Drawing.Point(53, 70);
+            this.TxtX1.MaxLength = 3;
+            this.TxtX1.Name = "TxtX1";
+            this.TxtX1.Size = new System.Drawing.Size(85, 39);
+            this.TxtX1.TabIndex = 1;
+            this.TxtX1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TxtX1.Enter += new System.EventHandler(this.OnTextBoxEnter);
+            // 
+            // LabelY1
+            // 
+            this.LabelY1.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelY1.Location = new System.Drawing.Point(159, 75);
+            this.LabelY1.Name = "LabelY1";
+            this.LabelY1.Size = new System.Drawing.Size(37, 31);
+            this.LabelY1.TabIndex = 41;
+            this.LabelY1.Text = "Y1:";
+            this.LabelY1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // TxtY1
+            // 
+            this.TxtY1.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtY1.Location = new System.Drawing.Point(192, 70);
+            this.TxtY1.MaxLength = 3;
+            this.TxtY1.Name = "TxtY1";
+            this.TxtY1.Size = new System.Drawing.Size(85, 39);
+            this.TxtY1.TabIndex = 2;
+            this.TxtY1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TxtY1.Enter += new System.EventHandler(this.OnTextBoxEnter);
+            // 
+            // LabelX2
+            // 
+            this.LabelX2.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelX2.Location = new System.Drawing.Point(18, 135);
+            this.LabelX2.Name = "LabelX2";
+            this.LabelX2.Size = new System.Drawing.Size(35, 31);
+            this.LabelX2.TabIndex = 40;
+            this.LabelX2.Text = "X2:";
+            this.LabelX2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // TxtX2
+            // 
+            this.TxtX2.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtX2.Location = new System.Drawing.Point(53, 130);
+            this.TxtX2.MaxLength = 3;
+            this.TxtX2.Name = "TxtX2";
+            this.TxtX2.Size = new System.Drawing.Size(85, 39);
+            this.TxtX2.TabIndex = 3;
+            this.TxtX2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TxtX2.Enter += new System.EventHandler(this.OnTextBoxEnter);
+            // 
+            // LabelY2
+            // 
+            this.LabelY2.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelY2.Location = new System.Drawing.Point(159, 135);
+            this.LabelY2.Name = "LabelY2";
+            this.LabelY2.Size = new System.Drawing.Size(37, 31);
+            this.LabelY2.TabIndex = 39;
+            this.LabelY2.Text = "Y2:";
+            this.LabelY2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // TxtY2
+            // 
+            this.TxtY2.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtY2.Location = new System.Drawing.Point(192, 130);
+            this.TxtY2.MaxLength = 3;
+            this.TxtY2.Name = "TxtY2";
+            this.TxtY2.Size = new System.Drawing.Size(85, 39);
+            this.TxtY2.TabIndex = 4;
+            this.TxtY2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TxtY2.Enter += new System.EventHandler(this.OnTextBoxEnter);
+            // 
+            // LabelX3
+            // 
+            this.LabelX3.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelX3.Location = new System.Drawing.Point(18, 195);
+            this.LabelX3.Name = "LabelX3";
+            this.LabelX3.Size = new System.Drawing.Size(35, 31);
+            this.LabelX3.TabIndex = 38;
+            this.LabelX3.Text = "X3:";
+            this.LabelX3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // TxtX3
+            // 
+            this.TxtX3.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtX3.Location = new System.Drawing.Point(53, 190);
+            this.TxtX3.MaxLength = 3;
+            this.TxtX3.Name = "TxtX3";
+            this.TxtX3.Size = new System.Drawing.Size(85, 39);
+            this.TxtX3.TabIndex = 5;
+            this.TxtX3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TxtX3.Enter += new System.EventHandler(this.OnTextBoxEnter);
+            // 
+            // LabelY3
+            // 
+            this.LabelY3.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelY3.Location = new System.Drawing.Point(159, 195);
+            this.LabelY3.Name = "LabelY3";
+            this.LabelY3.Size = new System.Drawing.Size(37, 31);
+            this.LabelY3.TabIndex = 37;
+            this.LabelY3.Text = "Y3:";
+            this.LabelY3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // TxtY3
+            // 
+            this.TxtY3.Font = new System.Drawing.Font("Segoe UI Semibold", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TxtY3.Location = new System.Drawing.Point(192, 190);
+            this.TxtY3.MaxLength = 3;
+            this.TxtY3.Name = "TxtY3";
+            this.TxtY3.Size = new System.Drawing.Size(85, 39);
+            this.TxtY3.TabIndex = 6;
+            this.TxtY3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TxtY3.Enter += new System.EventHandler(this.OnTextBoxEnter);
+            // 
+            // Btn7
+            // 
+            this.Btn7.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn7.Location = new System.Drawing.Point(452, 65);
+            this.Btn7.Name = "Btn7";
+            this.Btn7.Size = new System.Drawing.Size(64, 58);
+            this.Btn7.TabIndex = 11;
+            this.Btn7.Text = "7";
+            this.Btn7.UseVisualStyleBackColor = true;
+            this.Btn7.Click += new System.EventHandler(this.BtnNumber_Click);
+            // 
+            // Btn8
+            // 
+            this.Btn8.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn8.Location = new System.Drawing.Point(539, 65);
+            this.Btn8.Name = "Btn8";
+            this.Btn8.Size = new System.Drawing.Size(64, 58);
+            this.Btn8.TabIndex = 12;
+            this.Btn8.Text = "8";
+            this.Btn8.UseVisualStyleBackColor = true;
+            this.Btn8.Click += new System.EventHandler(this.BtnNumber_Click);
+            // 
+            // Btn9
+            // 
+            this.Btn9.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn9.Location = new System.Drawing.Point(624, 65);
+            this.Btn9.Name = "Btn9";
+            this.Btn9.Size = new System.Drawing.Size(64, 58);
+            this.Btn9.TabIndex = 13;
+            this.Btn9.Text = "9";
+            this.Btn9.UseVisualStyleBackColor = true;
+            this.Btn9.Click += new System.EventHandler(this.BtnNumber_Click);
+            // 
+            // Btn4
+            // 
+            this.Btn4.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn4.Location = new System.Drawing.Point(452, 136);
+            this.Btn4.Name = "Btn4";
+            this.Btn4.Size = new System.Drawing.Size(64, 58);
+            this.Btn4.TabIndex = 14;
+            this.Btn4.Text = "4";
+            this.Btn4.UseVisualStyleBackColor = true;
+            this.Btn4.Click += new System.EventHandler(this.BtnNumber_Click);
+            // 
+            // Btn5
+            // 
+            this.Btn5.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn5.Location = new System.Drawing.Point(539, 136);
+            this.Btn5.Name = "Btn5";
+            this.Btn5.Size = new System.Drawing.Size(64, 58);
+            this.Btn5.TabIndex = 15;
+            this.Btn5.Text = "5";
+            this.Btn5.UseVisualStyleBackColor = true;
+            this.Btn5.Click += new System.EventHandler(this.BtnNumber_Click);
+            // 
+            // Btn6
+            // 
+            this.Btn6.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn6.Location = new System.Drawing.Point(624, 136);
+            this.Btn6.Name = "Btn6";
+            this.Btn6.Size = new System.Drawing.Size(64, 58);
+            this.Btn6.TabIndex = 16;
+            this.Btn6.Text = "6";
+            this.Btn6.UseVisualStyleBackColor = true;
+            this.Btn6.Click += new System.EventHandler(this.BtnNumber_Click);
+            // 
+            // Btn1
+            // 
+            this.Btn1.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn1.Location = new System.Drawing.Point(452, 207);
+            this.Btn1.Name = "Btn1";
+            this.Btn1.Size = new System.Drawing.Size(64, 58);
+            this.Btn1.TabIndex = 17;
+            this.Btn1.Text = "1";
+            this.Btn1.UseVisualStyleBackColor = true;
+            this.Btn1.Click += new System.EventHandler(this.BtnNumber_Click);
+            // 
+            // Btn2
+            // 
+            this.Btn2.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn2.Location = new System.Drawing.Point(539, 207);
+            this.Btn2.Name = "Btn2";
+            this.Btn2.Size = new System.Drawing.Size(64, 58);
+            this.Btn2.TabIndex = 18;
+            this.Btn2.Text = "2";
+            this.Btn2.UseVisualStyleBackColor = true;
+            this.Btn2.Click += new System.EventHandler(this.BtnNumber_Click);
+            // 
+            // Btn3
+            // 
+            this.Btn3.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn3.Location = new System.Drawing.Point(624, 207);
+            this.Btn3.Name = "Btn3";
+            this.Btn3.Size = new System.Drawing.Size(64, 58);
+            this.Btn3.TabIndex = 19;
+            this.Btn3.Text = "3";
+            this.Btn3.UseVisualStyleBackColor = true;
+            this.Btn3.Click += new System.EventHandler(this.BtnNumber_Click);
+            // 
+            // Btn0
+            // 
+            this.Btn0.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn0.Location = new System.Drawing.Point(452, 278);
+            this.Btn0.Name = "Btn0";
+            this.Btn0.Size = new System.Drawing.Size(64, 58);
+            this.Btn0.TabIndex = 20;
+            this.Btn0.Text = "0";
+            this.Btn0.UseVisualStyleBackColor = true;
+            this.Btn0.Click += new System.EventHandler(this.BtnNumber_Click);
+            // 
+            // BtnDot
+            // 
+            this.BtnDot.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnDot.Location = new System.Drawing.Point(539, 278);
+            this.BtnDot.Name = "BtnDot";
+            this.BtnDot.Size = new System.Drawing.Size(64, 58);
+            this.BtnDot.TabIndex = 21;
+            this.BtnDot.Text = ".";
+            this.BtnDot.UseVisualStyleBackColor = true;
+            this.BtnDot.Click += new System.EventHandler(this.BtnNumber_Click);
+            // 
+            // BtnDelete
+            // 
+            this.BtnDelete.BackColor = System.Drawing.Color.Tomato;
+            this.BtnDelete.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnDelete.Location = new System.Drawing.Point(624, 278);
+            this.BtnDelete.Name = "BtnDelete";
+            this.BtnDelete.Size = new System.Drawing.Size(64, 58);
+            this.BtnDelete.TabIndex = 22;
+            this.BtnDelete.Text = "◄Xóa";
+            this.BtnDelete.UseVisualStyleBackColor = false;
+            this.BtnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
+            // 
+            // BtnTenLoi
+            // 
+            this.BtnTenLoi.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnTenLoi.Location = new System.Drawing.Point(40, 261);
+            this.BtnTenLoi.Name = "BtnTenLoi";
+            this.BtnTenLoi.Size = new System.Drawing.Size(100, 46);
+            this.BtnTenLoi.TabIndex = 23;
+            this.BtnTenLoi.Text = "TÊN LỖI";
+            this.BtnTenLoi.UseVisualStyleBackColor = true;
+            this.BtnTenLoi.Click += new System.EventHandler(this.BtnTenLoi_Click);
+            // 
+            // LabelTenLoi
+            // 
+            this.LabelTenLoi.AllowDrop = true;
+            this.LabelTenLoi.BackColor = System.Drawing.SystemColors.Info;
+            this.LabelTenLoi.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelTenLoi.ForeColor = System.Drawing.Color.Blue;
+            this.LabelTenLoi.Location = new System.Drawing.Point(155, 264);
+            this.LabelTenLoi.Name = "LabelTenLoi";
+            this.LabelTenLoi.Size = new System.Drawing.Size(197, 40);
+            this.LabelTenLoi.TabIndex = 27;
+            this.LabelTenLoi.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // BtnLevel
+            // 
+            this.BtnLevel.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnLevel.Location = new System.Drawing.Point(40, 391);
+            this.BtnLevel.Name = "BtnLevel";
+            this.BtnLevel.Size = new System.Drawing.Size(100, 45);
+            this.BtnLevel.TabIndex = 25;
+            this.BtnLevel.Text = "LEVEL";
+            this.BtnLevel.UseVisualStyleBackColor = true;
+            this.BtnLevel.Click += new System.EventHandler(this.BtnLevel_Click);
+            // 
+            // LabelLevel
+            // 
+            this.LabelLevel.AllowDrop = true;
+            this.LabelLevel.BackColor = System.Drawing.SystemColors.Info;
+            this.LabelLevel.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelLevel.ForeColor = System.Drawing.Color.Blue;
+            this.LabelLevel.Location = new System.Drawing.Point(155, 394);
+            this.LabelLevel.Name = "LabelLevel";
+            this.LabelLevel.Size = new System.Drawing.Size(86, 40);
+            this.LabelLevel.TabIndex = 29;
+            this.LabelLevel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // BtnPattern
+            // 
+            this.BtnPattern.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnPattern.Location = new System.Drawing.Point(40, 326);
+            this.BtnPattern.Name = "BtnPattern";
+            this.BtnPattern.Size = new System.Drawing.Size(100, 46);
+            this.BtnPattern.TabIndex = 27;
+            this.BtnPattern.Text = "PATTERN";
+            this.BtnPattern.UseVisualStyleBackColor = true;
+            this.BtnPattern.Click += new System.EventHandler(this.BtnPattern_Click);
+            // 
+            // LabelPattern
+            // 
+            this.LabelPattern.AllowDrop = true;
+            this.LabelPattern.BackColor = System.Drawing.SystemColors.Info;
+            this.LabelPattern.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelPattern.ForeColor = System.Drawing.Color.Blue;
+            this.LabelPattern.Location = new System.Drawing.Point(155, 329);
+            this.LabelPattern.Name = "LabelPattern";
+            this.LabelPattern.Size = new System.Drawing.Size(197, 40);
+            this.LabelPattern.TabIndex = 31;
+            this.LabelPattern.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // BtnMapping
+            // 
+            this.BtnMapping.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnMapping.Location = new System.Drawing.Point(40, 456);
+            this.BtnMapping.Name = "BtnMapping";
+            this.BtnMapping.Size = new System.Drawing.Size(100, 46);
+            this.BtnMapping.TabIndex = 29;
+            this.BtnMapping.Text = "MAPPING";
+            this.BtnMapping.UseVisualStyleBackColor = true;
+            this.BtnMapping.Click += new System.EventHandler(this.BtnMapping_Click);
+            // 
+            // LabelMapping
+            // 
+            this.LabelMapping.AllowDrop = true;
+            this.LabelMapping.BackColor = System.Drawing.SystemColors.Info;
+            this.LabelMapping.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelMapping.ForeColor = System.Drawing.Color.Blue;
+            this.LabelMapping.Location = new System.Drawing.Point(155, 460);
+            this.LabelMapping.Name = "LabelMapping";
+            this.LabelMapping.Size = new System.Drawing.Size(197, 40);
+            this.LabelMapping.TabIndex = 33;
+            this.LabelMapping.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // BtnXacNhan
+            // 
+            this.BtnXacNhan.BackColor = System.Drawing.Color.SeaGreen;
+            this.BtnXacNhan.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnXacNhan.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.BtnXacNhan.Location = new System.Drawing.Point(471, 365);
+            this.BtnXacNhan.Name = "BtnXacNhan";
+            this.BtnXacNhan.Size = new System.Drawing.Size(88, 45);
+            this.BtnXacNhan.TabIndex = 31;
+            this.BtnXacNhan.Text = "SAVE";
+            this.BtnXacNhan.UseVisualStyleBackColor = false;
+            this.BtnXacNhan.Click += new System.EventHandler(this.BtnXacNhan_Click);
+            // 
+            // BtnReset
+            // 
+            this.BtnReset.BackColor = System.Drawing.Color.Goldenrod;
+            this.BtnReset.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnReset.Location = new System.Drawing.Point(578, 365);
+            this.BtnReset.Name = "BtnReset";
+            this.BtnReset.Size = new System.Drawing.Size(88, 45);
+            this.BtnReset.TabIndex = 32;
+            this.BtnReset.Text = "RESET";
+            this.BtnReset.UseVisualStyleBackColor = false;
+            this.BtnReset.Click += new System.EventHandler(this.BtnReset_Click);
+            // 
+            // LabelSoCellDaLuu
+            // 
+            this.LabelSoCellDaLuu.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.LabelSoCellDaLuu.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelSoCellDaLuu.ForeColor = System.Drawing.Color.Blue;
+            this.LabelSoCellDaLuu.Location = new System.Drawing.Point(518, 436);
+            this.LabelSoCellDaLuu.Name = "LabelSoCellDaLuu";
+            this.LabelSoCellDaLuu.Size = new System.Drawing.Size(100, 20);
+            this.LabelSoCellDaLuu.TabIndex = 4;
+            this.LabelSoCellDaLuu.Text = "Số cell đã lưu:";
+            // 
+            // LabelCount
+            // 
+            this.LabelCount.AutoSize = true;
+            this.LabelCount.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelCount.Location = new System.Drawing.Point(608, 436);
+            this.LabelCount.Name = "LabelCount";
+            this.LabelCount.Size = new System.Drawing.Size(15, 17);
+            this.LabelCount.TabIndex = 3;
+            this.LabelCount.Text = "0";
+            // 
+            // LabelDaLuuVao
+            // 
+            this.LabelDaLuuVao.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.LabelDaLuuVao.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelDaLuuVao.ForeColor = System.Drawing.Color.Blue;
+            this.LabelDaLuuVao.Location = new System.Drawing.Point(16, 546);
+            this.LabelDaLuuVao.Name = "LabelDaLuuVao";
+            this.LabelDaLuuVao.Size = new System.Drawing.Size(448, 20);
+            this.LabelDaLuuVao.TabIndex = 2;
+            // 
+            // LabelStatus
+            // 
+            this.LabelStatus.AutoSize = true;
+            this.LabelStatus.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelStatus.Location = new System.Drawing.Point(16, 521);
+            this.LabelStatus.Name = "LabelStatus";
+            this.LabelStatus.Size = new System.Drawing.Size(60, 15);
+            this.LabelStatus.TabIndex = 0;
+            this.LabelStatus.Text = "Trạng thái";
+            // 
+            // LabelTime
+            // 
+            this.LabelTime.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelTime.AutoSize = true;
-            this.labelTime.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTime.ForeColor = System.Drawing.Color.Red;
-            this.labelTime.Location = new System.Drawing.Point(545, 480);
-            this.labelTime.Name = "labelTime";
-            this.labelTime.Size = new System.Drawing.Size(0, 17);
-            this.labelTime.TabIndex = 1;
-            this.labelTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelTime.AutoSize = true;
+            this.LabelTime.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelTime.ForeColor = System.Drawing.Color.Red;
+            this.LabelTime.Location = new System.Drawing.Point(545, 480);
+            this.LabelTime.Name = "LabelTime";
+            this.LabelTime.Size = new System.Drawing.Size(0, 17);
+            this.LabelTime.TabIndex = 1;
+            this.LabelTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pictureBox
             // 
@@ -578,54 +578,54 @@ namespace FAB_CONFIRM
             this.pictureBox.TabIndex = 44;
             this.pictureBox.TabStop = false;
             // 
-            // btnDK
+            // BtnDK
             // 
-            this.btnDK.BackColor = System.Drawing.Color.DimGray;
-            this.btnDK.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDK.ForeColor = System.Drawing.Color.White;
-            this.btnDK.Location = new System.Drawing.Point(247, 392);
-            this.btnDK.Name = "btnDK";
-            this.btnDK.Size = new System.Drawing.Size(50, 45);
-            this.btnDK.TabIndex = 30;
-            this.btnDK.Text = "DK";
-            this.btnDK.UseVisualStyleBackColor = false;
-            this.btnDK.Click += new System.EventHandler(this.btnDK_Click);
+            this.BtnDK.BackColor = System.Drawing.Color.DimGray;
+            this.BtnDK.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnDK.ForeColor = System.Drawing.Color.White;
+            this.BtnDK.Location = new System.Drawing.Point(247, 392);
+            this.BtnDK.Name = "BtnDK";
+            this.BtnDK.Size = new System.Drawing.Size(50, 45);
+            this.BtnDK.TabIndex = 30;
+            this.BtnDK.Text = "DK";
+            this.BtnDK.UseVisualStyleBackColor = false;
+            this.BtnDK.Click += new System.EventHandler(this.BtnDK_Click);
             // 
-            // btnBR
+            // BtnBR
             // 
-            this.btnBR.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBR.Location = new System.Drawing.Point(303, 392);
-            this.btnBR.Name = "btnBR";
-            this.btnBR.Size = new System.Drawing.Size(50, 45);
-            this.btnBR.TabIndex = 31;
-            this.btnBR.Text = "BR";
-            this.btnBR.UseVisualStyleBackColor = true;
-            this.btnBR.Click += new System.EventHandler(this.btnBR_Click);
+            this.BtnBR.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnBR.Location = new System.Drawing.Point(303, 392);
+            this.BtnBR.Name = "BtnBR";
+            this.BtnBR.Size = new System.Drawing.Size(50, 45);
+            this.BtnBR.TabIndex = 31;
+            this.BtnBR.Text = "BR";
+            this.BtnBR.UseVisualStyleBackColor = true;
+            this.BtnBR.Click += new System.EventHandler(this.BtnBR_Click);
             // 
-            // labelAuthor
+            // LabelAuthor
             // 
-            this.labelAuthor.AutoSize = true;
-            this.labelAuthor.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelAuthor.ForeColor = System.Drawing.Color.Silver;
-            this.labelAuthor.Location = new System.Drawing.Point(593, 552);
-            this.labelAuthor.Name = "labelAuthor";
-            this.labelAuthor.Size = new System.Drawing.Size(103, 15);
-            this.labelAuthor.TabIndex = 45;
-            this.labelAuthor.Text = "©Nông Văn Phấn";
+            this.LabelAuthor.AutoSize = true;
+            this.LabelAuthor.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelAuthor.ForeColor = System.Drawing.Color.Silver;
+            this.LabelAuthor.Location = new System.Drawing.Point(593, 552);
+            this.LabelAuthor.Name = "LabelAuthor";
+            this.LabelAuthor.Size = new System.Drawing.Size(103, 15);
+            this.LabelAuthor.TabIndex = 45;
+            this.LabelAuthor.Text = "©Nông Văn Phấn";
             // 
-            // labelDate
+            // LabelDate
             // 
-            this.labelDate.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.LabelDate.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelDate.AutoSize = true;
-            this.labelDate.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelDate.ForeColor = System.Drawing.Color.Red;
-            this.labelDate.Location = new System.Drawing.Point(536, 505);
-            this.labelDate.Name = "labelDate";
-            this.labelDate.Size = new System.Drawing.Size(0, 17);
-            this.labelDate.TabIndex = 46;
-            this.labelDate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelDate.AutoSize = true;
+            this.LabelDate.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelDate.ForeColor = System.Drawing.Color.Red;
+            this.LabelDate.Location = new System.Drawing.Point(536, 505);
+            this.LabelDate.Name = "LabelDate";
+            this.LabelDate.Size = new System.Drawing.Size(0, 17);
+            this.LabelDate.TabIndex = 46;
+            this.LabelDate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // MainForm
             // 
@@ -633,52 +633,52 @@ namespace FAB_CONFIRM
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(700, 571);
-            this.Controls.Add(this.labelDate);
+            this.Controls.Add(this.LabelDate);
             this.Controls.Add(this.pictureBox);
-            this.Controls.Add(this.labelStatus);
-            this.Controls.Add(this.labelTime);
-            this.Controls.Add(this.labelDaLuuVao);
-            this.Controls.Add(this.labelCount);
-            this.Controls.Add(this.labelSoCellDaLuu);
-            this.Controls.Add(this.btnReset);
-            this.Controls.Add(this.btnXacNhan);
-            this.Controls.Add(this.labelMapping);
-            this.Controls.Add(this.btnMapping);
-            this.Controls.Add(this.labelPattern);
-            this.Controls.Add(this.btnPattern);
-            this.Controls.Add(this.labelLevel);
-            this.Controls.Add(this.btnLevel);
-            this.Controls.Add(this.btnDK);
-            this.Controls.Add(this.btnBR);
-            this.Controls.Add(this.labelTenLoi);
-            this.Controls.Add(this.btnTenLoi);
-            this.Controls.Add(this.btnDelete);
-            this.Controls.Add(this.btnDot);
-            this.Controls.Add(this.btn0);
-            this.Controls.Add(this.btn3);
-            this.Controls.Add(this.btn2);
-            this.Controls.Add(this.btn1);
-            this.Controls.Add(this.btn6);
-            this.Controls.Add(this.btn5);
-            this.Controls.Add(this.btn4);
-            this.Controls.Add(this.btn9);
-            this.Controls.Add(this.btn8);
-            this.Controls.Add(this.btn7);
-            this.Controls.Add(this.txtY3);
-            this.Controls.Add(this.labelY3);
-            this.Controls.Add(this.txtX3);
-            this.Controls.Add(this.labelX3);
-            this.Controls.Add(this.txtY2);
-            this.Controls.Add(this.labelY2);
-            this.Controls.Add(this.txtX2);
-            this.Controls.Add(this.labelX2);
-            this.Controls.Add(this.txtY1);
-            this.Controls.Add(this.labelY1);
-            this.Controls.Add(this.txtX1);
-            this.Controls.Add(this.labelX1);
-            this.Controls.Add(this.txtAPN);
-            this.Controls.Add(this.labelAPN);
-            this.Controls.Add(this.labelAuthor);
+            this.Controls.Add(this.LabelStatus);
+            this.Controls.Add(this.LabelTime);
+            this.Controls.Add(this.LabelDaLuuVao);
+            this.Controls.Add(this.LabelCount);
+            this.Controls.Add(this.LabelSoCellDaLuu);
+            this.Controls.Add(this.BtnReset);
+            this.Controls.Add(this.BtnXacNhan);
+            this.Controls.Add(this.LabelMapping);
+            this.Controls.Add(this.BtnMapping);
+            this.Controls.Add(this.LabelPattern);
+            this.Controls.Add(this.BtnPattern);
+            this.Controls.Add(this.LabelLevel);
+            this.Controls.Add(this.BtnLevel);
+            this.Controls.Add(this.BtnDK);
+            this.Controls.Add(this.BtnBR);
+            this.Controls.Add(this.LabelTenLoi);
+            this.Controls.Add(this.BtnTenLoi);
+            this.Controls.Add(this.BtnDelete);
+            this.Controls.Add(this.BtnDot);
+            this.Controls.Add(this.Btn0);
+            this.Controls.Add(this.Btn3);
+            this.Controls.Add(this.Btn2);
+            this.Controls.Add(this.Btn1);
+            this.Controls.Add(this.Btn6);
+            this.Controls.Add(this.Btn5);
+            this.Controls.Add(this.Btn4);
+            this.Controls.Add(this.Btn9);
+            this.Controls.Add(this.Btn8);
+            this.Controls.Add(this.Btn7);
+            this.Controls.Add(this.TxtY3);
+            this.Controls.Add(this.LabelY3);
+            this.Controls.Add(this.TxtX3);
+            this.Controls.Add(this.LabelX3);
+            this.Controls.Add(this.TxtY2);
+            this.Controls.Add(this.LabelY2);
+            this.Controls.Add(this.TxtX2);
+            this.Controls.Add(this.LabelX2);
+            this.Controls.Add(this.TxtY1);
+            this.Controls.Add(this.LabelY1);
+            this.Controls.Add(this.TxtX1);
+            this.Controls.Add(this.LabelX1);
+            this.Controls.Add(this.TxtAPN);
+            this.Controls.Add(this.LabelAPN);
+            this.Controls.Add(this.LabelAuthor);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -688,6 +688,7 @@ namespace FAB_CONFIRM
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
         #endregion
     }

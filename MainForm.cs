@@ -20,19 +20,19 @@ namespace FAB_CONFIRM
         private TextBox activeTextBox;
         private int savedCellCount = 0;
         private string filePath;
-        private System.Windows.Forms.Timer timer;
+        private readonly System.Windows.Forms.Timer timer;
         private readonly ToolTip toolTip;
 
-        private Timer rainbowTimer;// Các biến cho hiệu ứng chuyển màu cầu vồng mượt mà
+        private readonly Timer rainbowTimer;// Các biến cho hiệu ứng chuyển màu cầu vồng mượt mà
         private bool isRainbowActive = false;
         private Color originalAuthorColor;
         private double rainbowPhase = 0;
 
         // Đọc danh sách từ các file .ini
-        private List<string> patternList;
-        private List<string> defectList;
-        private ConfigManager patternConfigManager;
-        private ConfigManager defectConfigManager;
+        private readonly List<string> patternList;
+        private readonly List<string> defectList;
+        private readonly ConfigManager patternConfigManager;
+        private readonly ConfigManager defectConfigManager;
         #endregion
 
         #region KHỞI TẠO GIAO DIỆN VÀ CHỨC NĂNG
@@ -40,9 +40,9 @@ namespace FAB_CONFIRM
         {
             InitializeComponent();
             string eqpid = ReadEQPIDFromIniFile();
-            this.Text = "FAB CONFIRM " + (string.IsNullOrEmpty(eqpid) ? "" : "_ " + eqpid + "");
+            this.Text = "FAB CONFIRM" + (string.IsNullOrEmpty(eqpid) ? "" : "_" + eqpid + "");
             Button[] numericButtons = new Button[] {
-                btn0, btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btnDot
+                Btn0, Btn1, Btn2, Btn3, Btn4, Btn5, Btn6, Btn7, Btn8, Btn9, BtnDot
             };
 
             foreach (Button b in numericButtons)
@@ -54,99 +54,105 @@ namespace FAB_CONFIRM
                 }
             }
 
-            labelTenLoi.TextChanged += (s, e) => AdjustLabelFont(labelTenLoi);
-            labelLevel.TextChanged += (s, e) => AdjustLabelFont(labelLevel);
-            labelPattern.TextChanged += (s, e) => AdjustLabelFont(labelPattern);
-            labelMapping.TextChanged += (s, e) => AdjustLabelFont(labelMapping);
+            LabelTenLoi.TextChanged += (s, e) => AdjustLabelFont(LabelTenLoi);
+            LabelLevel.TextChanged += (s, e) => AdjustLabelFont(LabelLevel);
+            LabelPattern.TextChanged += (s, e) => AdjustLabelFont(LabelPattern);
+            LabelMapping.TextChanged += (s, e) => AdjustLabelFont(LabelMapping);
 
             // Gán sự kiện Enter cho tất cả các TextBox nhập liệu để bàn phím số hoạt động
-            txtAPN.Enter += OnTextBoxEnter;
-            txtX1.Enter += OnTextBoxEnter;
-            txtY1.Enter += OnTextBoxEnter;
-            txtX2.Enter += OnTextBoxEnter;
-            txtY2.Enter += OnTextBoxEnter;
-            txtX3.Enter += OnTextBoxEnter;
-            txtY3.Enter += OnTextBoxEnter;
+            TxtAPN.Enter += OnTextBoxEnter;
+            TxtX1.Enter += OnTextBoxEnter;
+            TxtY1.Enter += OnTextBoxEnter;
+            TxtX2.Enter += OnTextBoxEnter;
+            TxtY2.Enter += OnTextBoxEnter;
+            TxtX3.Enter += OnTextBoxEnter;
+            TxtY3.Enter += OnTextBoxEnter;
 
             //Cảnh báo tooltip khi nhập từ bàn phím vật lý trên 3 số
-            txtX1.KeyPress += new KeyPressEventHandler(CoordinateTextBox_KeyPress);
-            txtY1.KeyPress += new KeyPressEventHandler(CoordinateTextBox_KeyPress);
-            txtX2.KeyPress += new KeyPressEventHandler(CoordinateTextBox_KeyPress);
-            txtY2.KeyPress += new KeyPressEventHandler(CoordinateTextBox_KeyPress);
-            txtX3.KeyPress += new KeyPressEventHandler(CoordinateTextBox_KeyPress);
-            txtY3.KeyPress += new KeyPressEventHandler(CoordinateTextBox_KeyPress);
+            TxtX1.KeyPress += new KeyPressEventHandler(CoordinateTextBox_KeyPress);
+            TxtY1.KeyPress += new KeyPressEventHandler(CoordinateTextBox_KeyPress);
+            TxtX2.KeyPress += new KeyPressEventHandler(CoordinateTextBox_KeyPress);
+            TxtY2.KeyPress += new KeyPressEventHandler(CoordinateTextBox_KeyPress);
+            TxtX3.KeyPress += new KeyPressEventHandler(CoordinateTextBox_KeyPress);
+            TxtY3.KeyPress += new KeyPressEventHandler(CoordinateTextBox_KeyPress);
 
             // Gán sự kiện KeyDown để chỉ cho phép nhập số cho các ô tọa độ
-            txtX1.KeyDown += txtCoord_KeyDown;
-            txtY1.KeyDown += txtCoord_KeyDown;
-            txtX2.KeyDown += txtCoord_KeyDown;
-            txtY2.KeyDown += txtCoord_KeyDown;
-            txtX3.KeyDown += txtCoord_KeyDown;
-            txtY3.KeyDown += txtCoord_KeyDown;
+            TxtX1.KeyDown += TxtCoord_KeyDown;
+            TxtY1.KeyDown += TxtCoord_KeyDown;
+            TxtX2.KeyDown += TxtCoord_KeyDown;
+            TxtY2.KeyDown += TxtCoord_KeyDown;
+            TxtX3.KeyDown += TxtCoord_KeyDown;
+            TxtY3.KeyDown += TxtCoord_KeyDown;
 
             // Gán giới hạn 3 ký tự cho các ô tọa độ
-            txtX1.MaxLength = 3;
-            txtY1.MaxLength = 3;
-            txtX2.MaxLength = 3;
-            txtY2.MaxLength = 3;
-            txtX3.MaxLength = 3;
-            txtY3.MaxLength = 3;
+            TxtX1.MaxLength = 3;
+            TxtY1.MaxLength = 3;
+            TxtX2.MaxLength = 3;
+            TxtY2.MaxLength = 3;
+            TxtX3.MaxLength = 3;
+            TxtY3.MaxLength = 3;
 
             // Gán sự kiện GotFocus và LostFocus cho các TextBox
-            txtAPN.GotFocus += TextBox_GotFocus;
-            txtAPN.LostFocus += TextBox_LostFocus;
-            txtX1.GotFocus += TextBox_GotFocus;
-            txtX1.LostFocus += TextBox_LostFocus;
-            txtY1.GotFocus += TextBox_GotFocus;
-            txtY1.LostFocus += TextBox_LostFocus;
-            txtX2.GotFocus += TextBox_GotFocus;
-            txtX2.LostFocus += TextBox_LostFocus;
-            txtY2.GotFocus += TextBox_GotFocus;
-            txtY2.LostFocus += TextBox_LostFocus;
-            txtX3.GotFocus += TextBox_GotFocus;
-            txtX3.LostFocus += TextBox_LostFocus;
-            txtY3.GotFocus += TextBox_GotFocus;
-            txtY3.LostFocus += TextBox_LostFocus;
+            TxtAPN.GotFocus += TextBox_GotFocus;
+            TxtAPN.LostFocus += TextBox_LostFocus;
+            TxtX1.GotFocus += TextBox_GotFocus;
+            TxtX1.LostFocus += TextBox_LostFocus;
+            TxtY1.GotFocus += TextBox_GotFocus;
+            TxtY1.LostFocus += TextBox_LostFocus;
+            TxtX2.GotFocus += TextBox_GotFocus;
+            TxtX2.LostFocus += TextBox_LostFocus;
+            TxtY2.GotFocus += TextBox_GotFocus;
+            TxtY2.LostFocus += TextBox_LostFocus;
+            TxtX3.GotFocus += TextBox_GotFocus;
+            TxtX3.LostFocus += TextBox_LostFocus;
+            TxtY3.GotFocus += TextBox_GotFocus;
+            TxtY3.LostFocus += TextBox_LostFocus;
 
             // Khởi tạo timer cho hiệu ứng cầu vồng
-            this.rainbowTimer = new Timer();
-            this.rainbowTimer.Interval = 20; // Cập nhật màu mỗi 20ms để mượt hơn
+            this.rainbowTimer = new Timer
+            {
+                Interval = 20 // Cập nhật màu mỗi 20ms để mượt hơn
+            };
             this.rainbowTimer.Tick += new EventHandler(this.RainbowTimer_Tick);
 
             // Gắn sự kiện cho lblCopyright
-            labelAuthor.MouseEnter += labelAuthor_MouseEnter;
-            labelAuthor.MouseLeave += labelAuthor_MouseLeave;
+            LabelAuthor.MouseEnter += LabelAuthor_MouseEnter;
+            LabelAuthor.MouseLeave += LabelAuthor_MouseLeave;
 
             // Khởi tạo và cấu hình Timer cho đồng hồ
-            timer = new System.Windows.Forms.Timer();
-            timer.Interval = 500; // Cập nhật mỗi giây (500ms)
+            timer = new System.Windows.Forms.Timer
+            {
+                Interval = 500 // Cập nhật mỗi giây (500ms)
+            };
             timer.Tick += Timer_Tick;
             timer.Start();
 
             // Tạo đường dẫn file dựa trên ngày hiện tại
             SetFilePath();
 
-            // Thêm giới hạn 300 ký tự cho txtAPN
-            txtAPN.MaxLength = 300;
+            // Thêm giới hạn 300 ký tự cho TxtAPN
+            TxtAPN.MaxLength = 300;
 
-            //gán sự kiện Click cho labelStatus để mở thư mục chứa file khi click
-            labelStatus.Click += labelStatus_Click;
-            labelSoCellDaLuu.Click += labelSoCellDaLuu_Click;
+            //gán sự kiện Click cho LabelStatus để mở thư mục chứa file khi click
+            LabelStatus.Click += LabelStatus_Click;
+            LabelSoCellDaLuu.Click += LabelSoCellDaLuu_Click;
 
             // Tải số APN duy nhất đã lưu khi khởi động
             LoadSavedCount();
 
-            // Thêm sự kiện KeyDown cho txtAPN để xử lý phím Enter
-            txtAPN.KeyDown += txtAPN_KeyDown;
+            // Thêm sự kiện KeyDown cho TxtAPN để xử lý phím Enter
+            TxtAPN.KeyDown += TxtAPN_KeyDown;
 
             // Khởi tạo ToolTip
-            toolTip = new ToolTip();
-            toolTip.AutoPopDelay = 5000; // Hiển thị tooltip trong 5 giây
-            toolTip.InitialDelay = 100;   // Thời gian chờ trước khi hiển thị (100ms)
-            toolTip.ReshowDelay = 100;    // Thời gian chờ khi hiển thị lại
-            toolTip.ShowAlways = true;    // Hiển thị ngay cả khi mất focus
+            toolTip = new ToolTip
+            {
+                AutoPopDelay = 5000, // Hiển thị tooltip trong 5 giây
+                InitialDelay = 100,   // Thời gian chờ trước khi hiển thị (100ms)
+                ReshowDelay = 100,    // Thời gian chờ khi hiển thị lại
+                ShowAlways = true    // Hiển thị ngay cả khi mất focus
+            };
 
-            toolTip.SetToolTip(labelSoCellDaLuu, "BẤM VÀO ĐỂ MỞ THƯ MỤC LƯU FILE");
+            toolTip.SetToolTip(LabelSoCellDaLuu, "BẤM VÀO ĐỂ MỞ THƯ MỤC LƯU FILE");
 
             // Cập nhật trạng thái ban đầu
             UpdateStatus("Sẵn sàng nhập liệu...", System.Drawing.Color.Green);
@@ -189,7 +195,7 @@ namespace FAB_CONFIRM
                     proposedSize = g.MeasureString(lbl.Text, newFont).ToSize();
 
                     // Giải phóng font cũ của Label trước khi gán font mới để tránh leak
-                    if (lbl.Font != null) lbl.Font.Dispose();
+                    lbl.Font?.Dispose();
                     lbl.Font = newFont;
                 }
             }
@@ -234,8 +240,8 @@ namespace FAB_CONFIRM
                 DateTime vietnamTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, vietnamZone);
 
                 // Hiển thị thời gian đã chuyển đổi
-                labelTime.Text = vietnamTime.ToString("HH:mm:ss");
-                labelDate.Text = vietnamTime.ToString("dd/MM/yyyy");
+                LabelTime.Text = vietnamTime.ToString("HH:mm:ss");
+                LabelDate.Text = vietnamTime.ToString("dd/MM/yyyy");
             }
             catch (TimeZoneNotFoundException ex)
             {
@@ -258,7 +264,7 @@ namespace FAB_CONFIRM
             rainbowPhase += 0.05; // Giảm tốc độ thay đổi để màu chuyển từ từ hơn
 
             Color newColor = CalculateRainbowColor(rainbowPhase);
-            labelAuthor.ForeColor = newColor;
+            LabelAuthor.ForeColor = newColor;
         }
 
         // Tính toán màu sắc cầu vồng dựa trên giai đoạn
@@ -274,24 +280,24 @@ namespace FAB_CONFIRM
 
             return Color.FromArgb((int)red, (int)green, (int)blue);
         }
-        private void labelAuthor_MouseEnter (object sender, EventArgs e)
+        private void LabelAuthor_MouseEnter (object sender, EventArgs e)
         {
             if (!isRainbowActive)
             {
                 isRainbowActive = true;
-                originalAuthorColor = labelAuthor.ForeColor;
+                originalAuthorColor = LabelAuthor.ForeColor;
                 rainbowTimer.Start();
             }
         }
 
         // Khi chuột rời nhãn, tắt hiệu ứng và khôi phục màu gốc
-        private void labelAuthor_MouseLeave(object sender, EventArgs e)
+        private void LabelAuthor_MouseLeave(object sender, EventArgs e)
         {
             if (isRainbowActive)
             {
                 isRainbowActive = false;
                 rainbowTimer.Stop();
-                labelAuthor.ForeColor = originalAuthorColor;
+                LabelAuthor.ForeColor = originalAuthorColor;
             }
         }
         #endregion
@@ -302,18 +308,18 @@ namespace FAB_CONFIRM
             activeTextBox = sender as TextBox;
         }
 
-        // Sự kiện xử lý phím Enter trên txtAPN
-        private void txtAPN_KeyDown(object sender, KeyEventArgs e)
+        // Sự kiện xử lý phím Enter trên TxtAPN
+        private void TxtAPN_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                txtX1.Focus();
+                TxtX1.Focus();
                 e.SuppressKeyPress = true; // Ngăn không cho tiếng "ding" xuất hiện
             }
         }
 
         // Sự kiện xử lý phím cho các ô tọa độ, chỉ cho phép nhập số
-        private void txtCoord_KeyDown(object sender, KeyEventArgs e)
+        private void TxtCoord_KeyDown(object sender, KeyEventArgs e)
         {
             bool isNumber = (e.KeyCode >= Keys.D0 && e.KeyCode <= Keys.D9) || (e.KeyCode >= Keys.NumPad0 && e.KeyCode <= Keys.NumPad9);
             bool isBackspace = e.KeyCode == Keys.Back;
@@ -367,17 +373,17 @@ namespace FAB_CONFIRM
         }
 
         //Phương thức xử lý dữ liệu bàn phím số
-        private void btnNumber_Click(object sender, EventArgs e)
+        private void BtnNumber_Click(object sender, EventArgs e)
         {
             ApplyButtonClickEffect(sender as Button);
             if (activeTextBox != null)
             {
-                Button btn = sender as Button;
-                bool isCoordTextBox = activeTextBox.Name.StartsWith("txtX") || activeTextBox.Name.StartsWith("txtY");
+                Button Btn = sender as Button;
+                bool isCoordTextBox = activeTextBox.Name.StartsWith("TxtX") || activeTextBox.Name.StartsWith("TxtY");
 
                 if (isCoordTextBox)
                 {
-                    string newText = activeTextBox.Text + btn.Text;
+                    string newText = activeTextBox.Text + Btn.Text;
                     if (newText.Length > activeTextBox.MaxLength)
                     {
                         // Hiển thị tooltip cảnh báo khi nhập quá số ký tự tối đa
@@ -386,25 +392,25 @@ namespace FAB_CONFIRM
                     }
 
                     // Ngăn không cho nhập dấu chấm ở bất kỳ vị trí nào trừ vị trí đầu tiên
-                    if (btn.Text == "." && activeTextBox.Text.Length > 0)
+                    if (Btn.Text == "." && activeTextBox.Text.Length > 0)
                     {
                         return;
                     }
 
                     // Ngăn không cho nhập '0' ở vị trí đầu tiên
-                    if (btn.Text != "." && activeTextBox.Text.Length == 0 && btn.Text == "0")
+                    if (Btn.Text != "." && activeTextBox.Text.Length == 0 && Btn.Text == "0")
                     {
                         return;
                     }
                 }
 
-                activeTextBox.Text += btn.Text;
+                activeTextBox.Text += Btn.Text;
                 activeTextBox.SelectionStart = activeTextBox.Text.Length;
                 activeTextBox.Focus();
             }
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
+        private void BtnDelete_Click(object sender, EventArgs e)
         {
             ApplyButtonClickEffect(sender as Button); // Thêm hiệu ứng
             if (activeTextBox != null && activeTextBox.Text.Length > 0)
@@ -415,7 +421,7 @@ namespace FAB_CONFIRM
             }
         }
 
-        private void btnPattern_Click(object sender, EventArgs e)
+        private void BtnPattern_Click(object sender, EventArgs e)
         {
             ApplyButtonClickEffect(sender as Button); // Thêm hiệu ứng
             this.ActiveControl = null;
@@ -425,13 +431,13 @@ namespace FAB_CONFIRM
             {
                 if (patternForm.ShowDialog() == DialogResult.OK)
                 {
-                    labelPattern.Text = patternForm.SelectedPattern;
+                    LabelPattern.Text = patternForm.SelectedPattern;
                     UpdateStatus("Đã chọn Pattern.", System.Drawing.Color.Blue);
                 }
             }
         }
 
-        private void btnTenLoi_Click(object sender, EventArgs e)
+        private void BtnTenLoi_Click(object sender, EventArgs e)
         {
             ApplyButtonClickEffect(sender as Button); // Thêm hiệu ứng
             this.ActiveControl = null;
@@ -441,14 +447,13 @@ namespace FAB_CONFIRM
             {
                 if (defectForm.ShowDialog() == DialogResult.OK)
                 {
-                    labelTenLoi.Text = defectForm.SelectedDefect;
+                    LabelTenLoi.Text = defectForm.SelectedDefect;
                     UpdateStatus("Đã chọn tên lỗi.", System.Drawing.Color.Blue);
                 }
             }
         }
 
-
-        private void btnLevel_Click(object sender, EventArgs e)
+        private void BtnLevel_Click(object sender, EventArgs e)
         {
             ApplyButtonClickEffect(sender as Button); // Thêm hiệu ứng
             this.ActiveControl = null;
@@ -456,60 +461,60 @@ namespace FAB_CONFIRM
             {
                 if (levelForm.ShowDialog() == DialogResult.OK)
                 {
-                    labelLevel.Text = levelForm.SelectedLevel;
+                    LabelLevel.Text = levelForm.SelectedLevel;
                     UpdateStatus("Đã chọn Level.", System.Drawing.Color.Blue);
                 }
             }
         }
-        private void btnDK_Click(object sender, EventArgs e)
+        private void BtnDK_Click(object sender, EventArgs e)
         {
-            ApplyButtonClickEffectWithOriginalColor(btnDK, btnDK.BackColor);
-            if (!string.IsNullOrEmpty(labelLevel.Text))
+            ApplyButtonClickEffectWithOriginalColor(BtnDK, BtnDK.BackColor);
+            if (!string.IsNullOrEmpty(LabelLevel.Text))
             {
-                if (labelLevel.Text.EndsWith("^DK"))
+                if (LabelLevel.Text.EndsWith("^DK"))
                 {
-                    labelLevel.Text = labelLevel.Text.Replace("^DK", ""); // Hủy nếu đã có ^DK
+                    LabelLevel.Text = LabelLevel.Text.Replace("^DK", ""); // Hủy nếu đã có ^DK
                     UpdateStatus("Đã hủy phân loại Level tối (DK).", System.Drawing.Color.Blue);
                 }
-                else if (!labelLevel.Text.Contains("^"))
+                else if (!LabelLevel.Text.Contains("^"))
                 {
-                    labelLevel.Text = labelLevel.Text + "^DK"; // Ghép ^DK nếu chưa có hậu tố
+                    LabelLevel.Text += "^DK"; // Ghép ^DK nếu chưa có hậu tố
                     UpdateStatus("Đã chọn Level tối (DK).", System.Drawing.Color.Blue);
                 }
                 // Nếu đã có ^BR, thay bằng ^DK
-                else if (labelLevel.Text.EndsWith("^BR"))
+                else if (LabelLevel.Text.EndsWith("^BR"))
                 {
-                    labelLevel.Text = labelLevel.Text.Replace("^BR", "^DK");
+                    LabelLevel.Text = LabelLevel.Text.Replace("^BR", "^DK");
                     UpdateStatus("Đã thay bằng Level tối (DK).", System.Drawing.Color.Blue);
                 }
             }
         }
 
-        private void btnBR_Click(object sender, EventArgs e)
+        private void BtnBR_Click(object sender, EventArgs e)
         {
-            ApplyButtonClickEffectWithOriginalColor(btnBR, btnBR.BackColor);
-            if (!string.IsNullOrEmpty(labelLevel.Text))
+            ApplyButtonClickEffectWithOriginalColor(BtnBR, BtnBR.BackColor);
+            if (!string.IsNullOrEmpty(LabelLevel.Text))
             {
-                if (labelLevel.Text.EndsWith("^BR"))
+                if (LabelLevel.Text.EndsWith("^BR"))
                 {
-                    labelLevel.Text = labelLevel.Text.Replace("^BR", ""); // Hủy nếu đã có ^BR
+                    LabelLevel.Text = LabelLevel.Text.Replace("^BR", ""); // Hủy nếu đã có ^BR
                     UpdateStatus("Đã hủy phân loại Level sáng (BR).", System.Drawing.Color.Blue);
                 }
-                else if (!labelLevel.Text.Contains("^"))
+                else if (!LabelLevel.Text.Contains("^"))
                 {
-                    labelLevel.Text = labelLevel.Text + "^BR"; // Ghép ^BR nếu chưa có hậu tố
+                    LabelLevel.Text += "^BR"; // Ghép ^BR nếu chưa có hậu tố
                     UpdateStatus("Đã chọn Level sáng (BR).", System.Drawing.Color.Blue);
                 }
                 // Nếu đã có ^DK, thay bằng ^BR
-                else if (labelLevel.Text.EndsWith("^DK"))
+                else if (LabelLevel.Text.EndsWith("^DK"))
                 {
-                    labelLevel.Text = labelLevel.Text.Replace("^DK", "^BR");
+                    LabelLevel.Text = LabelLevel.Text.Replace("^DK", "^BR");
                     UpdateStatus("Đã thay bằng Level sáng (BR).", System.Drawing.Color.Blue);
                 }
             }
         }
 
-        private void btnMapping_Click(object sender, EventArgs e)
+        private void BtnMapping_Click(object sender, EventArgs e)
         {
             ApplyButtonClickEffect(sender as Button); // Thêm hiệu ứng
             this.ActiveControl = null;
@@ -517,50 +522,53 @@ namespace FAB_CONFIRM
             {
                 if (mappingForm.ShowDialog() == DialogResult.OK)
                 {
-                    labelMapping.Text = mappingForm.SelectedMapping;
+                    LabelMapping.Text = mappingForm.SelectedMapping;
                     UpdateStatus("Đã chọn Mapping.", System.Drawing.Color.Blue);
                 }
             }
         }
 
-        private void btnXacNhan_Click(object sender, EventArgs e)
+        private void BtnXacNhan_Click(object sender, EventArgs e)
         {
-            ApplyButtonClickEffectWithOriginalColor(btnXacNhan, btnXacNhan.BackColor);
+            // Cập nhật lại filePath trước khi lưu để đảm bảo đúng ca
+            SetFilePath();
+            //Hiệu ứng nút nhấn
+            ApplyButtonClickEffectWithOriginalColor(BtnXacNhan, BtnXacNhan.BackColor);
             // Kiểm tra các trường bắt buộc
-            if (string.IsNullOrWhiteSpace(txtAPN.Text))
+            if (string.IsNullOrWhiteSpace(TxtAPN.Text))
             {
-                toolTip.Show("Vui lòng nhập APN", txtAPN, 0, txtAPN.Height, 3500); // Hiển thị tooltip 3 giây
+                toolTip.Show("Vui lòng nhập APN", TxtAPN, 0, TxtAPN.Height, 3500); // Hiển thị tooltip 3 giây
                 return;
             }
-            if (string.IsNullOrWhiteSpace(txtX1.Text))
+            if (string.IsNullOrWhiteSpace(TxtX1.Text))
             {
-                toolTip.Show("Vui lòng nhập tọa độ", txtX1, 0, txtX1.Height, 3500); // Hiển thị tooltip 3 giây
+                toolTip.Show("Vui lòng nhập tọa độ", TxtX1, 0, TxtX1.Height, 3500); // Hiển thị tooltip 3 giây
                 return;
             }
-            if (string.IsNullOrWhiteSpace(txtY1.Text))
+            if (string.IsNullOrWhiteSpace(TxtY1.Text))
             {
-                toolTip.Show("Vui lòng nhập tọa độ", txtY1, 0, txtY1.Height, 3500); // Hiển thị tooltip 3 giây
+                toolTip.Show("Vui lòng nhập tọa độ", TxtY1, 0, TxtY1.Height, 3500); // Hiển thị tooltip 3 giây
                 return;
             }
             //Kiểm tra tên lỗi
-            //if (string.IsNullOrWhiteSpace(labelTenLoi.Text))
+            //if (string.IsNullOrWhiteSpace(LabelTenLoi.Text))
             //{
-            //    toolTip.Show("Vui lòng chọn TÊN LỖI", labelTenLoi, 0, labelTenLoi.Height, 3500); // Hiển thị tooltip 3 giây
+            //    toolTip.Show("Vui lòng chọn TÊN LỖI", LabelTenLoi, 0, LabelTenLoi.Height, 3500); // Hiển thị tooltip 3 giây
             //    isValidationFailed = true;
             //    return;
             //}
 
-            string apn = txtAPN.Text;
-            string x1 = txtX1.Text;
-            string y1 = txtY1.Text;
-            string x2 = txtX2.Text;
-            string y2 = txtY2.Text;
-            string x3 = txtX3.Text;
-            string y3 = txtY3.Text;
-            string tenLoi = labelTenLoi.Text; // Thay txtTenLoi bằng labelTenLoi
-            string level = labelLevel.Text; // Thay labelLevel bằng labelLevel
-            string pattern = labelPattern.Text; // Thay txtPattern bằng labelPattern
-            string mapping = labelMapping.Text; // Thay txtMapping bằng labelMapping
+            string apn = TxtAPN.Text;
+            string x1 = TxtX1.Text;
+            string y1 = TxtY1.Text;
+            string x2 = TxtX2.Text;
+            string y2 = TxtY2.Text;
+            string x3 = TxtX3.Text;
+            string y3 = TxtY3.Text;
+            string tenLoi = LabelTenLoi.Text; // Thay TxtTenLoi bằng LabelTenLoi
+            string level = LabelLevel.Text; // Thay LabelLevel bằng LabelLevel
+            string pattern = LabelPattern.Text; // Thay TxtPattern bằng LabelPattern
+            string mapping = LabelMapping.Text; // Thay TxtMapping bằng LabelMapping
                                                 //Kiểm tra các phần xem đã nhập dữ liệu chưa mới lưu
             if (string.IsNullOrEmpty(apn) || string.IsNullOrEmpty(x1) || string.IsNullOrEmpty(y1)) //|| string.IsNullOrEmpty(tenLoi) || string.IsNullOrEmpty(level) || string.IsNullOrEmpty(pattern) || string.IsNullOrEmpty(mapping))
             {
@@ -606,23 +614,23 @@ namespace FAB_CONFIRM
                 File.AppendAllText(filePath, dataLine, Encoding.UTF8);
 
                 savedCellCount++;
-                labelCount.Text = savedCellCount.ToString();
-                labelTime.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
-                UpdateStatus($"Lưu thành công !\nDữ liệu đã được ghi lại: {DateTime.Now:dd/MM/yyyy HH:mm:ss}\nĐường dẫn file: {filePath}", System.Drawing.Color.ForestGreen);
+                LabelCount.Text = savedCellCount.ToString();
+                LabelTime.Text = DateTime.Now.ToString("HH:mm:ss\ndd/MM/yyyy");
+                UpdateStatus($"Lưu thành công !\nDữ liệu đã được ghi lại: {DateTime.Now:dd/MM/yyyy HH:mm:ss}\nVị trí lưu: {filePath}", System.Drawing.Color.ForestGreen);
 
                 // Xóa dữ liệu các trường sau khi lưu thành công
-                txtAPN.Text = "";
-                txtX1.Text = "";
-                txtY1.Text = "";
-                txtX2.Text = "";
-                txtY2.Text = "";
-                txtX3.Text = "";
-                txtY3.Text = "";
-                labelTenLoi.Text = ""; // Thay txtTenLoi bằng labelTenLoi
-                labelLevel.Text = ""; // Thay labelLevel bằng labelLevel
-                labelPattern.Text = ""; // Thay txtPattern bằng labelPattern
-                labelMapping.Text = ""; // Thay txtMapping bằng labelMapping
-                txtAPN.Focus();
+                TxtAPN.Text = "";
+                TxtX1.Text = "";
+                TxtY1.Text = "";
+                TxtX2.Text = "";
+                TxtY2.Text = "";
+                TxtX3.Text = "";
+                TxtY3.Text = "";
+                LabelTenLoi.Text = ""; // Thay TxtTenLoi bằng LabelTenLoi
+                LabelLevel.Text = ""; // Thay LabelLevel bằng LabelLevel
+                LabelPattern.Text = ""; // Thay TxtPattern bằng LabelPattern
+                LabelMapping.Text = ""; // Thay TxtMapping bằng LabelMapping
+                TxtAPN.Focus();
                 // Cập nhật lại số APN duy nhất sau khi lưu
                 LoadSavedCount();
             }
@@ -644,22 +652,22 @@ namespace FAB_CONFIRM
             }
         }
 
-        private void btnReset_Click(object sender, EventArgs e)
+        private void BtnReset_Click(object sender, EventArgs e)
         {
-            ApplyButtonClickEffectWithOriginalColor(btnReset, btnReset.BackColor);
-            txtAPN.Text = "";
-            txtX1.Text = "";
-            txtY1.Text = "";
-            txtX2.Text = "";
-            txtY2.Text = "";
-            txtX3.Text = "";
-            txtY3.Text = "";
-            labelTenLoi.Text = ""; // Thay txtTenLoi bằng labelTenLoi
-            labelLevel.Text = ""; // Thay labelLevel bằng labelLevel
-            labelPattern.Text = ""; // Thay txtPattern bằng labelPattern
-            labelMapping.Text = ""; // Thay txtMapping bằng labelMapping
+            ApplyButtonClickEffectWithOriginalColor(BtnReset, BtnReset.BackColor);
+            TxtAPN.Text = "";
+            TxtX1.Text = "";
+            TxtY1.Text = "";
+            TxtX2.Text = "";
+            TxtY2.Text = "";
+            TxtX3.Text = "";
+            TxtY3.Text = "";
+            LabelTenLoi.Text = ""; // Thay TxtTenLoi bằng LabelTenLoi
+            LabelLevel.Text = ""; // Thay LabelLevel bằng LabelLevel
+            LabelPattern.Text = ""; // Thay TxtPattern bằng LabelPattern
+            LabelMapping.Text = ""; // Thay TxtMapping bằng LabelMapping
 
-            txtAPN.Focus();
+            TxtAPN.Focus();
             UpdateStatus("Giao diện UI đã khởi tạo lại.", System.Drawing.Color.Teal);
         }
         #endregion
@@ -667,24 +675,24 @@ namespace FAB_CONFIRM
         #region CẬP NHẬT TRẠNG THÁI
         private void UpdateStatus(string message, System.Drawing.Color? color = null)
         {
-            labelStatus.Text = message;
+            LabelStatus.Text = message;
             if (color.HasValue)
             {
-                labelStatus.ForeColor = color.Value;
+                LabelStatus.ForeColor = color.Value;
             }
             else
             {
-                labelStatus.ForeColor = System.Drawing.Color.Black;
+                LabelStatus.ForeColor = System.Drawing.Color.Black;
             }
 
             // Kích hoạt tooltip khi lưu thành công (màu xanh lá)
             if (color == System.Drawing.Color.Green)
             {
-                toolTip.SetToolTip(labelStatus, "BẤM VÀO ĐỂ MỞ THƯ MỤC");
+                toolTip.SetToolTip(LabelStatus, "BẤM VÀO ĐỂ MỞ THƯ MỤC");
             }
             else
             {
-                toolTip.SetToolTip(labelStatus, "");
+                toolTip.SetToolTip(LabelStatus, "");
             }
         }
         private void LoadSavedCount()
@@ -705,10 +713,10 @@ namespace FAB_CONFIRM
                     }
                 }
                 savedCellCount = uniqueApns.Count;
-                labelCount.Text = savedCellCount.ToString();
+                LabelCount.Text = savedCellCount.ToString();
             }
         }
-        private void labelStatus_Click(object sender, EventArgs e)
+        private void LabelStatus_Click(object sender, EventArgs e)
         {
             try
             {
@@ -727,7 +735,7 @@ namespace FAB_CONFIRM
                 UpdateStatus($"Lỗi khi mở thư mục: {ex.Message}", System.Drawing.Color.Red);
             }
         }
-        private void labelSoCellDaLuu_Click(object sender, EventArgs e)
+        private void LabelSoCellDaLuu_Click(object sender, EventArgs e)
         {
             try
             {
@@ -755,12 +763,37 @@ namespace FAB_CONFIRM
             // Lấy múi giờ GMT+7
             TimeZoneInfo vietnamZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
             DateTime vietnamTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamZone);
-            string dateString = vietnamTime.ToString("yyyyMMdd");
+
+            // Xác định ngày và ca làm việc
+            string dateString;
+            string shift;
+
+            // Nếu thời gian từ 20:00 hôm nay đến trước 08:00 hôm sau, sử dụng ngày bắt đầu ca đêm
+            if (vietnamTime.Hour >= 20 || vietnamTime.Hour < 8)
+            {
+                // Nếu thời gian từ 00:00 đến 07:59:59, sử dụng ngày hôm trước
+                if (vietnamTime.Hour < 8)
+                {
+                    dateString = vietnamTime.AddDays(-1).ToString("yyyyMMdd");
+                }
+                else
+                {
+                    dateString = vietnamTime.ToString("yyyyMMdd");
+                }
+                shift = "NIGHT";
+            }
+            // Nếu thời gian từ 08:00 đến trước 20:00, sử dụng ngày hiện tại và ca ngày
+            else
+            {
+                dateString = vietnamTime.ToString("yyyyMMdd");
+                shift = "DAY";
+            }
+
             string eqpid = ReadEQPIDFromIniFile(); // Lấy EQPID từ file ini
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             string directoryPath = Path.Combine(desktopPath, "FAB_CONFIRM");
             // Tạo tên file với EQPID (nếu có)
-            string fileName = string.IsNullOrEmpty(eqpid) ? $"FAB_CONFIRM_{dateString}.csv" : $"FAB_CONFIRM_{eqpid}_{dateString}.csv";
+            string fileName = string.IsNullOrEmpty(eqpid) ? $"FAB_{dateString}_{shift}.csv" : $"FAB_{eqpid}_{dateString}_{shift}.csv";
             filePath = Path.Combine(directoryPath, fileName);
             // Đảm bảo thư mục tồn tại
             try
@@ -805,9 +838,9 @@ namespace FAB_CONFIRM
                     string[] lines = File.ReadAllLines(filePath);
                     foreach (string line in lines)
                     {
-                        if (line.StartsWith("EQPID = "))
+                        if (line.StartsWith("EQPID="))
                         {
-                            return line.Substring("EQPID = ".Length);
+                            return line.Substring("EQPID=".Length);
                         }
                     }
                 }
