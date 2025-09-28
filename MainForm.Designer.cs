@@ -598,7 +598,7 @@ namespace FAB_CONFIRM
             this.LabelAuthor.BackColor = System.Drawing.Color.Transparent;
             this.LabelAuthor.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LabelAuthor.ForeColor = System.Drawing.Color.Silver;
-            this.LabelAuthor.Location = new System.Drawing.Point(598, 580);
+            this.LabelAuthor.Location = new System.Drawing.Point(598, 583);
             this.LabelAuthor.Name = "LabelAuthor";
             this.LabelAuthor.Size = new System.Drawing.Size(97, 13);
             this.LabelAuthor.TabIndex = 45;
@@ -626,9 +626,9 @@ namespace FAB_CONFIRM
             this.RichTextStatus.Cursor = System.Windows.Forms.Cursors.Hand;
             this.RichTextStatus.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.RichTextStatus.ForeColor = System.Drawing.Color.CadetBlue;
-            this.RichTextStatus.Location = new System.Drawing.Point(32, 516);
+            this.RichTextStatus.Location = new System.Drawing.Point(12, 518);
             this.RichTextStatus.Name = "RichTextStatus";
-            this.RichTextStatus.Size = new System.Drawing.Size(566, 91);
+            this.RichTextStatus.Size = new System.Drawing.Size(586, 91);
             this.RichTextStatus.TabIndex = 47;
             this.RichTextStatus.Text = "";
             // 

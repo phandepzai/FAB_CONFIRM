@@ -17,7 +17,6 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.ExplorerBar;
 
 namespace FAB_CONFIRM
 {
-    
     public partial class MainForm : Form
     {
         #region KHAI BÁO BIẾN CÁC THUỘC TÍNH
@@ -135,7 +134,7 @@ namespace FAB_CONFIRM
                 Interval = 500 // Cập nhật mỗi giây (500ms)
             };
             timer.Tick += Timer_Tick;
-            timer.Start();           
+            timer.Start();
 
             // Thêm giới hạn 300 ký tự cho TxtAPN
             TxtAPN.MaxLength = 300;
@@ -290,7 +289,7 @@ namespace FAB_CONFIRM
 
             return Color.FromArgb((int)red, (int)green, (int)blue);
         }
-        private void LabelAuthor_MouseEnter (object sender, EventArgs e)
+        private void LabelAuthor_MouseEnter(object sender, EventArgs e)
         {
             if (!isRainbowActive)
             {
@@ -426,7 +425,7 @@ namespace FAB_CONFIRM
             if (activeTextBox != null && activeTextBox.Text.Length > 0)
             {
                 activeTextBox.Text = activeTextBox.Text.Remove(activeTextBox.Text.Length - 1);
-                activeTextBox.SelectionStart = activeTextBox.Text.Length;               
+                activeTextBox.SelectionStart = activeTextBox.Text.Length;
                 activeTextBox.Focus();
             }
         }
@@ -655,20 +654,27 @@ namespace FAB_CONFIRM
                     try
                     {
                         NetworkCredential nasCredentials = ReadNASCredentialsFromIniFile();
+
+                        // Lấy đường dẫn thư mục NAS đầy đủ từ nasFilePath
+                        string fullNasDirectoryPath = Path.GetDirectoryName(nasFilePath);
+
+                        // KẾT NỐI VỚI ĐƯỜNG DẪN GỐC (nasDirectoryPath) để xác thực
                         using (var connection = new NetworkConnection(nasDirectoryPath, nasCredentials))
                         {
-                            // Đảm bảo thư mục NAS tồn tại
-                            if (!Directory.Exists(nasDirectoryPath))
+                            // Đảm bảo thư mục con EQPID tồn tại trên NAS
+                            if (!Directory.Exists(fullNasDirectoryPath))
                             {
-                                Directory.CreateDirectory(nasDirectoryPath);
+                                // Tự động tạo thư mục con EQPID
+                                Directory.CreateDirectory(fullNasDirectoryPath);
                             }
 
-                            // Kiểm tra quyền ghi NAS
-                            if (!IsDirectoryWritable(nasDirectoryPath))
+                            // Kiểm tra quyền ghi vào thư mục con EQPID
+                            if (!IsDirectoryWritable(fullNasDirectoryPath))
                             {
-                                throw new UnauthorizedAccessException("Không có quyền ghi vào NAS.");
+                                throw new UnauthorizedAccessException($"Không có quyền ghi vào thư mục NAS con: {fullNasDirectoryPath}");
                             }
 
+                            // Ghi file vào đường dẫn đầy đủ (nasFilePath)
                             if (!File.Exists(nasFilePath))
                             {
                                 File.AppendAllText(nasFilePath, headerLine, Encoding.UTF8);
@@ -728,9 +734,9 @@ namespace FAB_CONFIRM
             TxtY2.Text = "";
             TxtX3.Text = "";
             TxtY3.Text = "";
-            LabelTenLoi.Text = ""; 
-            LabelLevel.Text = ""; 
-            LabelPattern.Text = ""; 
+            LabelTenLoi.Text = "";
+            LabelLevel.Text = "";
+            LabelPattern.Text = "";
             LabelMapping.Text = "";
 
             TxtAPN.Focus();
@@ -840,8 +846,8 @@ namespace FAB_CONFIRM
         }
         #endregion
 
-        #region PHƯƠNG THỨC LƯU FILE
-        //PHƯƠNG THỨC LƯU DỮ LIỆU VÀO FILE
+        #region XÁC ĐỊNH VÀ THIẾT LẬP ĐƯỜNG DẪN TỚI FILE LOG
+        //XÁC ĐỊNH VÀ THIẾT LẬP ĐƯỜNG DẪN TỚI FILE LOG
         private void SetFilePath()
         {
             // Lấy múi giờ GMT+7
@@ -880,10 +886,19 @@ namespace FAB_CONFIRM
             string fileName = string.IsNullOrEmpty(eqpid) ? $"FAB_{dateString}_{shift}.csv" : $"FAB_{eqpid}_{dateString}_{shift}.csv";
             filePath = Path.Combine(directoryPath, fileName);
 
-            // Tạo đường dẫn NAS tương tự
-            nasFilePath = Path.Combine(nasDirectoryPath, fileName); // ĐÚNG
+            // --- BẮT ĐẦU CHỈNH SỬA CHO NAS ---
 
-            // Đảm bảo thư mục tồn tại
+            // 1. nasDirectoryPath (readonly) giữ nguyên là đường dẫn gốc (ví dụ: \\NAS_IP\SHARE) - nó đã được gán trong ReadNASCredentialsFromIniFile
+            // 2. Tạo đường dẫn thư mục NAS đầy đủ bao gồm EQPID
+            string nasSubFolder = string.IsNullOrEmpty(eqpid) ? "UNKNOWN_EQP" : eqpid; // Tên thư mục con là EQPID hoặc UNKNOWN_EQP
+            string fullNasDirectoryPath = Path.Combine(nasDirectoryPath, nasSubFolder);
+
+            // 3. nasFilePath là đường dẫn đầy đủ đến file CSV trên NAS
+            nasFilePath = Path.Combine(fullNasDirectoryPath, fileName);
+
+            // --- KẾT THÚC CHỈNH SỬA CHO NAS ---
+
+            // Đảm bảo thư mục cục bộ tồn tại
             try
             {
                 if (!Directory.Exists(directoryPath))
@@ -979,7 +994,7 @@ namespace FAB_CONFIRM
                                        $"NASUSER={defaultNasUser}\n" +
                                        $"NASPASSWORD={defaultNasPassword}\n" +
                                        $"NASDOMAIN={defaultNasDomain}";
-                    File.WriteAllText(filePath, iniContent, Encoding.UTF8);                   
+                    File.WriteAllText(filePath, iniContent, Encoding.UTF8);
                     nasDirectoryPath = defaultNasPath; // Gán mặc định
                     return new NetworkCredential(defaultNasUser, defaultNasPassword, defaultNasDomain);
                 }
@@ -1024,5 +1039,5 @@ namespace FAB_CONFIRM
             }
         }
         #endregion
-    }  
+    }
 }
