@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Runtime.InteropServices;
 using System.Runtime.Remoting.Contexts;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ExplorerBar;
 
 namespace FAB_CONFIRM
 {
@@ -33,6 +37,9 @@ namespace FAB_CONFIRM
         private readonly List<string> defectList;
         private readonly ConfigManager patternConfigManager;
         private readonly ConfigManager defectConfigManager;
+
+        private string nasFilePath; // Không phải readonly, cho phép gán trong SetFilePath
+        private string nasDirectoryPath; // readonly, chỉ gán trong constructor
         #endregion
 
         #region KHỞI TẠO GIAO DIỆN VÀ CHỨC NĂNG
@@ -119,22 +126,22 @@ namespace FAB_CONFIRM
             LabelAuthor.MouseEnter += LabelAuthor_MouseEnter;
             LabelAuthor.MouseLeave += LabelAuthor_MouseLeave;
 
+            // Đảm bảo LabelAuthor luôn ở trên cùng
+            LabelAuthor.BringToFront();
+
             // Khởi tạo và cấu hình Timer cho đồng hồ
             timer = new System.Windows.Forms.Timer
             {
                 Interval = 500 // Cập nhật mỗi giây (500ms)
             };
             timer.Tick += Timer_Tick;
-            timer.Start();
-
-            // Tạo đường dẫn file dựa trên ngày hiện tại
-            SetFilePath();
+            timer.Start();           
 
             // Thêm giới hạn 300 ký tự cho TxtAPN
             TxtAPN.MaxLength = 300;
 
             //gán sự kiện Click cho LabelStatus để mở thư mục chứa file khi click
-            LabelStatus.Click += LabelStatus_Click;
+            RichTextStatus.Click += LabelStatus_Click;
             LabelSoCellDaLuu.Click += LabelSoCellDaLuu_Click;
 
             // Tải số APN duy nhất đã lưu khi khởi động
@@ -152,10 +159,11 @@ namespace FAB_CONFIRM
                 ShowAlways = true    // Hiển thị ngay cả khi mất focus
             };
 
+            toolTip.SetToolTip(RichTextStatus, "BẤM VÀO ĐỂ MỞ THƯ MỤC LƯU FILE");
             toolTip.SetToolTip(LabelSoCellDaLuu, "BẤM VÀO ĐỂ MỞ THƯ MỤC LƯU FILE");
 
             // Cập nhật trạng thái ban đầu
-            UpdateStatus("Sẵn sàng nhập liệu...", System.Drawing.Color.Green);
+            UpdateStatus("Sẵn sàng nhập liệu...\n", System.Drawing.Color.Green);
 
             // Khai báo các danh sách mặc định
             string defaultPatterns = "PATTERN-001,PATTERN-002,PATTERN-003,PATTERN-004,PATTERN-005,PATTERN-006,PATTERN-007,PATTERN-008,PATTERN-009,PATTERN-010,PATTERN-011,PATTERN-012,PATTERN-013,PATTERN-014,PATTERN-015,PATTERN-016,PATTERN-017,PATTERN-018,PATTERN-019,PATTERN-020,PATTERN-021,PATTERN-022,PATTERN-023,PATTERN-024,PATTERN-025,PATTERN-026,PATTERN-027";
@@ -172,7 +180,9 @@ namespace FAB_CONFIRM
             // Đọc danh sách từ các file
             patternList = patternConfigManager.ReadList("PatternNames");
             defectList = defectConfigManager.ReadList("DefectNames");
-
+            var nasCredentials = ReadNASCredentialsFromIniFile(); // Gọi hàm để đọc credentials và tạo file NAS.ini       
+            // Tạo đường dẫn file dựa trên ngày hiện tại
+            SetFilePath();
         }
         #endregion
 
@@ -432,7 +442,7 @@ namespace FAB_CONFIRM
                 if (patternForm.ShowDialog() == DialogResult.OK)
                 {
                     LabelPattern.Text = patternForm.SelectedPattern;
-                    UpdateStatus("Đã chọn Pattern.", System.Drawing.Color.Blue);
+                    UpdateStatus("Đã chọn Pattern.\n", System.Drawing.Color.Blue);
                 }
             }
         }
@@ -448,7 +458,7 @@ namespace FAB_CONFIRM
                 if (defectForm.ShowDialog() == DialogResult.OK)
                 {
                     LabelTenLoi.Text = defectForm.SelectedDefect;
-                    UpdateStatus("Đã chọn tên lỗi.", System.Drawing.Color.Blue);
+                    UpdateStatus("Đã chọn tên lỗi.\n", System.Drawing.Color.Blue);
                 }
             }
         }
@@ -462,7 +472,7 @@ namespace FAB_CONFIRM
                 if (levelForm.ShowDialog() == DialogResult.OK)
                 {
                     LabelLevel.Text = levelForm.SelectedLevel;
-                    UpdateStatus("Đã chọn Level.", System.Drawing.Color.Blue);
+                    UpdateStatus("Đã chọn Level.\n", System.Drawing.Color.Blue);
                 }
             }
         }
@@ -474,18 +484,18 @@ namespace FAB_CONFIRM
                 if (LabelLevel.Text.EndsWith("^DK"))
                 {
                     LabelLevel.Text = LabelLevel.Text.Replace("^DK", ""); // Hủy nếu đã có ^DK
-                    UpdateStatus("Đã hủy phân loại Level tối (DK).", System.Drawing.Color.Blue);
+                    UpdateStatus("Đã hủy phân loại Level tối (DK).\n", System.Drawing.Color.Blue);
                 }
                 else if (!LabelLevel.Text.Contains("^"))
                 {
                     LabelLevel.Text += "^DK"; // Ghép ^DK nếu chưa có hậu tố
-                    UpdateStatus("Đã chọn Level tối (DK).", System.Drawing.Color.Blue);
+                    UpdateStatus("Đã chọn Level tối (DK).\n", System.Drawing.Color.Blue);
                 }
                 // Nếu đã có ^BR, thay bằng ^DK
                 else if (LabelLevel.Text.EndsWith("^BR"))
                 {
                     LabelLevel.Text = LabelLevel.Text.Replace("^BR", "^DK");
-                    UpdateStatus("Đã thay bằng Level tối (DK).", System.Drawing.Color.Blue);
+                    UpdateStatus("Đã thay bằng Level tối (DK).\n", System.Drawing.Color.Blue);
                 }
             }
         }
@@ -498,18 +508,18 @@ namespace FAB_CONFIRM
                 if (LabelLevel.Text.EndsWith("^BR"))
                 {
                     LabelLevel.Text = LabelLevel.Text.Replace("^BR", ""); // Hủy nếu đã có ^BR
-                    UpdateStatus("Đã hủy phân loại Level sáng (BR).", System.Drawing.Color.Blue);
+                    UpdateStatus("Đã hủy phân loại Level sáng (BR).\n", System.Drawing.Color.Blue);
                 }
                 else if (!LabelLevel.Text.Contains("^"))
                 {
                     LabelLevel.Text += "^BR"; // Ghép ^BR nếu chưa có hậu tố
-                    UpdateStatus("Đã chọn Level sáng (BR).", System.Drawing.Color.Blue);
+                    UpdateStatus("Đã chọn Level sáng (BR).\n", System.Drawing.Color.Blue);
                 }
                 // Nếu đã có ^DK, thay bằng ^BR
                 else if (LabelLevel.Text.EndsWith("^DK"))
                 {
                     LabelLevel.Text = LabelLevel.Text.Replace("^DK", "^BR");
-                    UpdateStatus("Đã thay bằng Level sáng (BR).", System.Drawing.Color.Blue);
+                    UpdateStatus("Đã thay bằng Level sáng (BR).\n", System.Drawing.Color.Blue);
                 }
             }
         }
@@ -523,40 +533,35 @@ namespace FAB_CONFIRM
                 if (mappingForm.ShowDialog() == DialogResult.OK)
                 {
                     LabelMapping.Text = mappingForm.SelectedMapping;
-                    UpdateStatus("Đã chọn Mapping.", System.Drawing.Color.Blue);
+                    UpdateStatus("Đã chọn Mapping.\n", System.Drawing.Color.Blue);
                 }
             }
         }
 
-        private void BtnXacNhan_Click(object sender, EventArgs e)
+        private async void BtnXacNhan_Click(object sender, EventArgs e)
         {
             // Cập nhật lại filePath trước khi lưu để đảm bảo đúng ca
             SetFilePath();
-            //Hiệu ứng nút nhấn
+            // Hiệu ứng nút nhấn
             ApplyButtonClickEffectWithOriginalColor(BtnXacNhan, BtnXacNhan.BackColor);
-            // Kiểm tra các trường bắt buộc
+            // Kiểm tra các trường bắt buộc (xem ô APN đã có dữ liệu hay chưa có)
             if (string.IsNullOrWhiteSpace(TxtAPN.Text))
             {
                 toolTip.Show("Vui lòng nhập APN", TxtAPN, 0, TxtAPN.Height, 3500); // Hiển thị tooltip 3 giây
                 return;
             }
+            //Kiểm tra ô nhập tọa độ X1 xem có dữ liệu chưa
             if (string.IsNullOrWhiteSpace(TxtX1.Text))
             {
                 toolTip.Show("Vui lòng nhập tọa độ", TxtX1, 0, TxtX1.Height, 3500); // Hiển thị tooltip 3 giây
                 return;
             }
+            //Kiểm tra ô nhập tọa độ Y1 xem có dữ liệu chưa
             if (string.IsNullOrWhiteSpace(TxtY1.Text))
             {
                 toolTip.Show("Vui lòng nhập tọa độ", TxtY1, 0, TxtY1.Height, 3500); // Hiển thị tooltip 3 giây
                 return;
             }
-            //Kiểm tra tên lỗi
-            //if (string.IsNullOrWhiteSpace(LabelTenLoi.Text))
-            //{
-            //    toolTip.Show("Vui lòng chọn TÊN LỖI", LabelTenLoi, 0, LabelTenLoi.Height, 3500); // Hiển thị tooltip 3 giây
-            //    isValidationFailed = true;
-            //    return;
-            //}
 
             string apn = TxtAPN.Text;
             string x1 = TxtX1.Text;
@@ -565,12 +570,13 @@ namespace FAB_CONFIRM
             string y2 = TxtY2.Text;
             string x3 = TxtX3.Text;
             string y3 = TxtY3.Text;
-            string tenLoi = LabelTenLoi.Text; // Thay TxtTenLoi bằng LabelTenLoi
-            string level = LabelLevel.Text; // Thay LabelLevel bằng LabelLevel
-            string pattern = LabelPattern.Text; // Thay TxtPattern bằng LabelPattern
-            string mapping = LabelMapping.Text; // Thay TxtMapping bằng LabelMapping
-                                                //Kiểm tra các phần xem đã nhập dữ liệu chưa mới lưu
-            if (string.IsNullOrEmpty(apn) || string.IsNullOrEmpty(x1) || string.IsNullOrEmpty(y1)) //|| string.IsNullOrEmpty(tenLoi) || string.IsNullOrEmpty(level) || string.IsNullOrEmpty(pattern) || string.IsNullOrEmpty(mapping))
+            string tenLoi = LabelTenLoi.Text;
+            string level = LabelLevel.Text;
+            string pattern = LabelPattern.Text;
+            string mapping = LabelMapping.Text;
+
+            // Kiểm tra các phần xem đã nhập dữ liệu chưa mới lưu
+            if (string.IsNullOrEmpty(apn) || string.IsNullOrEmpty(x1) || string.IsNullOrEmpty(y1))
             {
                 UpdateStatus("Vui lòng nhập đầy đủ dữ liệu bắt buộc!", System.Drawing.Color.Red);
                 return;
@@ -578,19 +584,20 @@ namespace FAB_CONFIRM
 
             try
             {
-                // Đảm bảo thư mục tồn tại
+                // Đảm bảo thư mục cục bộ tồn tại
                 string directoryPath = Path.GetDirectoryName(filePath);
                 if (!Directory.Exists(directoryPath))
                 {
                     Directory.CreateDirectory(directoryPath);
                 }
 
-                // Kiểm tra quyền ghi
+                // Kiểm tra quyền ghi cục bộ
                 if (!IsDirectoryWritable(directoryPath))
                 {
-                    UpdateStatus($"Không có quyền ghi vào thư mục: {directoryPath}", System.Drawing.Color.Red);
+                    UpdateStatus($"Không có quyền ghi vào thư mục cục bộ: {directoryPath}", System.Drawing.Color.Red);
                     return;
                 }
+
                 // Bao bọc pattern và mapping bằng ngoặc kép nếu chứa dấu phẩy
                 string formattedPattern = pattern.Contains(",") ? $"\"{pattern}\"" : pattern;
                 string escapedMapping = mapping.Contains(",") ? $"\"{mapping}\"" : mapping;
@@ -603,20 +610,20 @@ namespace FAB_CONFIRM
                 // Tạo dòng dữ liệu với phân cách bằng dấu phẩy
                 string dataLine = $"{apn},{coordX1Y1},{coordX2Y2},{coordX3Y3},{tenLoi},{formattedPattern},{level},{escapedMapping},{DateTime.Now:yyyy-MM-dd HH:mm:ss}\n";
 
-                // Kiểm tra nếu file chưa tồn tại thì ghi thêm dòng tiêu đề
+                // Khai báo headerLine ở đây để cả cục bộ và NAS dùng chung
+                string headerLine = "APN,\"X1,Y1\",\"X2,Y2\",\"X3,Y3\",TEN_LOI,PATTERN,LEVEL,MAPPING,THOI_GIAN\n";
+
+                // Lưu vào file cục bộ NGAY LẬP TỨC (không chờ NAS)
                 if (!File.Exists(filePath))
                 {
-                    string headerLine = "APN,\"X1,Y1\",\"X2,Y2\",\"X3,Y3\",TEN_LOI,PATTERN,LEVEL,MAPPING,THOI_GIAN\n";
                     File.AppendAllText(filePath, headerLine, Encoding.UTF8);
                 }
-
-                // Lưu dữ liệu vào file với định dạng UTF-8
                 File.AppendAllText(filePath, dataLine, Encoding.UTF8);
 
+                // Cập nhật count và labels (luôn tiếp tục dù NAS thất bại)
                 savedCellCount++;
                 LabelCount.Text = savedCellCount.ToString();
                 LabelTime.Text = DateTime.Now.ToString("HH:mm:ss\ndd/MM/yyyy");
-                UpdateStatus($"Lưu thành công !\nDữ liệu đã được ghi lại: {DateTime.Now:dd/MM/yyyy HH:mm:ss}\nVị trí lưu: {filePath}", System.Drawing.Color.ForestGreen);
 
                 // Xóa dữ liệu các trường sau khi lưu thành công
                 TxtAPN.Text = "";
@@ -626,32 +633,91 @@ namespace FAB_CONFIRM
                 TxtY2.Text = "";
                 TxtX3.Text = "";
                 TxtY3.Text = "";
-                LabelTenLoi.Text = ""; // Thay TxtTenLoi bằng LabelTenLoi
-                LabelLevel.Text = ""; // Thay LabelLevel bằng LabelLevel
-                LabelPattern.Text = ""; // Thay TxtPattern bằng LabelPattern
-                LabelMapping.Text = ""; // Thay TxtMapping bằng LabelMapping
+                LabelTenLoi.Text = "";
+                LabelLevel.Text = "";
+                LabelPattern.Text = "";
+                LabelMapping.Text = "";
                 TxtAPN.Focus();
                 // Cập nhật lại số APN duy nhất sau khi lưu
                 LoadSavedCount();
+
+                // Cập nhật status ban đầu (chỉ cục bộ)
+                RichTextStatus.Clear();
+                UpdateStatus($"Lưu thành công!\n", System.Drawing.ColorTranslator.FromHtml("#008B00"));
+                UpdateStatus($"Dữ liệu đã được ghi lại gần đây nhất: {DateTime.Now:dd/MM/yyyy HH:mm:ss}\n", System.Drawing.Color.ForestGreen);
+                UpdateStatus($"Vị trí lưu: {filePath}\n", System.Drawing.ColorTranslator.FromHtml("#007F54"));
+
+                // Chạy lưu NAS async (background) để không block UI
+                await Task.Run(() =>
+                {
+                    bool nasSaved = true;
+                    string nasError = null;
+                    try
+                    {
+                        NetworkCredential nasCredentials = ReadNASCredentialsFromIniFile();
+                        using (var connection = new NetworkConnection(nasDirectoryPath, nasCredentials))
+                        {
+                            // Đảm bảo thư mục NAS tồn tại
+                            if (!Directory.Exists(nasDirectoryPath))
+                            {
+                                Directory.CreateDirectory(nasDirectoryPath);
+                            }
+
+                            // Kiểm tra quyền ghi NAS
+                            if (!IsDirectoryWritable(nasDirectoryPath))
+                            {
+                                throw new UnauthorizedAccessException("Không có quyền ghi vào NAS.");
+                            }
+
+                            if (!File.Exists(nasFilePath))
+                            {
+                                File.AppendAllText(nasFilePath, headerLine, Encoding.UTF8);
+                            }
+                            File.AppendAllText(nasFilePath, dataLine, Encoding.UTF8);
+                        }
+                    }
+                    catch (Win32Exception winEx)
+                    {
+                        nasSaved = false;
+                        nasError = $"Lỗi {winEx.NativeErrorCode}: {winEx.Message}";
+                    }
+                    catch (Exception ex)
+                    {
+                        nasSaved = false;
+                        nasError = ex.Message;
+                    }
+
+                    // Update UI sau khi NAS hoàn thành (dùng Invoke để an toàn)
+                    this.Invoke(new Action(() =>
+                    {
+                        if (nasSaved)
+                        {
+                            UpdateStatus($"NAS Server: {nasFilePath}\n", System.Drawing.ColorTranslator.FromHtml("#008B00"));
+                        }
+                        else
+                        {
+                            UpdateStatus($"Lưu vào server thất bại: {nasError}\n", System.Drawing.Color.Chocolate);
+                        }
+                    }));
+                });
             }
             catch (UnauthorizedAccessException ex)
             {
-                UpdateStatus($"Lỗi quyền truy cập: {ex.Message}", System.Drawing.Color.Red);
+                UpdateStatus($"Lỗi quyền truy cập: {ex.Message}\n", System.Drawing.Color.Red);
             }
             catch (DirectoryNotFoundException ex)
             {
-                UpdateStatus($"Đường dẫn không hợp lệ: {ex.Message}", System.Drawing.Color.Red);
+                UpdateStatus($"Đường dẫn không hợp lệ: {ex.Message}\n", System.Drawing.Color.Red);
             }
             catch (IOException ex)
             {
-                UpdateStatus($"Lỗi I/O khi lưu file: {ex.Message}", System.Drawing.Color.Red);
+                UpdateStatus($"Lỗi I/O khi lưu file: {ex.Message} \n", System.Drawing.Color.Red);
             }
             catch (Exception ex)
             {
-                UpdateStatus($"Lỗi không xác định: {ex.Message}", System.Drawing.Color.Red);
+                UpdateStatus($"Lỗi không xác định: {ex.Message} \n", System.Drawing.Color.Red);
             }
         }
-
         private void BtnReset_Click(object sender, EventArgs e)
         {
             ApplyButtonClickEffectWithOriginalColor(BtnReset, BtnReset.BackColor);
@@ -662,38 +728,56 @@ namespace FAB_CONFIRM
             TxtY2.Text = "";
             TxtX3.Text = "";
             TxtY3.Text = "";
-            LabelTenLoi.Text = ""; // Thay TxtTenLoi bằng LabelTenLoi
-            LabelLevel.Text = ""; // Thay LabelLevel bằng LabelLevel
-            LabelPattern.Text = ""; // Thay TxtPattern bằng LabelPattern
-            LabelMapping.Text = ""; // Thay TxtMapping bằng LabelMapping
+            LabelTenLoi.Text = ""; 
+            LabelLevel.Text = ""; 
+            LabelPattern.Text = ""; 
+            LabelMapping.Text = "";
 
             TxtAPN.Focus();
-            UpdateStatus("Giao diện UI đã khởi tạo lại.", System.Drawing.Color.Teal);
+            UpdateStatus("Giao diện UI đã khởi tạo lại.\n", System.Drawing.Color.MediumVioletRed);
         }
         #endregion
 
         #region CẬP NHẬT TRẠNG THÁI
-        private void UpdateStatus(string message, System.Drawing.Color? color = null)
+        private void UpdateStatus(string message, System.Drawing.Color? color = null, bool clearPrevious = false)
         {
-            LabelStatus.Text = message;
-            if (color.HasValue)
+            if (RichTextStatus.InvokeRequired)
             {
-                LabelStatus.ForeColor = color.Value;
-            }
-            else
-            {
-                LabelStatus.ForeColor = System.Drawing.Color.Black;
+                RichTextStatus.Invoke(new Action(() => UpdateStatus(message, color, clearPrevious)));
+                return;
             }
 
-            // Kích hoạt tooltip khi lưu thành công (màu xanh lá)
-            if (color == System.Drawing.Color.Green)
+            // Xóa nội dung cũ nếu clearPrevious = true
+            if (clearPrevious)
             {
-                toolTip.SetToolTip(LabelStatus, "BẤM VÀO ĐỂ MỞ THƯ MỤC");
+                RichTextStatus.Clear();
+            }
+
+            // Thêm dấu phân tách nếu không rỗng và không phải thông báo đầu tiên
+            if (!string.IsNullOrEmpty(RichTextStatus.Text) && !message.EndsWith("\n"))
+            {
+                RichTextStatus.AppendText("\n----\n"); // Thêm xuống dòng để tách biệt
+            }
+
+            RichTextStatus.SelectionStart = RichTextStatus.TextLength;
+            RichTextStatus.SelectionLength = 0;
+            RichTextStatus.SelectionColor = color ?? System.Drawing.Color.Black;
+            RichTextStatus.AppendText(message);
+
+            // Bỏ phần giới hạn số dòng
+            // Kích hoạt tooltip khi lưu thành công (màu xanh lá)
+            if (color == System.Drawing.Color.ForestGreen)
+            {
+                toolTip.SetToolTip(RichTextStatus, "BẤM VÀO ĐỂ MỞ THƯ MỤC LƯU FILE LOG");
             }
             else
             {
-                toolTip.SetToolTip(LabelStatus, "");
+                toolTip.SetToolTip(RichTextStatus, "");
             }
+
+            // Tự động cuộn xuống cuối để hiển thị thông báo mới nhất
+            RichTextStatus.SelectionStart = RichTextStatus.TextLength;
+            RichTextStatus.ScrollToCaret();
         }
         private void LoadSavedCount()
         {
@@ -795,6 +879,10 @@ namespace FAB_CONFIRM
             // Tạo tên file với EQPID (nếu có)
             string fileName = string.IsNullOrEmpty(eqpid) ? $"FAB_{dateString}_{shift}.csv" : $"FAB_{eqpid}_{dateString}_{shift}.csv";
             filePath = Path.Combine(directoryPath, fileName);
+
+            // Tạo đường dẫn NAS tương tự
+            nasFilePath = Path.Combine(nasDirectoryPath, fileName); // ĐÚNG
+
             // Đảm bảo thư mục tồn tại
             try
             {
@@ -852,6 +940,89 @@ namespace FAB_CONFIRM
             }
             return "";
         }
+
+        /// <summary>
+        /// Đọc giá trị NASPATH, NASUSER, NASPASSWORD, NASDOMAIN từ section [NAS SERVER] trong file NAS.ini, tạo file nếu chưa tồn tại
+        /// </summary>
+        /// <returns>NetworkCredential chứa thông tin xác thực NAS</returns>
+        private NetworkCredential ReadNASCredentialsFromIniFile()
+        {
+            string filePath = @"C:\FAB_CONFIRM\Config\NAS.ini";
+            string defaultNasPath = @"\\107.126.41.111\FAB_CONFIRM";
+            string defaultNasUser = "admin";
+            string defaultNasPassword = "insp2019@";
+            string defaultNasDomain = "";
+
+            try
+            {
+                // Đảm bảo thư mục tồn tại
+                string directoryPath = Path.GetDirectoryName(filePath);
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath); // Tạo thư mục nếu chưa tồn tại
+                    UpdateStatus($"Đã tạo thư mục {directoryPath}", System.Drawing.Color.Blue);
+                }
+
+                // Kiểm tra quyền ghi vào thư mục
+                if (!IsDirectoryWritable(directoryPath))
+                {
+                    UpdateStatus($"Không có quyền ghi vào thư mục {directoryPath} để tạo NAS.ini", System.Drawing.Color.Red);
+                    nasDirectoryPath = defaultNasPath; // Gán mặc định để tránh null
+                    return new NetworkCredential(defaultNasUser, defaultNasPassword, defaultNasDomain);
+                }
+
+                // Nếu file chưa tồn tại, tạo file với định dạng INI
+                if (!File.Exists(filePath))
+                {
+                    string iniContent = "[NAS SERVER]\n" +
+                                       $"NASPATH={defaultNasPath}\n" +
+                                       $"NASUSER={defaultNasUser}\n" +
+                                       $"NASPASSWORD={defaultNasPassword}\n" +
+                                       $"NASDOMAIN={defaultNasDomain}";
+                    File.WriteAllText(filePath, iniContent, Encoding.UTF8);                   
+                    nasDirectoryPath = defaultNasPath; // Gán mặc định
+                    return new NetworkCredential(defaultNasUser, defaultNasPassword, defaultNasDomain);
+                }
+
+                // Đọc file
+                string[] lines = File.ReadAllLines(filePath);
+                string nasPath = defaultNasPath;
+                string nasUser = defaultNasUser;
+                string nasPassword = defaultNasPassword;
+                string nasDomain = defaultNasDomain;
+                bool inNasServerSection = false;
+
+                foreach (string line in lines)
+                {
+                    string trimmedLine = line.Trim();
+                    if (trimmedLine.Equals("[NAS SERVER]"))
+                    {
+                        inNasServerSection = true;
+                        continue;
+                    }
+                    if (inNasServerSection)
+                    {
+                        if (trimmedLine.StartsWith("NASPATH="))
+                            nasPath = trimmedLine.Substring("NASPATH=".Length);
+                        else if (trimmedLine.StartsWith("NASUSER="))
+                            nasUser = trimmedLine.Substring("NASUSER=".Length);
+                        else if (trimmedLine.StartsWith("NASPASSWORD="))
+                            nasPassword = trimmedLine.Substring("NASPASSWORD=".Length);
+                        else if (trimmedLine.StartsWith("NASDOMAIN="))
+                            nasDomain = trimmedLine.Substring("NASDOMAIN=".Length);
+                    }
+                }
+
+                nasDirectoryPath = nasPath; // Gán nasDirectoryPath
+                return new NetworkCredential(nasUser, nasPassword, nasDomain);
+            }
+            catch (Exception ex)
+            {
+                UpdateStatus($"Lỗi khi đọc/tạo file NAS.ini: {ex.Message}", System.Drawing.Color.Red);
+                nasDirectoryPath = defaultNasPath; // Gán mặc định để tránh null
+                return new NetworkCredential(defaultNasUser, defaultNasPassword, defaultNasDomain);
+            }
+        }
         #endregion
-    }
+    }  
 }

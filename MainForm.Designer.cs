@@ -44,7 +44,6 @@ namespace FAB_CONFIRM
         private System.Windows.Forms.Button BtnReset;
         private System.Windows.Forms.Label LabelSoCellDaLuu;
         private System.Windows.Forms.Label LabelDaLuuVao;
-        private System.Windows.Forms.Label LabelStatus;
         private System.Windows.Forms.Label LabelCount;
         private System.Windows.Forms.Button BtnDK;
         private System.Windows.Forms.Button BtnBR;
@@ -52,6 +51,7 @@ namespace FAB_CONFIRM
         private System.Windows.Forms.Label LabelTime;
         private System.Windows.Forms.Label LabelDate;
         private System.Windows.Forms.PictureBox pictureBox;
+        private System.Windows.Forms.RichTextBox RichTextStatus;
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -106,13 +106,13 @@ namespace FAB_CONFIRM
             this.LabelSoCellDaLuu = new System.Windows.Forms.Label();
             this.LabelCount = new System.Windows.Forms.Label();
             this.LabelDaLuuVao = new System.Windows.Forms.Label();
-            this.LabelStatus = new System.Windows.Forms.Label();
             this.LabelTime = new System.Windows.Forms.Label();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.BtnDK = new System.Windows.Forms.Button();
             this.BtnBR = new System.Windows.Forms.Button();
             this.LabelAuthor = new System.Windows.Forms.Label();
             this.LabelDate = new System.Windows.Forms.Label();
+            this.RichTextStatus = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -545,16 +545,6 @@ namespace FAB_CONFIRM
             this.LabelDaLuuVao.Size = new System.Drawing.Size(448, 20);
             this.LabelDaLuuVao.TabIndex = 2;
             // 
-            // LabelStatus
-            // 
-            this.LabelStatus.AutoSize = true;
-            this.LabelStatus.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LabelStatus.Location = new System.Drawing.Point(16, 521);
-            this.LabelStatus.Name = "LabelStatus";
-            this.LabelStatus.Size = new System.Drawing.Size(60, 15);
-            this.LabelStatus.TabIndex = 0;
-            this.LabelStatus.Text = "Trạng thái";
-            // 
             // LabelTime
             // 
             this.LabelTime.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -563,7 +553,7 @@ namespace FAB_CONFIRM
             this.LabelTime.AutoSize = true;
             this.LabelTime.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LabelTime.ForeColor = System.Drawing.Color.Red;
-            this.LabelTime.Location = new System.Drawing.Point(545, 480);
+            this.LabelTime.Location = new System.Drawing.Point(547, 465);
             this.LabelTime.Name = "LabelTime";
             this.LabelTime.Size = new System.Drawing.Size(0, 17);
             this.LabelTime.TabIndex = 1;
@@ -605,11 +595,12 @@ namespace FAB_CONFIRM
             // LabelAuthor
             // 
             this.LabelAuthor.AutoSize = true;
-            this.LabelAuthor.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelAuthor.BackColor = System.Drawing.Color.Transparent;
+            this.LabelAuthor.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LabelAuthor.ForeColor = System.Drawing.Color.Silver;
-            this.LabelAuthor.Location = new System.Drawing.Point(593, 552);
+            this.LabelAuthor.Location = new System.Drawing.Point(598, 580);
             this.LabelAuthor.Name = "LabelAuthor";
-            this.LabelAuthor.Size = new System.Drawing.Size(103, 15);
+            this.LabelAuthor.Size = new System.Drawing.Size(97, 13);
             this.LabelAuthor.TabIndex = 45;
             this.LabelAuthor.Text = "©Nông Văn Phấn";
             // 
@@ -621,21 +612,36 @@ namespace FAB_CONFIRM
             this.LabelDate.AutoSize = true;
             this.LabelDate.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LabelDate.ForeColor = System.Drawing.Color.Red;
-            this.LabelDate.Location = new System.Drawing.Point(536, 505);
+            this.LabelDate.Location = new System.Drawing.Point(538, 490);
             this.LabelDate.Name = "LabelDate";
             this.LabelDate.Size = new System.Drawing.Size(0, 17);
             this.LabelDate.TabIndex = 46;
             this.LabelDate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // RichTextStatus
+            // 
+            this.RichTextStatus.AccessibleDescription = "";
+            this.RichTextStatus.BackColor = System.Drawing.SystemColors.Control;
+            this.RichTextStatus.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.RichTextStatus.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.RichTextStatus.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RichTextStatus.ForeColor = System.Drawing.Color.CadetBlue;
+            this.RichTextStatus.Location = new System.Drawing.Point(32, 516);
+            this.RichTextStatus.Name = "RichTextStatus";
+            this.RichTextStatus.Size = new System.Drawing.Size(566, 91);
+            this.RichTextStatus.TabIndex = 47;
+            this.RichTextStatus.Text = "";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(700, 571);
+            this.ClientSize = new System.Drawing.Size(699, 601);
+            this.Controls.Add(this.LabelAuthor);
+            this.Controls.Add(this.RichTextStatus);
             this.Controls.Add(this.LabelDate);
             this.Controls.Add(this.pictureBox);
-            this.Controls.Add(this.LabelStatus);
             this.Controls.Add(this.LabelTime);
             this.Controls.Add(this.LabelDaLuuVao);
             this.Controls.Add(this.LabelCount);
@@ -678,7 +684,7 @@ namespace FAB_CONFIRM
             this.Controls.Add(this.LabelX1);
             this.Controls.Add(this.TxtAPN);
             this.Controls.Add(this.LabelAPN);
-            this.Controls.Add(this.LabelAuthor);
+            this.Cursor = System.Windows.Forms.Cursors.Default;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -691,5 +697,6 @@ namespace FAB_CONFIRM
 
         }
         #endregion
+
     }
 }

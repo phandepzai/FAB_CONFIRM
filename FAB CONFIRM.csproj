@@ -71,6 +71,7 @@
     <Compile Include="MappingForm.Designer.cs">
       <DependentUpon>MappingForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="NetworkConnection.cs" />
     <Compile Include="PatternForm.cs">
       <SubType>Form</SubType>
     </Compile>

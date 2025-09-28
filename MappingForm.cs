@@ -17,7 +17,7 @@ namespace FAB_CONFIRM
             { "C1", "C2", "D1", "D2" },
             { "C3", "C4", "D3", "D4" }
         };
-        private Image iphoneImage;
+        private readonly Image iphoneImage;
         private Point lastClickPosition = Point.Empty; // Lưu tọa độ click cuối cùng
 
         public MappingForm()
@@ -61,27 +61,28 @@ namespace FAB_CONFIRM
         private void PictureBoxScreen_MouseClick(object sender, MouseEventArgs e)
         {
             // Kích thước màn hình iPhone: 72mm x 154mm
-            const float screenWidthMm = 72f;
-            const float screenHeightMm = 154f;
+            const float screenWidthMm = 72f;  // Chiều rộng (Y: trái sang phải)
+            const float screenHeightMm = 154f; // Chiều cao (X: dưới lên trên)
 
-            // Kích thước PictureBox: 227x480 pixels (điều chỉnh để giữ tỷ lệ)
-            int cellWidth = pictureBoxScreen.Width / 4; // 227 / 4 ≈ 56 pixels
+            // Kích thước PictureBox: 227x480 pixels
+            int cellWidth = pictureBoxScreen.Width / 4;  // 227 / 4 ≈ 56 pixels
             int cellHeight = pictureBoxScreen.Height / 4; // 480 / 4 = 120 pixels
 
             // Xác định chỉ số cột và hàng dựa trên tọa độ click
-            int col = e.X / cellWidth; // Cột: 0, 1, 2, 3
-            int row = e.Y / cellHeight; // Hàng: 0, 1, 2, 3
+            int col = e.X / cellWidth;  // Cột: 0, 1, 2, 3 (liên quan đến Y)
+            int row = e.Y / cellHeight; // Hàng: 0, 1, 2, 3 (liên quan đến X)
 
             // Đảm bảo chỉ số nằm trong giới hạn
             if (col >= 0 && col < 4 && row >= 0 && row < 4)
             {
                 // Lưu tọa độ click (pixel) để vẽ dấu chấm
                 lastClickPosition = e.Location;
+
                 // Tính tọa độ (X, Y) trong milimet với gốc ở góc trái bên dưới
-                float pixelsPerMmX = pictureBoxScreen.Width / screenWidthMm;  // 227 / 72 ≈ 3.154 pixels/mm
-                float pixelsPerMmY = pictureBoxScreen.Height / screenHeightMm; // 480 / 154 ≈ 3.158 pixels/mm
-                float xMm = e.X / pixelsPerMmX; // Tọa độ X: 0-72mm (trái sang phải)
-                float yMm = (pictureBoxScreen.Height - e.Y) / pixelsPerMmY; // Tọa độ Y: 0-154mm (dưới lên trên)
+                float pixelsPerMmX = pictureBoxScreen.Height / screenHeightMm; // 480 / 154 ≈ 3.158 pixels/mm (cho X: dưới lên)
+                float pixelsPerMmY = pictureBoxScreen.Width / screenWidthMm;   // 227 / 72 ≈ 3.154 pixels/mm (cho Y: trái sang)
+                float xMm = (pictureBoxScreen.Height - e.Y) / pixelsPerMmX;   // X: 0-154mm (dưới lên trên)
+                float yMm = e.X / pixelsPerMmY;                              // Y: 0-72mm (trái sang phải)
 
                 // Làm tròn tọa độ đến số nguyên
                 int xRounded = (int)Math.Round(xMm);
@@ -108,7 +109,7 @@ namespace FAB_CONFIRM
             }
         }
 
-        private void pictureBoxScreen_Paint(object sender, PaintEventArgs e)
+        private void PictureBoxScreen_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;

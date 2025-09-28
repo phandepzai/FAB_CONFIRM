@@ -23,7 +23,7 @@
             this.pictureBoxScreen.Size = new System.Drawing.Size(272, 484);
             this.pictureBoxScreen.TabIndex = 1;
             this.pictureBoxScreen.TabStop = false;
-            this.pictureBoxScreen.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBoxScreen_Paint);
+            this.pictureBoxScreen.Paint += new System.Windows.Forms.PaintEventHandler(this.PictureBoxScreen_Paint);
             this.pictureBoxScreen.MouseClick += new System.Windows.Forms.MouseEventHandler(this.PictureBoxScreen_MouseClick);
             this.pictureBoxScreen.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PictureBoxScreen_MouseDown);
             // 
