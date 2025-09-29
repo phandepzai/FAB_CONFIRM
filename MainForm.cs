@@ -649,62 +649,74 @@ namespace FAB_CONFIRM
                 // Chạy lưu NAS async (background) để không block UI
                 await Task.Run(() =>
                 {
-                    bool nasSaved = true;
+                    var nasCredentialsList = new List<(string nasPath, NetworkCredential credentials)>
+                    {
+                        // Thêm các bộ dữ liệu cho mỗi máy chủ NAS mà bạn muốn thử.                      
+                        (@"\\107.126.41.111\FAB_CONFIRM", new NetworkCredential("admin", "insp2019@", "")),
+                        (@"\\107.126.31.111\FAB_CONFIRM", new NetworkCredential("admin", "insp2019@", "")),
+                        (@"\\107.126.51.111\FAB_CONFIRM", new NetworkCredential("admin", "insp2019@", ""))
+                    };
+                    bool nasSaved = false;
                     string nasError = null;
-                    try
+
+
+                    foreach ((string nasPath, NetworkCredential credentials) in nasCredentialsList)
                     {
-                        NetworkCredential nasCredentials = ReadNASCredentialsFromIniFile();
-
-                        // Lấy đường dẫn thư mục NAS đầy đủ từ nasFilePath
-                        string fullNasDirectoryPath = Path.GetDirectoryName(nasFilePath);
-
-                        // KẾT NỐI VỚI ĐƯỜNG DẪN GỐC (nasDirectoryPath) để xác thực
-                        using (var connection = new NetworkConnection(nasDirectoryPath, nasCredentials))
+                        try
                         {
-                            // Đảm bảo thư mục con EQPID tồn tại trên NAS
-                            if (!Directory.Exists(fullNasDirectoryPath))
-                            {
-                                // Tự động tạo thư mục con EQPID
-                                Directory.CreateDirectory(fullNasDirectoryPath);
-                            }
+                            // Cập nhật nasFilePath cho từng NAS
+                            string nasSubFolder = string.IsNullOrEmpty(ReadEQPIDFromIniFile()) ? "UNKNOWN_EQP" : ReadEQPIDFromIniFile();
+                            string fullNasDirectoryPath = Path.Combine(nasPath, nasSubFolder);
+                            string fileName = string.IsNullOrEmpty(ReadEQPIDFromIniFile()) ? $"FAB_{DateTime.Now:yyyyMMdd}_NIGHT.csv" : $"FAB_{ReadEQPIDFromIniFile()}_{DateTime.Now:yyyyMMdd}_NIGHT.csv"; // Điều chỉnh tên file theo logic của bạn
+                            string currentNasFilePath = Path.Combine(fullNasDirectoryPath, fileName);
 
-                            // Kiểm tra quyền ghi vào thư mục con EQPID
-                            if (!IsDirectoryWritable(fullNasDirectoryPath))
+                            using (var connection = new NetworkConnection(nasPath, credentials))
                             {
-                                throw new UnauthorizedAccessException($"Không có quyền ghi vào thư mục NAS con: {fullNasDirectoryPath}");
-                            }
+                                // Đảm bảo thư mục con EQPID tồn tại trên NAS
+                                if (!Directory.Exists(fullNasDirectoryPath))
+                                {
+                                    Directory.CreateDirectory(fullNasDirectoryPath);
+                                }
 
-                            // Ghi file vào đường dẫn đầy đủ (nasFilePath)
-                            if (!File.Exists(nasFilePath))
-                            {
-                                File.AppendAllText(nasFilePath, headerLine, Encoding.UTF8);
+                                // Kiểm tra quyền ghi vào thư mục con EQPID
+                                if (!IsDirectoryWritable(fullNasDirectoryPath))
+                                {
+                                    throw new UnauthorizedAccessException($"Không có quyền ghi vào thư mục NAS con: {fullNasDirectoryPath}");
+                                }
+
+                                // Ghi file vào đường dẫn đầy đủ
+                                if (!File.Exists(currentNasFilePath))
+                                {
+                                    File.AppendAllText(currentNasFilePath, headerLine, Encoding.UTF8);
+                                }
+                                File.AppendAllText(currentNasFilePath, dataLine, Encoding.UTF8);
+
+                                nasSaved = true;
+                                this.Invoke(new Action(() =>
+                                {
+                                    UpdateStatus($"NAS Server: {currentNasFilePath}\n", System.Drawing.ColorTranslator.FromHtml("#008B00"));
+                                }));
+                                break; // Thoát vòng lặp khi lưu thành công
                             }
-                            File.AppendAllText(nasFilePath, dataLine, Encoding.UTF8);
+                        }
+                        catch (Win32Exception winEx)
+                        {
+                            nasError = $"Lỗi {winEx.NativeErrorCode}: {winEx.Message}";
+                        }
+                        catch (Exception ex)
+                        {
+                            nasError = ex.Message;
                         }
                     }
-                    catch (Win32Exception winEx)
-                    {
-                        nasSaved = false;
-                        nasError = $"Lỗi {winEx.NativeErrorCode}: {winEx.Message}";
-                    }
-                    catch (Exception ex)
-                    {
-                        nasSaved = false;
-                        nasError = ex.Message;
-                    }
 
-                    // Update UI sau khi NAS hoàn thành (dùng Invoke để an toàn)
-                    this.Invoke(new Action(() =>
+                    // Update UI nếu không lưu được vào bất kỳ NAS nào
+                    if (!nasSaved)
                     {
-                        if (nasSaved)
-                        {
-                            UpdateStatus($"NAS Server: {nasFilePath}\n", System.Drawing.ColorTranslator.FromHtml("#008B00"));
-                        }
-                        else
+                        this.Invoke(new Action(() =>
                         {
                             UpdateStatus($"Lưu vào server thất bại: {nasError}\n", System.Drawing.Color.Chocolate);
-                        }
-                    }));
+                        }));
+                    }
                 });
             }
             catch (UnauthorizedAccessException ex)
@@ -957,13 +969,15 @@ namespace FAB_CONFIRM
         }
 
         /// <summary>
-        /// Đọc giá trị NASPATH, NASUSER, NASPASSWORD, NASDOMAIN từ section [NAS SERVER] trong file NAS.ini, tạo file nếu chưa tồn tại
+        /// Đọc giá trị NASPATH, NASUSER, NASPASSWORD, NASDOMAIN từ các section [NAS SERVER] trong file NAS.ini, tạo file với 3 khối nếu chưa tồn tại
         /// </summary>
         /// <returns>NetworkCredential chứa thông tin xác thực NAS</returns>
         private NetworkCredential ReadNASCredentialsFromIniFile()
         {
             string filePath = @"C:\FAB_CONFIRM\Config\NAS.ini";
-            string defaultNasPath = @"\\107.126.41.111\FAB_CONFIRM";
+            string defaultNasPath1 = @"\\107.126.41.111\FAB_CONFIRM";
+            string defaultNasPath2 = @"\\107.126.31.111\FAB_CONFIRM";
+            string defaultNasPath3 = @"\\107.126.51.111\FAB_CONFIRM";
             string defaultNasUser = "admin";
             string defaultNasPassword = "insp2019@";
             string defaultNasDomain = "";
@@ -982,26 +996,38 @@ namespace FAB_CONFIRM
                 if (!IsDirectoryWritable(directoryPath))
                 {
                     UpdateStatus($"Không có quyền ghi vào thư mục {directoryPath} để tạo NAS.ini", System.Drawing.Color.Red);
-                    nasDirectoryPath = defaultNasPath; // Gán mặc định để tránh null
+                    nasDirectoryPath = defaultNasPath1; // Gán mặc định để tránh null
                     return new NetworkCredential(defaultNasUser, defaultNasPassword, defaultNasDomain);
                 }
 
-                // Nếu file chưa tồn tại, tạo file với định dạng INI
+                // Nếu file chưa tồn tại, tạo file với ba khối [NAS SERVER]
                 if (!File.Exists(filePath))
                 {
                     string iniContent = "[NAS SERVER]\n" +
-                                       $"NASPATH={defaultNasPath}\n" +
+                                       $"NASPATH={defaultNasPath1}\n" +
                                        $"NASUSER={defaultNasUser}\n" +
                                        $"NASPASSWORD={defaultNasPassword}\n" +
-                                       $"NASDOMAIN={defaultNasDomain}";
+                                       $"NASDOMAIN={defaultNasDomain}\n" +
+                                       "\n" +
+                                       "[NAS SERVER]\n" +
+                                       $"NASPATH={defaultNasPath2}\n" +
+                                       $"NASUSER={defaultNasUser}\n" +
+                                       $"NASPASSWORD={defaultNasPassword}\n" +
+                                       $"NASDOMAIN={defaultNasDomain}\n" +
+                                       "\n" +
+                                       "[NAS SERVER]\n" +
+                                       $"NASPATH={defaultNasPath3}\n" +
+                                       $"NASUSER={defaultNasUser}\n" +
+                                       $"NASPASSWORD={defaultNasPassword}\n" +
+                                       $"NASDOMAIN={defaultNasDomain}\n";
                     File.WriteAllText(filePath, iniContent, Encoding.UTF8);
-                    nasDirectoryPath = defaultNasPath; // Gán mặc định
+                    nasDirectoryPath = defaultNasPath1; // Gán mặc định là NAS đầu tiên
                     return new NetworkCredential(defaultNasUser, defaultNasPassword, defaultNasDomain);
                 }
 
                 // Đọc file
                 string[] lines = File.ReadAllLines(filePath);
-                string nasPath = defaultNasPath;
+                string nasPath = defaultNasPath1;
                 string nasUser = defaultNasUser;
                 string nasPassword = defaultNasPassword;
                 string nasDomain = defaultNasDomain;
@@ -1034,7 +1060,7 @@ namespace FAB_CONFIRM
             catch (Exception ex)
             {
                 UpdateStatus($"Lỗi khi đọc/tạo file NAS.ini: {ex.Message}", System.Drawing.Color.Red);
-                nasDirectoryPath = defaultNasPath; // Gán mặc định để tránh null
+                nasDirectoryPath = defaultNasPath1; // Gán mặc định để tránh null
                 return new NetworkCredential(defaultNasUser, defaultNasPassword, defaultNasDomain);
             }
         }
