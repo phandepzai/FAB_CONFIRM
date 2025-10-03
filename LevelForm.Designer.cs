@@ -302,7 +302,7 @@
             this.btnCancel.TabIndex = 21;
             this.btnCancel.Text = "❌ Hủy";
             this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            this.btnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
             // LevelForm
             // 

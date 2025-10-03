@@ -57,7 +57,7 @@
             this.btnSelect.TabIndex = 61;
             this.btnSelect.Text = "XÁC ĐỊNH";
             this.btnSelect.UseVisualStyleBackColor = true;
-            this.btnSelect.Click += new System.EventHandler(this.btnSelect_Click);
+            this.btnSelect.Click += new System.EventHandler(this.BtnSelect_Click);
             // 
             // btnCancel
             // 
@@ -68,7 +68,7 @@
             this.btnCancel.TabIndex = 62;
             this.btnCancel.Text = "HỦY BỎ";
             this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            this.btnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
             // labelPattern
             // 

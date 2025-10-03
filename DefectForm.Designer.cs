@@ -66,7 +66,7 @@
             this.btnCancel.TabIndex = 62;
             this.btnCancel.Text = "HỦY BỎ";
             this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            this.btnCancel.Click += new System.EventHandler(this.BtnCancel_Click);
             // 
             // labelDefect
             // 

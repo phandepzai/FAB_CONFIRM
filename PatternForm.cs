@@ -38,11 +38,13 @@ namespace FAB_CONFIRM
         {
             foreach (var name in names)
             {
-                Button btn = new Button();
-                btn.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold);
-                btn.Size = new System.Drawing.Size(120, 40);
-                btn.Text = name;
-                btn.UseVisualStyleBackColor = true;
+                Button btn = new Button
+                {
+                    Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold),
+                    Size = new System.Drawing.Size(120, 40),
+                    Text = name,
+                    UseVisualStyleBackColor = true
+                };
                 btn.Click += PatternButton_Click;
                 flowLayoutPanel.Controls.Add(btn);
             }
@@ -50,8 +52,7 @@ namespace FAB_CONFIRM
 
         private void PatternButton_Click(object sender, EventArgs e)
         {
-            Button btn = sender as Button;
-            if (btn != null)
+            if (sender is Button btn)
             {
                 if (btn.BackColor == System.Drawing.Color.LightGreen)
                 {
@@ -64,7 +65,7 @@ namespace FAB_CONFIRM
             }
         }
 
-        private void btnSelect_Click(object sender, EventArgs e)
+        private void BtnSelect_Click(object sender, EventArgs e)
         {
             var selectedPatternsList = new List<string>();
             foreach (Control control in flowLayoutPanel.Controls)
@@ -87,7 +88,7 @@ namespace FAB_CONFIRM
             }
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
+        private void BtnCancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();

@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 
+#region HIỂN THỊ FORM MAPPING
 namespace FAB_CONFIRM
 {
     public partial class MappingForm : Form
@@ -61,8 +62,8 @@ namespace FAB_CONFIRM
         private void PictureBoxScreen_MouseClick(object sender, MouseEventArgs e)
         {
             // Kích thước màn hình iPhone: 72mm x 154mm
-            const float screenWidthMm = 72f;  // Chiều rộng (Y: trái sang phải)
-            const float screenHeightMm = 154f; // Chiều cao (X: dưới lên trên)
+            const float screenWidthMm = 72.86f;  // Chiều rộng (Y: trái sang phải)
+            const float screenHeightMm = 158.20f; // Chiều cao (X: dưới lên trên)
 
             // Kích thước PictureBox: 227x480 pixels
             int cellWidth = pictureBoxScreen.Width / 4;  // 227 / 4 ≈ 56 pixels
@@ -170,3 +171,4 @@ namespace FAB_CONFIRM
         }
     }
 }
+#endregion
