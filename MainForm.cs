@@ -25,6 +25,7 @@ namespace FAB_CONFIRM
         private string filePath;
         private readonly System.Windows.Forms.Timer timer;
         private readonly ToolTip toolTip;
+        private readonly ToolTip validationToolTip;
 
         private readonly Timer rainbowTimer;// Các biến cho hiệu ứng chuyển màu cầu vồng mượt mà
         private bool isRainbowActive = false;
@@ -99,6 +100,8 @@ namespace FAB_CONFIRM
             TxtX3.KeyDown += TxtCoord_KeyDown;
             TxtY3.KeyDown += TxtCoord_KeyDown;
 
+            TxtAPN.KeyPress += new KeyPressEventHandler(TxtAPN_KeyPress);
+
             // Gán giới hạn 3 ký tự cho các ô tọa độ
             TxtX1.MaxLength = 3;
             TxtY1.MaxLength = 3;
@@ -145,8 +148,8 @@ namespace FAB_CONFIRM
             timer.Tick += Timer_Tick;
             timer.Start();
 
-            // Thêm giới hạn 300 ký tự cho TxtAPN
-            TxtAPN.MaxLength = 300;
+            // Thêm giới hạn 23 ký tự cho TxtAPN
+            TxtAPN.MaxLength = 23;
 
             //gán sự kiện Click cho LabelStatus để mở thư mục chứa file khi click
             RichTextStatus.Click += LabelStatus_Click;
@@ -165,6 +168,15 @@ namespace FAB_CONFIRM
                 InitialDelay = 100,   // Thời gian chờ trước khi hiển thị (100ms)
                 ReshowDelay = 100,    // Thời gian chờ khi hiển thị lại
                 ShowAlways = true    // Hiển thị ngay cả khi mất focus
+            };
+
+            // Khởi tạo validationToolTip
+            validationToolTip = new ToolTip
+            {
+                AutoPopDelay = 5000,
+                InitialDelay = 100,
+                ReshowDelay = 100,
+                ShowAlways = true
             };
 
             toolTip.SetToolTip(RichTextStatus, "BẤM VÀO ĐỂ MỞ THƯ MỤC LƯU FILE");
@@ -379,6 +391,19 @@ namespace FAB_CONFIRM
         #endregion
 
         #region XỬ LÝ HOẠT ĐỘNG CÁC BUTTON
+        private void TxtAPN_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox currentTextBox = sender as TextBox;
+
+            // Kiểm tra nếu nhập thêm ký tự sẽ vượt quá MaxLength
+            if (currentTextBox.Text.Length >= currentTextBox.MaxLength && !char.IsControl(e.KeyChar))
+            {
+                toolTip.ToolTipTitle = "Lỗi nhập liệu";
+                toolTip.Show("Chỉ cho phép nhập tối đa 23 ký tự!", currentTextBox, 0, currentTextBox.Height, 3500);
+                e.Handled = true; // Ngăn không cho ký tự được nhập
+            }
+        }
+
         private void OnTextBoxEnter(object sender, EventArgs e)
         {
             activeTextBox = sender as TextBox;
@@ -408,6 +433,7 @@ namespace FAB_CONFIRM
                 {
                     e.SuppressKeyPress = true;
                     e.Handled = true;
+                    toolTip.ToolTipTitle = "Lỗi nhập liệu";
                     toolTip.Show("Chỉ cho phép nhập dấu chấm ở đầu và không nhập nhiều dấu chấm!", (TextBox)sender, 0, ((TextBox)sender).Height, 3500); // Hiển thị thông báo
                 }
             }
@@ -415,6 +441,7 @@ namespace FAB_CONFIRM
             {
                 e.SuppressKeyPress = true;
                 e.Handled = true;
+                toolTip.ToolTipTitle = "Lỗi nhập liệu";
                 toolTip.Show("Chỉ cho phép nhập số!", (TextBox)sender, 0, ((TextBox)sender).Height, 3500); // Hiển thị thông báo
             }
         }
@@ -433,6 +460,7 @@ namespace FAB_CONFIRM
             // Kiểm tra nếu nhập thêm ký tự sẽ vượt quá MaxLength
             if (currentTextBox.Text.Length >= currentTextBox.MaxLength && !char.IsControl(e.KeyChar))
             {
+                toolTip.ToolTipTitle = "Lỗi nhập liệu";
                 toolTip.Show("Chỉ cho phép nhập tối đa 3 số!", currentTextBox, 0, currentTextBox.Height, 3500);
                 e.Handled = true; // Ngăn không cho ký tự được nhập
             }
@@ -463,6 +491,7 @@ namespace FAB_CONFIRM
                     if (newText.Length > activeTextBox.MaxLength)
                     {
                         // Hiển thị tooltip cảnh báo khi nhập quá số ký tự tối đa
+                        toolTip.ToolTipTitle = "Lỗi nhập liệu";
                         toolTip.Show("Chỉ cho phép nhập tối đa 3 số!", activeTextBox, 0, activeTextBox.Height, 3500);
                         return; // Ngăn không cho nhập thêm
                     }
@@ -615,18 +644,21 @@ namespace FAB_CONFIRM
             // Kiểm tra các trường bắt buộc (xem ô APN đã có dữ liệu hay chưa có)
             if (string.IsNullOrWhiteSpace(TxtAPN.Text))
             {
+                toolTip.ToolTipTitle = "Lỗi nhập liệu";
                 toolTip.Show("Vui lòng nhập APN", TxtAPN, 0, TxtAPN.Height, 3500); // Hiển thị tooltip 3 giây
                 return;
             }
             //Kiểm tra ô nhập tọa độ X1 xem có dữ liệu chưa
             if (string.IsNullOrWhiteSpace(TxtX1.Text))
             {
+                toolTip.ToolTipTitle = "Lỗi nhập liệu";
                 toolTip.Show("Vui lòng nhập tọa độ", TxtX1, 0, TxtX1.Height, 3500); // Hiển thị tooltip 3 giây
                 return;
             }
             //Kiểm tra ô nhập tọa độ Y1 xem có dữ liệu chưa
             if (string.IsNullOrWhiteSpace(TxtY1.Text))
             {
+                toolTip.ToolTipTitle = "Lỗi nhập liệu";
                 toolTip.Show("Vui lòng nhập tọa độ", TxtY1, 0, TxtY1.Height, 3500); // Hiển thị tooltip 3 giây
                 return;
             }
