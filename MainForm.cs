@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Runtime.Remoting.Contexts;
 using System.Security.Cryptography;
@@ -215,6 +216,14 @@ namespace FAB_CONFIRM
         #region KẾT NỐI NAS KHI MỞ FORM
         private async void MainForm_Load(object sender, EventArgs e)
         {
+            //Kiểm tra bản cập nhật mới ứng dụng khi chạy
+            UpdateManager.CheckForUpdates("FAB CONFIRM.exe", new[]
+            {
+                //"http://107.125.221.79:8888/update/FABCONF/",
+                //"http://107.126.41.111:8888/update/FABCONF/",
+                "http://192.168.111.101:8888/update/FABCONF/"
+            });
+
             await Task.Run(() =>
             {
                 nasConnections.Clear(); // Xóa danh sách kết nối cũ
