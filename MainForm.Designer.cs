@@ -267,7 +267,7 @@ namespace FAB_CONFIRM
             // Btn7
             // 
             this.Btn7.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn7.Location = new System.Drawing.Point(452, 65);
+            this.Btn7.Location = new System.Drawing.Point(442, 68);
             this.Btn7.Name = "Btn7";
             this.Btn7.Size = new System.Drawing.Size(64, 58);
             this.Btn7.TabIndex = 11;
@@ -278,7 +278,7 @@ namespace FAB_CONFIRM
             // Btn8
             // 
             this.Btn8.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn8.Location = new System.Drawing.Point(539, 65);
+            this.Btn8.Location = new System.Drawing.Point(529, 68);
             this.Btn8.Name = "Btn8";
             this.Btn8.Size = new System.Drawing.Size(64, 58);
             this.Btn8.TabIndex = 12;
@@ -289,7 +289,7 @@ namespace FAB_CONFIRM
             // Btn9
             // 
             this.Btn9.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn9.Location = new System.Drawing.Point(624, 65);
+            this.Btn9.Location = new System.Drawing.Point(614, 68);
             this.Btn9.Name = "Btn9";
             this.Btn9.Size = new System.Drawing.Size(64, 58);
             this.Btn9.TabIndex = 13;
@@ -300,7 +300,7 @@ namespace FAB_CONFIRM
             // Btn4
             // 
             this.Btn4.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn4.Location = new System.Drawing.Point(452, 136);
+            this.Btn4.Location = new System.Drawing.Point(442, 139);
             this.Btn4.Name = "Btn4";
             this.Btn4.Size = new System.Drawing.Size(64, 58);
             this.Btn4.TabIndex = 14;
@@ -311,7 +311,7 @@ namespace FAB_CONFIRM
             // Btn5
             // 
             this.Btn5.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn5.Location = new System.Drawing.Point(539, 136);
+            this.Btn5.Location = new System.Drawing.Point(529, 139);
             this.Btn5.Name = "Btn5";
             this.Btn5.Size = new System.Drawing.Size(64, 58);
             this.Btn5.TabIndex = 15;
@@ -322,7 +322,7 @@ namespace FAB_CONFIRM
             // Btn6
             // 
             this.Btn6.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn6.Location = new System.Drawing.Point(624, 136);
+            this.Btn6.Location = new System.Drawing.Point(614, 139);
             this.Btn6.Name = "Btn6";
             this.Btn6.Size = new System.Drawing.Size(64, 58);
             this.Btn6.TabIndex = 16;
@@ -333,7 +333,7 @@ namespace FAB_CONFIRM
             // Btn1
             // 
             this.Btn1.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn1.Location = new System.Drawing.Point(452, 207);
+            this.Btn1.Location = new System.Drawing.Point(442, 210);
             this.Btn1.Name = "Btn1";
             this.Btn1.Size = new System.Drawing.Size(64, 58);
             this.Btn1.TabIndex = 17;
@@ -344,7 +344,7 @@ namespace FAB_CONFIRM
             // Btn2
             // 
             this.Btn2.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn2.Location = new System.Drawing.Point(539, 207);
+            this.Btn2.Location = new System.Drawing.Point(529, 210);
             this.Btn2.Name = "Btn2";
             this.Btn2.Size = new System.Drawing.Size(64, 58);
             this.Btn2.TabIndex = 18;
@@ -355,7 +355,7 @@ namespace FAB_CONFIRM
             // Btn3
             // 
             this.Btn3.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn3.Location = new System.Drawing.Point(624, 207);
+            this.Btn3.Location = new System.Drawing.Point(614, 210);
             this.Btn3.Name = "Btn3";
             this.Btn3.Size = new System.Drawing.Size(64, 58);
             this.Btn3.TabIndex = 19;
@@ -366,7 +366,7 @@ namespace FAB_CONFIRM
             // Btn0
             // 
             this.Btn0.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn0.Location = new System.Drawing.Point(452, 278);
+            this.Btn0.Location = new System.Drawing.Point(442, 281);
             this.Btn0.Name = "Btn0";
             this.Btn0.Size = new System.Drawing.Size(64, 58);
             this.Btn0.TabIndex = 20;
@@ -377,7 +377,7 @@ namespace FAB_CONFIRM
             // BtnDot
             // 
             this.BtnDot.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnDot.Location = new System.Drawing.Point(539, 278);
+            this.BtnDot.Location = new System.Drawing.Point(529, 281);
             this.BtnDot.Name = "BtnDot";
             this.BtnDot.Size = new System.Drawing.Size(64, 58);
             this.BtnDot.TabIndex = 21;
@@ -389,7 +389,7 @@ namespace FAB_CONFIRM
             // 
             this.BtnDelete.BackColor = System.Drawing.Color.Tomato;
             this.BtnDelete.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnDelete.Location = new System.Drawing.Point(624, 278);
+            this.BtnDelete.Location = new System.Drawing.Point(614, 281);
             this.BtnDelete.Name = "BtnDelete";
             this.BtnDelete.Size = new System.Drawing.Size(64, 58);
             this.BtnDelete.TabIndex = 22;
@@ -494,7 +494,7 @@ namespace FAB_CONFIRM
             this.BtnXacNhan.BackColor = System.Drawing.Color.SeaGreen;
             this.BtnXacNhan.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnXacNhan.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.BtnXacNhan.Location = new System.Drawing.Point(471, 365);
+            this.BtnXacNhan.Location = new System.Drawing.Point(461, 368);
             this.BtnXacNhan.Name = "BtnXacNhan";
             this.BtnXacNhan.Size = new System.Drawing.Size(88, 45);
             this.BtnXacNhan.TabIndex = 31;
@@ -506,7 +506,7 @@ namespace FAB_CONFIRM
             // 
             this.BtnReset.BackColor = System.Drawing.Color.Goldenrod;
             this.BtnReset.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnReset.Location = new System.Drawing.Point(578, 365);
+            this.BtnReset.Location = new System.Drawing.Point(568, 368);
             this.BtnReset.Name = "BtnReset";
             this.BtnReset.Size = new System.Drawing.Size(88, 45);
             this.BtnReset.TabIndex = 32;
@@ -519,7 +519,7 @@ namespace FAB_CONFIRM
             this.LabelSoCellDaLuu.Cursor = System.Windows.Forms.Cursors.Hand;
             this.LabelSoCellDaLuu.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LabelSoCellDaLuu.ForeColor = System.Drawing.Color.Blue;
-            this.LabelSoCellDaLuu.Location = new System.Drawing.Point(518, 436);
+            this.LabelSoCellDaLuu.Location = new System.Drawing.Point(509, 436);
             this.LabelSoCellDaLuu.Name = "LabelSoCellDaLuu";
             this.LabelSoCellDaLuu.Size = new System.Drawing.Size(100, 20);
             this.LabelSoCellDaLuu.TabIndex = 4;
@@ -529,7 +529,7 @@ namespace FAB_CONFIRM
             // 
             this.LabelCount.AutoSize = true;
             this.LabelCount.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LabelCount.Location = new System.Drawing.Point(608, 436);
+            this.LabelCount.Location = new System.Drawing.Point(599, 437);
             this.LabelCount.Name = "LabelCount";
             this.LabelCount.Size = new System.Drawing.Size(15, 17);
             this.LabelCount.TabIndex = 3;
@@ -553,7 +553,7 @@ namespace FAB_CONFIRM
             this.LabelTime.AutoSize = true;
             this.LabelTime.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LabelTime.ForeColor = System.Drawing.Color.Red;
-            this.LabelTime.Location = new System.Drawing.Point(547, 465);
+            this.LabelTime.Location = new System.Drawing.Point(538, 465);
             this.LabelTime.Name = "LabelTime";
             this.LabelTime.Size = new System.Drawing.Size(0, 17);
             this.LabelTime.TabIndex = 1;
@@ -598,7 +598,7 @@ namespace FAB_CONFIRM
             this.LabelAuthor.BackColor = System.Drawing.Color.Transparent;
             this.LabelAuthor.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LabelAuthor.ForeColor = System.Drawing.Color.Silver;
-            this.LabelAuthor.Location = new System.Drawing.Point(598, 583);
+            this.LabelAuthor.Location = new System.Drawing.Point(583, 582);
             this.LabelAuthor.Name = "LabelAuthor";
             this.LabelAuthor.Size = new System.Drawing.Size(97, 13);
             this.LabelAuthor.TabIndex = 45;
@@ -637,7 +637,7 @@ namespace FAB_CONFIRM
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(699, 601);
+            this.ClientSize = new System.Drawing.Size(689, 601);
             this.Controls.Add(this.LabelAuthor);
             this.Controls.Add(this.RichTextStatus);
             this.Controls.Add(this.LabelDate);
