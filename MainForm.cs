@@ -187,12 +187,16 @@ namespace FAB_CONFIRM
         #region KẾT NỐI NAS KHI MỞ FORM
         private async Task MainForm_LoadAsync(object sender, EventArgs e)
         {
-            UpdateManager.CheckForUpdates("FAB CONFIRM.exe", new[]
-            {
-                "http://192.168.111.101:8888/update/FABCONF/",
-                "http://192.168.111.101:8888/update/FABCONF/",
-                "http://192.168.111.101:8888/update/FABCONF/"
-            });
+            //KIỂM TRA CẬP NHẬT TỰ ĐỘNG MỖI KHI CHẠY ỨNG DỤNG
+            UpdateManager.InitializeAutoCheck(
+                exeName: "FAB CONFIRM.exe",
+                httpServers: new[]
+                {
+                    "http://192.168.111.101:8888/update/FAB_CONF/",
+                    "http://107.125.221.79:8888/update/FAB_CONF/",
+                    "http://107.126.41.111:8888/update/FAB_CONF/"
+                }
+            );
 
             // BƯỚC 1: Kết nối NAS với timeout
             await Task.Run(() =>
@@ -1427,7 +1431,38 @@ namespace FAB_CONFIRM
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
-            nasConnection?.Dispose(); // tự động gọi WNetCancelConnection2
+
+            // 1. Dừng tất cả timer
+            timer?.Stop();
+            timer?.Dispose();
+
+            rainbowTimer?.Stop();
+            rainbowTimer?.Dispose();
+
+            // 2. Ngắt tất cả kết nối NAS (cả nasConnection và nasConnections)
+            try
+            {
+                nasConnection?.Dispose();
+
+                foreach (var conn in nasConnections)
+                {
+                    try { conn?.Dispose(); }
+                    catch { /* ignore */ }
+                }
+                nasConnections.Clear();
+            }
+            catch (Exception ex)
+            {
+                // Ghi log nếu cần (không làm crash app khi đóng)
+                System.Diagnostics.Debug.WriteLine("Lỗi ngắt kết nối NAS: " + ex.Message);
+            }
+
+            // 3. Dispose các config manager nếu có implement IDisposable
+            (patternConfigManager as IDisposable)?.Dispose();
+            (defectConfigManager as IDisposable)?.Dispose();
+
+            // Dừng Timer cập nhật để tránh lỗi
+            UpdateManager.StopAutoCheck();
         }
         #endregion
     }
