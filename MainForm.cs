@@ -756,7 +756,7 @@ namespace FAB_CONFIRM
         private async void BtnXacNhan_Click(object sender, EventArgs e)
         {
             // Cập nhật lại filePath trước khi lưu để đảm bảo đúng ca
-            SetFilePathAsync();
+            await SetFilePathAsync();
             // Hiệu ứng nút nhấn
             ApplyButtonClickEffectWithOriginalColor(BtnXacNhan, BtnXacNhan.BackColor);
             // Kiểm tra các trường bắt buộc (xem ô APN đã có dữ liệu hay chưa có)
@@ -1431,4 +1431,5 @@ namespace FAB_CONFIRM
         }
         #endregion
     }
+
 }
