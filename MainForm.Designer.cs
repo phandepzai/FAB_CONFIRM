@@ -118,24 +118,25 @@ namespace FAB_CONFIRM
             // 
             // LabelAPN
             // 
-            this.LabelAPN.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LabelAPN.Location = new System.Drawing.Point(12, 19);
+            this.LabelAPN.Font = new System.Drawing.Font("Segoe UI Semibold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelAPN.Location = new System.Drawing.Point(67, 15);
             this.LabelAPN.Name = "LabelAPN";
-            this.LabelAPN.Size = new System.Drawing.Size(40, 20);
+            this.LabelAPN.Size = new System.Drawing.Size(73, 29);
             this.LabelAPN.TabIndex = 43;
-            this.LabelAPN.Text = "APN:";
+            this.LabelAPN.Text = "sAPN:";
             this.LabelAPN.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // TxtAPN
             // 
             this.TxtAPN.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.TxtAPN.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TxtAPN.Location = new System.Drawing.Point(53, 12);
+            this.TxtAPN.Location = new System.Drawing.Point(139, 12);
             this.TxtAPN.MaxLength = 300;
             this.TxtAPN.Multiline = true;
             this.TxtAPN.Name = "TxtAPN";
-            this.TxtAPN.Size = new System.Drawing.Size(622, 36);
+            this.TxtAPN.Size = new System.Drawing.Size(404, 36);
             this.TxtAPN.TabIndex = 0;
+            this.TxtAPN.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TxtAPN.Enter += new System.EventHandler(this.OnTextBoxEnter);
             // 
             // LabelX1
@@ -553,10 +554,11 @@ namespace FAB_CONFIRM
             this.LabelTime.AutoSize = true;
             this.LabelTime.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LabelTime.ForeColor = System.Drawing.Color.Red;
-            this.LabelTime.Location = new System.Drawing.Point(538, 465);
+            this.LabelTime.Location = new System.Drawing.Point(535, 466);
             this.LabelTime.Name = "LabelTime";
-            this.LabelTime.Size = new System.Drawing.Size(0, 17);
+            this.LabelTime.Size = new System.Drawing.Size(56, 17);
             this.LabelTime.TabIndex = 1;
+            this.LabelTime.Text = "00:00:00";
             this.LabelTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pictureBox
@@ -612,10 +614,11 @@ namespace FAB_CONFIRM
             this.LabelDate.AutoSize = true;
             this.LabelDate.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LabelDate.ForeColor = System.Drawing.Color.Red;
-            this.LabelDate.Location = new System.Drawing.Point(538, 490);
+            this.LabelDate.Location = new System.Drawing.Point(528, 490);
             this.LabelDate.Name = "LabelDate";
-            this.LabelDate.Size = new System.Drawing.Size(0, 17);
+            this.LabelDate.Size = new System.Drawing.Size(70, 17);
             this.LabelDate.TabIndex = 46;
+            this.LabelDate.Text = "01/01/2025";
             this.LabelDate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // RichTextStatus
@@ -625,12 +628,12 @@ namespace FAB_CONFIRM
             this.RichTextStatus.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.RichTextStatus.Cursor = System.Windows.Forms.Cursors.Hand;
             this.RichTextStatus.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RichTextStatus.ForeColor = System.Drawing.Color.CadetBlue;
+            this.RichTextStatus.ForeColor = System.Drawing.Color.Green;
             this.RichTextStatus.Location = new System.Drawing.Point(12, 518);
             this.RichTextStatus.Name = "RichTextStatus";
             this.RichTextStatus.Size = new System.Drawing.Size(586, 91);
             this.RichTextStatus.TabIndex = 47;
-            this.RichTextStatus.Text = "";
+            this.RichTextStatus.Text = "Trạng thái: ";
             // 
             // MainForm
             // 
