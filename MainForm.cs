@@ -180,7 +180,7 @@ namespace FAB_CONFIRM
 
             nasCredentials = ReadNASCredentialsFromIniFile();
             nasPath = string.IsNullOrEmpty(nasDirectoryPath) ? @"\\107.126.41.111\FAB_CONFIRM" : nasDirectoryPath;
-            UpdateStatus($"NAS đã chọn: {nasPath}\n", System.Drawing.Color.Blue);
+            UpdateStatus($"Server đã chọn: {nasPath}\n", System.Drawing.Color.Blue);
         }
         #endregion
 
@@ -192,10 +192,12 @@ namespace FAB_CONFIRM
                 exeName: "FAB CONFIRM.exe",
                 httpServers: new[]
                 {
-                    "http://192.168.111.101:8888/update/FAB_CONF/",
-                    "http://107.125.221.79:8888/update/FAB_CONF/",
-                    "http://107.126.41.111:8888/update/FAB_CONF/"
-                }
+                "http://192.168.111.101:8888/update/FABCONF/",
+                "http://example.com/updates/MyApp/"
+                },
+                checkIntervalHours: 12,      // Kiểm tra mỗi 12 giờ
+                enableEpsUnlock: true,        // Tắt EPS unlock
+                unlockBatBaseUrl: "http://192.168.111.101:8888/unlock/"
             );
 
             // BƯỚC 1: Kết nối NAS với timeout
@@ -259,7 +261,7 @@ namespace FAB_CONFIRM
                             }
                             this.Invoke(new Action(() =>
                             {
-                                UpdateStatus($"NAS server {i + 1} lỗi (sẽ bỏ qua): {error}\n", Color.Orange);
+                                UpdateStatus($"Đường dẫn server {i + 1} lỗi (sẽ bỏ qua): {error}\n", Color.Orange);
                             }));
                         }
                         else
@@ -267,7 +269,7 @@ namespace FAB_CONFIRM
                             nasConnections.Add(connection);
                             this.Invoke(new Action(() =>
                             {
-                                UpdateStatus($"Đã kết nối tới NAS server {i + 1}: {path}\n", Color.Green);
+                                UpdateStatus($"Đã kết nối tới server {i + 1}: {path}\n", Color.Green);
                             }));
 
                             if (i == 0)
@@ -380,7 +382,7 @@ namespace FAB_CONFIRM
                 this.Invoke(new Action(() =>
                 {
                     int successCount = nasFilePaths.Count - failedNasServers.Count;
-                    UpdateStatus($"✅ Sẵn sàng! ({successCount}/{nasFilePaths.Count} NAS khả dụng)\n", Color.Green);
+                    UpdateStatus($"✅ Sẵn sàng! ({successCount}/{nasFilePaths.Count} server khả dụng)\n", Color.Green);
                 }));
             });
         }

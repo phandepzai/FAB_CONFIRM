@@ -11,19 +11,59 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-#region THÔNG BÁO PHIÊN BẢN MỚI
+#region THÔNG BÁO PHIÊN BẢN MỚI - GENERIC VERSION
+/// <summary>
+/// Class quản lý cập nhật tự động cho ứng dụng Windows Forms
+/// Hỗ trợ: HTTP Update + Optional EPS Unlock
+/// </summary>
 public static class UpdateManager
 {
-    // 🔹 BIẾN LƯU TRẠNG THÁI KIỂM TRA
+    #region CẤU HÌNH
+
+    // ⚙️ CẤU HÌNH CƠ BẢN (Có thể tùy chỉnh)
+    private static int CHECK_INTERVAL_HOURS = 12;           // Kiểm tra mỗi 12 giờ
+    private static readonly int HTTP_TIMEOUT_SECONDS = 8;            // Timeout khi tải file
+    private static bool ENABLE_EPS_UNLOCK = false;          // Bật/tắt tính năng unlock EPS
+    private static string[] ALLOWED_IP_PREFIXES = new[]     // Dải IP được phép unlock
+    {
+        "107.126.",
+        "107.115."
+    };
+    private static string[] BLOCKED_IP_PREFIXES = new[]     // Dải IP bị chặn unlock
+    {
+        "107.125."
+    };
+
+    // ⚙️ CẤU HÌNH ĐƯỜNG DẪN UNLOCK
+    private static readonly string UNLOCK_BAT_BASE_URL = "http://107.126.41.111:8888/unlock/"; //Đường dẫn chứa file .bat
+    #endregion
+
+    #region BIẾN NỘI BỘ
+
     private static System.Windows.Forms.Timer _updateCheckTimer;
     private static DateTime _lastCheckTime = DateTime.MinValue;
-    private const int CHECK_INTERVAL_HOURS = 12;
-    private const int HTTP_TIMEOUT_SECONDS = 8; // ✅ Tăng timeout
-    private const int CIFS_TIMEOUT_SECONDS = 15;
 
-    // 🔹 KHỞI TẠO TIMER KIỂM TRA TỰ ĐỘNG
-    public static void InitializeAutoCheck(string exeName, string[] httpServers)
+    #endregion
+
+    #region PUBLIC API
+
+    /// <summary>
+    /// Khởi tạo tự động kiểm tra cập nhật
+    /// </summary>
+    /// <param name="exeName">Tên file .exe (vd: "MyApp.exe")</param>
+    /// <param name="httpServers">Danh sách HTTP servers</param>
+    /// <param name="checkIntervalHours">Kiểm tra mỗi bao nhiêu giờ (mặc định 12)</param>
+    /// <param name="enableEpsUnlock">Có bật unlock EPS không (mặc định false)</param>
+    public static void InitializeAutoCheck(
+        string exeName,
+        string[] httpServers,
+        int checkIntervalHours = 12,
+        bool enableEpsUnlock = false,
+        string unlockBatBaseUrl = null)
     {
+        CHECK_INTERVAL_HOURS = checkIntervalHours;
+        ENABLE_EPS_UNLOCK = enableEpsUnlock;
+
         StopAutoCheck();
         CheckForUpdates(exeName, httpServers);
         _lastCheckTime = DateTime.Now;
@@ -48,7 +88,7 @@ public static class UpdateManager
             catch (Exception ex)
             {
                 Debug.WriteLine($"[Auto Check] Lỗi trong timer: {ex.Message}");
-                InitializeAutoCheck(exeName, httpServers);
+                InitializeAutoCheck(exeName, httpServers, checkIntervalHours, enableEpsUnlock);
             }
         };
 
@@ -56,15 +96,30 @@ public static class UpdateManager
         Debug.WriteLine($"[Auto Check] Timer đã khởi động - kiểm tra mỗi {CHECK_INTERVAL_HOURS} giờ");
     }
 
+    /// <summary>
+    /// Cấu hình dải IP cho unlock EPS
+    /// </summary>
+    public static void ConfigureIPRanges(string[] allowedPrefixes, string[] blockedPrefixes = null)
+    {
+        ALLOWED_IP_PREFIXES = allowedPrefixes ?? new string[0];
+        BLOCKED_IP_PREFIXES = blockedPrefixes ?? new string[0];
+    }
+
+    /// <summary>
+    /// Khởi động lại timer nếu bị dừng
+    /// </summary>
     public static void RestartTimerIfStopped(string exeName, string[] httpServers)
     {
         if (_updateCheckTimer == null || !_updateCheckTimer.Enabled)
         {
             Debug.WriteLine("[Auto Check] Timer bị dừng, khởi động lại...");
-            InitializeAutoCheck(exeName, httpServers);
+            InitializeAutoCheck(exeName, httpServers, CHECK_INTERVAL_HOURS, ENABLE_EPS_UNLOCK);
         }
     }
 
+    /// <summary>
+    /// Dừng kiểm tra tự động
+    /// </summary>
     public static void StopAutoCheck()
     {
         if (_updateCheckTimer != null)
@@ -76,7 +131,13 @@ public static class UpdateManager
         }
     }
 
-    // 🔹 ✅ KIỂM TRA CẬP NHẬT VỚI LOGIC TỐI ƯU
+    #endregion
+
+    #region KIỂM TRA CẬP NHẬT
+
+    /// <summary>
+    /// Kiểm tra phiên bản mới
+    /// </summary>
     public static async void CheckForUpdates(string exeName, string[] httpServers)
     {
         try
@@ -84,48 +145,30 @@ public static class UpdateManager
             string currentVersion = Application.ProductVersion;
             string latestVersion = null;
             string changelog = "";
-            string workingSource = null;
-            string workingPath = null;
+            string workingServerUrl = null;
 
             Debug.WriteLine($"[Cập nhật] Phiên bản hiện tại: {currentVersion}");
 
-            // ✅ BƯỚC 1: THỬ HTTP TRƯỚC (ƯU TIÊN)
+            // Kiểm tra version qua HTTP
             var httpResult = await TryCheckVersionViaHTTP(httpServers);
-            if (httpResult.Success)
+            if (!httpResult.Success)
             {
-                latestVersion = httpResult.Version;
-                workingSource = "http";
-                workingPath = httpResult.ServerUrl;
-                Debug.WriteLine($"[Cập nhật] ✅ HTTP thành công! Phiên bản: {latestVersion}");
-            }
-            else
-            {
-                Debug.WriteLine("[Cập nhật] ❌ HTTP thất bại, chuyển sang CIFS...");
-
-                // ✅ BƯỚC 2: NẾU HTTP THẤT BẠI, THỬ CIFS
-                var cifsResult = await TryCheckVersionViaCIFS();
-                if (cifsResult.Success)
-                {
-                    latestVersion = cifsResult.Version;
-                    workingSource = "cifs";
-                    workingPath = cifsResult.NasPath;
-                    Debug.WriteLine($"[Cập nhật] ✅ CIFS thành công! Phiên bản: {latestVersion}");
-                }
-                else
-                {
-                    Debug.WriteLine("[Cập nhật] ❌ Tất cả nguồn thất bại!");
-                    return;
-                }
+                Debug.WriteLine("[Cập nhật] ❌ Không thể kết nối đến server cập nhật!");
+                return;
             }
 
-            // ✅ BƯỚC 3: LẤY CHANGELOG (VỚI TIMEOUT)
-            changelog = await GetChangelogSafe(workingSource, workingPath);
+            latestVersion = httpResult.Version;
+            workingServerUrl = httpResult.ServerUrl;
+            Debug.WriteLine($"[Cập nhật] ✅ HTTP thành công! Phiên bản: {latestVersion}");
 
-            // ✅ BƯỚC 4: SO SÁNH VERSION
+            // Lấy changelog
+            changelog = await GetChangelogSafe(workingServerUrl);
+
+            // So sánh version
             if (string.Compare(latestVersion, currentVersion, StringComparison.OrdinalIgnoreCase) > 0)
             {
                 Debug.WriteLine($"[Cập nhật] Đã có phiên bản mới: {latestVersion} > {currentVersion}");
-                ShowUpdatePrompt(latestVersion, changelog, workingSource, workingPath, exeName);
+                ShowUpdatePrompt(latestVersion, changelog, workingServerUrl, exeName);
             }
             else
             {
@@ -138,7 +181,6 @@ public static class UpdateManager
         }
     }
 
-    // ✅ PHƯƠNG THỨC KIỂM TRA HTTP (RETURN STRUCT)
     private static async Task<(bool Success, string Version, string ServerUrl)> TryCheckVersionViaHTTP(string[] servers)
     {
         using (var client = new HttpClient { Timeout = TimeSpan.FromSeconds(HTTP_TIMEOUT_SECONDS) })
@@ -147,7 +189,7 @@ public static class UpdateManager
             {
                 try
                 {
-                    string url = server.TrimEnd(new[] { '/' }) + "/version.txt";
+                    string url = server.TrimEnd('/') + "/version.txt";
                     Debug.WriteLine($"[HTTP] Đang thử: {url}");
                     string version = (await client.GetStringAsync(url)).Trim();
                     return (true, version, server.TrimEnd('/'));
@@ -161,86 +203,13 @@ public static class UpdateManager
         return (false, null, null);
     }
 
-    // ✅ PHƯƠNG THỨC KIỂM TRA CIFS (RETURN STRUCT)
-    private static async Task<(bool Success, string Version, string NasPath)> TryCheckVersionViaCIFS()
-    {
-        return await Task.Run(() =>
-        {
-            var servers = SecureConfig.GetServers();
-            foreach (var nas in servers.NasServers ?? new SecureConfig.NasConfig[0])
-            {
-                try
-                {
-                    var config = new NasConnectionInfo
-                    {
-                        Path = nas.Path,
-                        Username = nas.Username,
-                        Password = nas.Password
-                    };
-
-                    if (!ConnectToNas(config, msg => Debug.WriteLine($"[CIFS] {msg}")))
-                        continue;
-
-                    string versionFile = Path.Combine(nas.Path, "version.txt");
-                    if (File.Exists(versionFile))
-                    {
-                        string version = File.ReadAllText(versionFile).Trim();
-                        Debug.WriteLine($"[CIFS] ✅ Tìm thấy version: {version}");
-                        return (true, version, nas.Path);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine($"[CIFS] Lỗi {nas.Path}: {ex.Message}");
-                }
-                finally
-                {
-                    try { WNetCancelConnection2(nas.Path, 0, true); } catch { }
-                }
-            }
-            return (false, null, null);
-        });
-    }
-
-    // ✅ LẤY CHANGELOG AN TOÀN (VỚI TIMEOUT)
-    private static async Task<string> GetChangelogSafe(string source, string path)
+    private static async Task<string> GetChangelogSafe(string serverUrl)
     {
         try
         {
-            if (source == "http")
+            using (var client = new HttpClient { Timeout = TimeSpan.FromSeconds(HTTP_TIMEOUT_SECONDS) })
             {
-                using (var client = new HttpClient { Timeout = TimeSpan.FromSeconds(HTTP_TIMEOUT_SECONDS) })
-                {
-                    return await client.GetStringAsync(path + "/changelog.txt");
-                }
-            }
-            else if (source == "cifs")
-            {
-                return await Task.Run(() =>
-                {
-                    var servers = SecureConfig.GetServers();
-                    var nas = servers.NasServers?.FirstOrDefault(n => n.Path == path);
-                    if (nas == null) return "(Không tải được changelog)";
-
-                    var config = new NasConnectionInfo
-                    {
-                        Path = nas.Path,
-                        Username = nas.Username,
-                        Password = nas.Password
-                    };
-
-                    if (!ConnectToNas(config, null)) return "(Không kết nối được NAS)";
-
-                    try
-                    {
-                        string changelogFile = Path.Combine(path, "changelog.txt");
-                        return File.Exists(changelogFile) ? File.ReadAllText(changelogFile) : "(Không tìm thấy changelog)";
-                    }
-                    finally
-                    {
-                        try { WNetCancelConnection2(path, 0, true); } catch { }
-                    }
-                });
+                return await client.GetStringAsync(serverUrl + "/changelog.txt");
             }
         }
         catch (Exception ex)
@@ -250,171 +219,164 @@ public static class UpdateManager
         return "(Không có thông tin thay đổi)";
     }
 
-    // ✅ STRUCT THAY CHO CLASS NasConfig
-    private class NasConnectionInfo
+    #endregion
+
+    #region EPS UNLOCK (OPTIONAL)
+    /// <summary>
+    /// Tìm và tải tất cả file .bat unlock qua HTTP
+    /// </summary>
+    private static async Task<List<string>> FindAllUnlockBatAsync(IProgress<string> progress, string serverUrl = null)
     {
-        public string Path { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-    }
+        var batFiles = new List<string>();
 
-    // 🔹 KẾT NỐI NAS
-    [DllImport("mpr.dll")]
-    private static extern int WNetAddConnection2(ref NETRESOURCE lpNetResource, string lpPassword, string lpUsername, int dwFlags);
+        // ========================================
+        // PHẦN 1: QUÉT QUA HTTP (ƯU TIÊN)
+        // ========================================
+        string unlockBaseUrl = !string.IsNullOrEmpty(UNLOCK_BAT_BASE_URL)
+            ? UNLOCK_BAT_BASE_URL
+            : (!string.IsNullOrEmpty(serverUrl) ? serverUrl.TrimEnd('/') + "/unlock/" : null);
 
-    [DllImport("mpr.dll")]
-    private static extern int WNetCancelConnection2(string lpName, int dwFlags, bool fForce);
-
-    [StructLayout(LayoutKind.Sequential)]
-    private struct NETRESOURCE
-    {
-        public int dwScope;
-        public int dwType;
-        public int dwDisplayType;
-        public int dwUsage;
-        public string lpLocalName;
-        public string lpRemoteName;
-        public string lpComment;
-        public string lpProvider;
-    }
-
-    private static bool ConnectToNas(NasConnectionInfo config, Action<string> progress)
-    {
-        try
+        if (!string.IsNullOrEmpty(unlockBaseUrl))
         {
-            WNetCancelConnection2(config.Path, 0, true);
-
-            var netResource = new NETRESOURCE
+            try
             {
-                dwType = 1,
-                lpRemoteName = config.Path
-            };
+                progress?.Report($"🌐 Đang quét HTTP: {unlockBaseUrl}");
 
-            progress?.Invoke($"🔐 Đang kết nối: {config.Path}");
-            int result = WNetAddConnection2(ref netResource, config.Password, config.Username, 0);
+                using (var client = new HttpClient { Timeout = TimeSpan.FromSeconds(HTTP_TIMEOUT_SECONDS) })
+                {
+                    string listUrl = unlockBaseUrl.TrimEnd('/') + "/list.txt";
 
-            if (result == 0)
-            {
-                progress?.Invoke($"✅ Kết nối thành công: {config.Path}");
-                return true;
+                    try
+                    {
+                        string fileList = await client.GetStringAsync(listUrl);
+                        var httpBatFiles = fileList
+                            .Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
+                            .Where(f => f.EndsWith(".bat", StringComparison.OrdinalIgnoreCase))
+                            .Select(f => f.Trim())
+                            .ToList();
+
+                        if (httpBatFiles.Any())
+                        {
+                            progress?.Report($"✅ Tìm thấy {httpBatFiles.Count} file .bat trên HTTP");
+
+                            foreach (var fileName in httpBatFiles)
+                            {
+                                // ✅ SỬA LẠI: Dùng unlockBaseUrl thay vì serverUrl
+                                string downloadUrl = unlockBaseUrl.TrimEnd('/') + "/" + fileName;
+                                string tempBatPath = Path.Combine(Path.GetTempPath(), fileName);
+
+                                try
+                                {
+                                    progress?.Report($"⬇️ Đang tải: {fileName}");
+                                    byte[] batContent = await client.GetByteArrayAsync(downloadUrl);
+                                    File.WriteAllBytes(tempBatPath, batContent);
+                                    batFiles.Add(tempBatPath);
+                                    progress?.Report($"✅ Đã tải: {fileName}");
+                                }
+                                catch (Exception ex)
+                                {
+                                    progress?.Report($"⚠️ Lỗi tải {fileName}: {ex.Message}");
+                                }
+                            }
+                        }
+                    }
+                    catch (HttpRequestException)
+                    {
+                        progress?.Report("ℹ️ Không tìm thấy list.txt, thử tải file mặc định...");
+
+                        var defaultBatFiles = new[]
+                        {
+                        "unlock_eps.bat",
+                        "disable_eps.bat",
+                        "unblock_printer.bat",
+                        "unlock.bat"
+                    };
+
+                        foreach (var fileName in defaultBatFiles)
+                        {
+                            // ✅ SỬA LẠI: Dùng unlockBaseUrl thay vì serverUrl
+                            string downloadUrl = unlockBaseUrl.TrimEnd('/') + "/" + fileName;
+                            string tempBatPath = Path.Combine(Path.GetTempPath(), fileName);
+
+                            try
+                            {
+                                byte[] batContent = await client.GetByteArrayAsync(downloadUrl);
+                                File.WriteAllBytes(tempBatPath, batContent);
+                                batFiles.Add(tempBatPath);
+                                progress?.Report($"✅ Đã tải: {fileName}");
+                            }
+                            catch
+                            {
+                                // Bỏ qua nếu file không tồn tại
+                            }
+                        }
+                    }
+                }
             }
-            else
+            catch (Exception ex)
             {
-                progress?.Invoke($"❌ Lỗi kết nối {config.Path}: Error code {result}");
-                return false;
+                progress?.Report($"⚠️ Lỗi quét HTTP: {ex.Message}");
             }
         }
-        catch (Exception ex)
-        {
-            progress?.Invoke($"❌ Exception kết nối {config.Path}: {ex.Message}");
-            return false;
-        }
-    }
 
-    // ✅ TÌM FILE .BAT UNLOCK EPS
-    private static async Task<List<string>> FindAllUnlockBatAsync(IProgress<string> progress)
-    {
-        return await Task.Run(() =>
+        // ========================================
+        // PHẦN 2: QUÉT LOCAL (DỰ PHÒNG)
+        // ========================================
+        if (!batFiles.Any())
         {
-            var batFiles = new List<string>();
-            var servers = SecureConfig.GetServers();
-
-            var localPaths = new List<string>
+            await Task.Run(() =>
+            {
+                var localPaths = new List<string>
             {
                 Application.StartupPath,
                 Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonDocuments), "EPS"),
             };
 
-            foreach (var localPath in localPaths)
-            {
-                if (!Directory.Exists(localPath)) continue;
-
-                try
+                foreach (var localPath in localPaths)
                 {
-                    progress?.Report($"🔍 Đang quét local: {localPath}");
-                    var foundFiles = Directory.GetFiles(localPath, "*.bat", SearchOption.AllDirectories)
-                        .Where(f =>
+                    if (!Directory.Exists(localPath)) continue;
+
+                    try
+                    {
+                        progress?.Report($"🔍 Đang quét local: {localPath}");
+                        var foundFiles = Directory.GetFiles(localPath, "*.bat", SearchOption.AllDirectories)
+                            .Where(f =>
+                            {
+                                string name = Path.GetFileName(f).ToLower();
+                                return name.Contains("unlock") || name.Contains("eps") ||
+                                       name.Contains("disable") || name.Contains("unblock");
+                            })
+                            .ToList();
+
+                        if (foundFiles.Any())
                         {
-                            string name = Path.GetFileName(f).ToLower();
-                            return name.Contains("unlock") || name.Contains("eps") ||
-                                   name.Contains("disable") || name.Contains("unblock");
-                        })
-                        .ToList();
-
-                    if (foundFiles.Any())
+                            progress?.Report($"✅ Tìm thấy {foundFiles.Count} file .bat local");
+                            batFiles.AddRange(foundFiles);
+                        }
+                    }
+                    catch (Exception ex)
                     {
-                        progress?.Report($"✅ Tìm thấy {foundFiles.Count} file .bat trong {localPath}");
-                        batFiles.AddRange(foundFiles);
+                        progress?.Report($"⚠️ Lỗi quét {localPath}: {ex.Message}");
                     }
                 }
-                catch (Exception ex)
-                {
-                    progress?.Report($"⚠️ Lỗi quét {localPath}: {ex.Message}");
-                }
-            }
+            });
+        }
 
-            foreach (var nas in servers.NasServers ?? new SecureConfig.NasConfig[0])
-            {
-                var config = new NasConnectionInfo
-                {
-                    Path = nas.Path,
-                    Username = nas.Username,
-                    Password = nas.Password
-                };
-
-                if (!ConnectToNas(config, msg => progress?.Report(msg)))
-                    continue;
-
-                try
-                {
-                    if (!Directory.Exists(nas.Path))
-                    {
-                        progress?.Report($"❌ Không tồn tại: {nas.Path}");
-                        continue;
-                    }
-
-                    progress?.Report($"🔍 Đang quét NAS: {nas.Path}");
-                    var foundFiles = Directory.GetFiles(nas.Path, "*.bat", SearchOption.AllDirectories)
-                        .Where(f =>
-                        {
-                            string name = Path.GetFileName(f).ToLower();
-                            return name.Contains("unlock") || name.Contains("eps") ||
-                                   name.Contains("disable") || name.Contains("unblock");
-                        })
-                        .ToList();
-
-                    if (foundFiles.Any())
-                    {
-                        progress?.Report($"✅ Tìm thấy {foundFiles.Count} file .bat trong {nas.Path}");
-                        batFiles.AddRange(foundFiles);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    progress?.Report($"⚠️ Lỗi quét {nas.Path}: {ex.Message}");
-                }
-                finally
-                {
-                    try { WNetCancelConnection2(nas.Path, 0, true); } catch { }
-                }
-            }
-
-            if (!batFiles.Any())
-            {
-                progress?.Report("❌ Không tìm thấy file .bat unlock EPS");
-                return batFiles;
-            }
-
-            batFiles = batFiles.OrderByDescending(f =>
-            {
-                string name = Path.GetFileName(f).ToLower();
-                if (name.Contains("unlock") && name.Contains("eps")) return 2;
-                if (name.Contains("unlock") || name.Contains("eps")) return 1;
-                return 0;
-            }).ToList();
-
+        if (!batFiles.Any())
+        {
+            progress?.Report("ℹ️ Không tìm thấy file .bat unlock");
             return batFiles;
-        });
+        }
+
+        batFiles = batFiles.OrderByDescending(f =>
+        {
+            string name = Path.GetFileName(f).ToLower();
+            if (name.Contains("unlock") && name.Contains("eps")) return 2;
+            if (name.Contains("unlock") || name.Contains("eps")) return 1;
+            return 0;
+        }).ToList();
+
+        return batFiles;
     }
 
     private static bool IsAllowedIPRange()
@@ -427,26 +389,35 @@ public static class UpdateManager
                 if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
                 {
                     string ipString = ip.ToString();
-                    if (ipString.StartsWith("107.126.") || ipString.StartsWith("107.115."))
+
+                    // Kiểm tra blocked trước
+                    foreach (var blocked in BLOCKED_IP_PREFIXES)
                     {
-                        Debug.WriteLine($"[IP Check] ✅ IP được phép unlock: {ipString}");
-                        return true;
+                        if (ipString.StartsWith(blocked))
+                        {
+                            Debug.WriteLine($"[IP Check] ❌ IP bị chặn: {ipString}");
+                            return false;
+                        }
                     }
 
-                    if (ipString.StartsWith("107.125."))
+                    // Kiểm tra allowed
+                    foreach (var allowed in ALLOWED_IP_PREFIXES)
                     {
-                        Debug.WriteLine($"[IP Check] ❌ IP KHÔNG được phép unlock: {ipString}");
-                        return false;
+                        if (ipString.StartsWith(allowed))
+                        {
+                            Debug.WriteLine($"[IP Check] ✅ IP được phép: {ipString}");
+                            return true;
+                        }
                     }
                 }
             }
 
-            Debug.WriteLine("[IP Check] ⚠️ Không tìm thấy IP phù hợp, mặc định KHÔNG unlock");
+            Debug.WriteLine("[IP Check] ⚠️ IP không trong danh sách");
             return false;
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"[IP Check] ⚠️ Lỗi kiểm tra IP: {ex.Message}");
+            Debug.WriteLine($"[IP Check] ⚠️ Lỗi: {ex.Message}");
             return false;
         }
     }
@@ -469,25 +440,16 @@ public static class UpdateManager
 
             using (var process = new Process { StartInfo = processInfo })
             {
-                var outputBuilder = new System.Text.StringBuilder();
-                var errorBuilder = new System.Text.StringBuilder();
-
                 process.OutputDataReceived += (s, e) =>
                 {
                     if (!string.IsNullOrEmpty(e.Data))
-                    {
-                        outputBuilder.AppendLine(e.Data);
                         progress?.Report($"  📄 {e.Data}");
-                    }
                 };
 
                 process.ErrorDataReceived += (s, e) =>
                 {
                     if (!string.IsNullOrEmpty(e.Data))
-                    {
-                        errorBuilder.AppendLine(e.Data);
                         progress?.Report($"  ⚠️ {e.Data}");
-                    }
                 };
 
                 process.Start();
@@ -505,7 +467,7 @@ public static class UpdateManager
 
                 bool success = process.ExitCode == 0;
                 progress?.Report(success
-                    ? "✅ Unlock EPS thành công!"
+                    ? "✅ Unlock thành công!"
                     : $"⚠️ Exit code: {process.ExitCode}");
 
                 return success;
@@ -518,8 +480,11 @@ public static class UpdateManager
         }
     }
 
-    // ✅ HIỂN THỊ FORM THÔNG BÁO
-    private static void ShowUpdatePrompt(string latestVersion, string changelog, string source, string path, string exeName)
+    #endregion
+
+    #region GIAO DIỆN THÔNG BÁO
+
+    private static void ShowUpdatePrompt(string latestVersion, string changelog, string serverUrl, string exeName)
     {
         int cornerRadius = 20;
         var updateForm = new Form
@@ -532,6 +497,7 @@ public static class UpdateManager
             BackColor = Color.White,
             Icon = Application.OpenForms.Count > 0 ? Application.OpenForms[0].Icon : SystemIcons.Application
         };
+
         updateForm.Location = new Point(
             Screen.PrimaryScreen.WorkingArea.Right - updateForm.Width - 20,
             Screen.PrimaryScreen.WorkingArea.Bottom - updateForm.Height - 20
@@ -555,8 +521,9 @@ public static class UpdateManager
             }
         };
 
+        // Icon
         var assembly = Assembly.GetExecutingAssembly();
-        string resourceName = "FAB CONFIRM.src.update_icon.png";
+        string resourceName = "FAB_CONFIRM.src.update_icon.png";
         Image iconImage = SystemIcons.Shield.ToBitmap();
 
         try
@@ -628,7 +595,7 @@ public static class UpdateManager
         var panelButtons = new Panel
         {
             Dock = DockStyle.Bottom,
-            Height = 90,
+            Height = 70,
             BackColor = Color.White,
             Padding = new Padding(0, 0, 0, 10)
         };
@@ -640,7 +607,7 @@ public static class UpdateManager
             Height = 35,
             FlatStyle = FlatStyle.Flat,
             Font = new Font("Segoe UI Semibold", 10F),
-            BackColor = Color.FromArgb(0, 120, 0),
+            BackColor = Color.FromArgb(0, 120, 212),
             ForeColor = Color.White,
             Cursor = Cursors.Hand
         };
@@ -663,28 +630,9 @@ public static class UpdateManager
         btnSkip.FlatAppearance.MouseOverBackColor = Color.FromArgb(170, 170, 170);
         btnSkip.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, btnSkip.Width, btnSkip.Height, 10, 10));
 
-        btnUpdate.Location = new Point(70, 30);
-        btnSkip.Location = new Point(panelButtons.Width - btnSkip.Width - 70, 30);
+        btnUpdate.Location = new Point(70, 20);
+        btnSkip.Location = new Point(panelButtons.Width - btnSkip.Width - 70, 20);
         btnSkip.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-
-        var lblWarning = new Label
-        {
-            Text = $"Tip: Nếu không tự động unlock EPS hãy unlock rồi cập nhật lại",
-            ForeColor = Color.Red,
-            Font = new Font("Segoe UI", 9, FontStyle.Italic),
-            AutoSize = true,
-            TextAlign = ContentAlignment.MiddleCenter
-        };
-        lblWarning.Location = new Point(
-            (panelButtons.Width - lblWarning.Width) / 2,
-            btnUpdate.Bottom + 5
-        );
-        lblWarning.Anchor = AnchorStyles.None;
-
-        panelButtons.Resize += (s, e) =>
-        {
-            lblWarning.Left = (panelButtons.Width - lblWarning.Width) / 2;
-        };
 
         btnSkip.Click += (s, e) => updateForm.Close();
 
@@ -713,12 +661,11 @@ public static class UpdateManager
                 }
             });
 
-            await DownloadAndUpdateAsync(source, path, exeName, btnUpdate, updateForm, progress);
+            await DownloadAndUpdateAsync(serverUrl, exeName, btnUpdate, updateForm, progress);
         };
 
         panelButtons.Controls.Add(btnUpdate);
         panelButtons.Controls.Add(btnSkip);
-        panelButtons.Controls.Add(lblWarning);
         updateForm.Controls.Add(picIcon);
         updateForm.Controls.Add(lblVersion);
         updateForm.Controls.Add(txtLog);
@@ -727,9 +674,12 @@ public static class UpdateManager
         updateForm.Show();
     }
 
-    // ✅ TẢI VÀ CẬP NHẬT (ĐÃ SỬA LOGIC)
+    #endregion
+
+    #region TẢI VÀ CẬP NHẬT
+
     private static async Task DownloadAndUpdateAsync(
-        string source, string path, string exeName,
+        string serverUrl, string exeName,
         Button btnUpdate, Form updateForm, IProgress<string> progress)
     {
         string baseName = Path.GetFileNameWithoutExtension(exeName);
@@ -737,81 +687,39 @@ public static class UpdateManager
 
         try
         {
-            // === BƯỚC 1: UNLOCK EPS (NẾU ĐƯỢC PHÉP) ===
-            bool unlockSuccess = false;
-
-            if (IsAllowedIPRange())
+            // BƯỚC 1: UNLOCK EPS (NẾU ĐƯỢC BẬT)
+            if (ENABLE_EPS_UNLOCK && IsAllowedIPRange())
             {
-                progress?.Report("🔓 Bắt đầu quá trình unlock EPS...");
-                var unlockBatFiles = await FindAllUnlockBatAsync(progress);
+                progress?.Report("🔓 Bắt đầu unlock...");
+                var unlockBatFiles = await FindAllUnlockBatAsync(progress, serverUrl);
 
                 if (unlockBatFiles != null && unlockBatFiles.Any())
                 {
-                    progress?.Report($"📋 Tìm thấy {unlockBatFiles.Count} file unlock, sẽ thử lần lượt...");
+                    progress?.Report($"📋 Tìm thấy {unlockBatFiles.Count} file unlock");
 
-                    foreach (var unlockBatPath in unlockBatFiles)
+                    foreach (var batPath in unlockBatFiles)
                     {
-                        progress?.Report($"🔄 Đang thử: {Path.GetFileName(unlockBatPath)}");
-                        unlockSuccess = await RunBatFileAsync(unlockBatPath, progress);
-
-                        if (unlockSuccess)
+                        bool success = await RunBatFileAsync(batPath, progress);
+                        if (success)
                         {
-                            progress?.Report($"✅ Unlock EPS thành công với: {Path.GetFileName(unlockBatPath)}");
+                            progress?.Report($"✅ Unlock thành công!");
                             await Task.Delay(1000);
                             break;
                         }
-                        else
-                        {
-                            progress?.Report($"❌ Unlock thất bại với file này, thử file tiếp theo...");
-                            await Task.Delay(500);
-                        }
-                    }
-
-                    if (!unlockSuccess)
-                    {
-                        progress?.Report("⚠️ Đã thử tất cả file nhưng unlock không thành công, tiếp tục cập nhật...");
-                        await Task.Delay(2000);
                     }
                 }
-                else
-                {
-                    progress?.Report("ℹ️ Không tìm thấy script unlock, bỏ qua bước này");
-                    await Task.Delay(1000);
-                }
-            }
-            else
-            {
-                progress?.Report("ℹ️ Dải IP hiện tại không được phép unlock EPS, bỏ qua bước này");
-                await Task.Delay(1000);
             }
 
-            // === BƯỚC 2: TẢI FILE CẬP NHẬT ===
-            progress?.Report("📥 Bắt đầu tải xuống bản cập nhật...");
-            Debug.WriteLine($"[Tải xuống] Nguồn: {source}, Đường dẫn: {path}");
-
-            bool downloadSuccess = false;
-
-            if (source == "http")
-            {
-                downloadSuccess = await DownloadUpdateViaHTTP(path, exeName, tempFile, btnUpdate, progress);
-            }
-            else if (source == "cifs")
-            {
-                downloadSuccess = await DownloadUpdateViaCIFS(path, exeName, tempFile, progress);
-            }
-            else
-            {
-                throw new Exception($"Nguồn cập nhật không hợp lệ: {source}");
-            }
+            // BƯỚC 2: TẢI FILE CẬP NHẬT
+            progress?.Report("📥 Đang tải bản cập nhật...");
+            bool downloadSuccess = await DownloadUpdateViaHTTP(serverUrl, exeName, tempFile, btnUpdate, progress);
 
             if (!downloadSuccess)
-            {
-                throw new Exception("Không thể tải file cập nhật từ " + source.ToUpper());
-            }
+                throw new Exception("Không thể tải file cập nhật");
 
-            await Task.Delay(2000);
+            await Task.Delay(1000);
 
-            // === BƯỚC 3: TẠO .BAT & CHẠY CẬP NHẬT ===
+            // BƯỚC 3: TẠO BATCH SCRIPT VÀ KHỞI ĐỘNG LẠI
             progress?.Report("🔄 Đang chuẩn bị cập nhật...");
 
             string currentExe = Application.ExecutablePath;
@@ -819,51 +727,32 @@ public static class UpdateManager
             string batFile = Path.Combine(Path.GetTempPath(), "update.bat");
 
             string batContent = $@"@echo off
-            chcp 65001 >nul
-            echo Đang chờ ứng dụng đóng...
-            :waitloop
-            timeout /t 2 /nobreak >nul
-            tasklist /FI ""IMAGENAME eq {Path.GetFileName(currentExe)}"" 2>NUL | find /I /N ""{Path.GetFileName(currentExe)}"">NUL
-            if ""%ERRORLEVEL%""==""0"" goto waitloop
+chcp 65001 >nul
+echo Đang chờ ứng dụng đóng...
+:waitloop
+timeout /t 2 /nobreak >nul
+tasklist /FI ""IMAGENAME eq {Path.GetFileName(currentExe)}"" 2>NUL | find /I /N ""{Path.GetFileName(currentExe)}"">NUL
+if ""%ERRORLEVEL%""==""0"" goto waitloop
 
-            echo Ứng dụng đã đóng, bắt đầu cập nhật...
-            timeout /t 3 /nobreak >nul
+echo Bắt đầu cập nhật...
+timeout /t 2 /nobreak >nul
 
-            if exist ""{oldExePath}"" (
-                echo Xóa file backup cũ...
-                del /f /q ""{oldExePath}""
-                timeout /t 2 /nobreak >nul
-            )
+if exist ""{oldExePath}"" del /f /q ""{oldExePath}""
+if exist ""{currentExe}"" ren ""{currentExe}"" ""{Path.GetFileName(oldExePath)}""
 
-            if exist ""{currentExe}"" (
-                echo Đổi tên file cũ...
-                ren ""{currentExe}"" ""{Path.GetFileName(oldExePath)}""
-                timeout /t 2 /nobreak >nul
-            )
+copy /y ""{tempFile}"" ""{currentExe}""
+timeout /t 2 /nobreak >nul
 
-            echo Sao chép file mới...
-            copy /y ""{tempFile}"" ""{currentExe}""
-            timeout /t 2 /nobreak >nul
+if exist ""{currentExe}"" (
+    start """" ""{currentExe}""
+    del /f /q ""{tempFile}"" 2>nul
+    del /f /q ""{oldExePath}"" 2>nul
+    del /f /q ""%~f0""
+)";
 
-            if exist ""{currentExe}"" (
-                echo Khởi động ứng dụng...
-                timeout /t 2 /nobreak >nul
-                start """" ""{currentExe}""
-    
-                echo Dọn dẹp...
-                del /f /q ""{tempFile}"" 2>nul
-                timeout /t 2 /nobreak >nul
-                del /f /q ""{oldExePath}"" 2>nul
-                timeout /t 2 /nobreak >nul
-                del /f /q ""%~f0""
-            ) else (
-                echo LỖI: Không thể copy file mới!
-                pause
-            )";
+            File.WriteAllText(batFile, batContent, new System.Text.UTF8Encoding(false));
 
-            await WriteAllTextAsyncCompat(batFile, batContent, new System.Text.UTF8Encoding(false));
-
-            btnUpdate.Text = "Cập nhật xong ✔";
+            btnUpdate.Text = "Hoàn tất ✔";
             progress?.Report("🎉 Cập nhật hoàn tất! Đang khởi động lại...");
 
             await Task.Delay(2000);
@@ -875,14 +764,13 @@ public static class UpdateManager
                 CreateNoWindow = false
             });
 
-            await Task.Delay(2000);
-
+            await Task.Delay(1000);
             updateForm.Close();
             Application.Exit();
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"[Tải xuống bị lỗi] {ex.Message}");
+            Debug.WriteLine($"[Lỗi cập nhật] {ex.Message}");
             progress?.Report($"❌ LỖI: {ex.Message}");
             MessageBox.Show($"Cập nhật thất bại:\n\n{ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             btnUpdate.Text = "Cập nhật";
@@ -890,13 +778,12 @@ public static class UpdateManager
         }
     }
 
-    // ✅ TẢI FILE QUA HTTP (ĐÃ TỐI ƯU)
-    private static async Task<bool> DownloadUpdateViaHTTP(string serverPath, string exeName, string tempFile, Button btnUpdate, IProgress<string> progress)
+    private static async Task<bool> DownloadUpdateViaHTTP(string serverUrl, string exeName, string tempFile, Button btnUpdate, IProgress<string> progress)
     {
         try
         {
             using (var client = new HttpClient { Timeout = TimeSpan.FromMinutes(10) })
-            using (var response = await client.GetAsync(serverPath + "/" + exeName, HttpCompletionOption.ResponseHeadersRead))
+            using (var response = await client.GetAsync(serverUrl + "/" + exeName, HttpCompletionOption.ResponseHeadersRead))
             {
                 response.EnsureSuccessStatusCode();
                 var total = response.Content.Headers.ContentLength ?? -1L;
@@ -922,16 +809,9 @@ public static class UpdateManager
                                 int percent = (int)(totalRead * 100 / total);
 
                                 if (btnUpdate.InvokeRequired)
-                                {
-                                    btnUpdate.Invoke(new Action(() =>
-                                    {
-                                        btnUpdate.Text = $"Đang tải... {percent}%";
-                                    }));
-                                }
+                                    btnUpdate.Invoke(new Action(() => btnUpdate.Text = $"Đang tải... {percent}%"));
                                 else
-                                {
                                     btnUpdate.Text = $"Đang tải... {percent}%";
-                                }
 
                                 if (percent != lastPercent && percent % 10 == 0)
                                 {
@@ -949,69 +829,15 @@ public static class UpdateManager
         }
         catch (Exception ex)
         {
-            progress?.Report($"❌ Lỗi tải HTTP: {ex.Message}");
+            progress?.Report($"❌ Lỗi tải: {ex.Message}");
             return false;
         }
     }
 
-    // ✅ TẢI FILE QUA CIFS (ĐÃ TỐI ƯU)
-    private static async Task<bool> DownloadUpdateViaCIFS(string nasPath, string exeName, string tempFile, IProgress<string> progress)
-    {
-        return await Task.Run(() =>
-        {
-            try
-            {
-                var servers = SecureConfig.GetServers();
-                var nas = servers.NasServers?.FirstOrDefault(n => n.Path == nasPath);
-                if (nas == null)
-                {
-                    progress?.Report($"❌ Không tìm thấy cấu hình NAS: {nasPath}");
-                    return false;
-                }
+    #endregion
 
-                var config = new NasConnectionInfo
-                {
-                    Path = nas.Path,
-                    Username = nas.Username,
-                    Password = nas.Password
-                };
+    #region WIN32 API
 
-                if (!ConnectToNas(config, msg => progress?.Report(msg)))
-                {
-                    progress?.Report($"❌ Không thể kết nối đến NAS: {nasPath}");
-                    return false;
-                }
-
-                string remoteFile = Path.Combine(nasPath, exeName);
-                if (!File.Exists(remoteFile))
-                {
-                    progress?.Report($"❌ File không tồn tại: {remoteFile}");
-                    return false;
-                }
-
-                progress?.Report($"📥 Đang copy file từ NAS...");
-                File.Copy(remoteFile, tempFile, true);
-                progress?.Report($"✅ Đã tải file từ NAS: {Path.GetFileName(remoteFile)}");
-                return true;
-            }
-            catch (Exception ex)
-            {
-                progress?.Report($"❌ Lỗi tải từ NAS: {ex.Message}");
-                return false;
-            }
-            finally
-            {
-                try { WNetCancelConnection2(nasPath, 0, true); } catch { }
-            }
-        });
-    }
-
-    private static Task WriteAllTextAsyncCompat(string path, string contents, System.Text.Encoding encoding)
-    {
-        return Task.Run(() => File.WriteAllText(path, contents, encoding));
-    }
-
-    // 🪟 Win32 API
     [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
     private static extern IntPtr CreateRoundRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect,
         int nWidthEllipse, int nHeightEllipse);
@@ -1029,5 +855,7 @@ public static class UpdateManager
         public int cyTopHeight;
         public int cyBottomHeight;
     }
+
+    #endregion
 }
 #endregion
