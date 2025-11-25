@@ -11,18 +11,15 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-#region THÔNG BÁO PHIÊN BẢN MỚI - GENERIC VERSION
-/// <summary>
-/// Class quản lý cập nhật tự động cho ứng dụng Windows Forms
-/// Hỗ trợ: HTTP Update + Optional EPS Unlock
-/// </summary>
+#region THÔNG BÁO PHIÊN BẢN MỚI
+
 public static class UpdateManager
 {
     #region CẤU HÌNH
 
     // ⚙️ CẤU HÌNH CƠ BẢN (Có thể tùy chỉnh)
     private static int CHECK_INTERVAL_HOURS = 12;           // Kiểm tra mỗi 12 giờ
-    private static readonly int HTTP_TIMEOUT_SECONDS = 8;            // Timeout khi tải file
+    private static int HTTP_TIMEOUT_SECONDS = 8;            // Timeout khi tải file
     private static bool ENABLE_EPS_UNLOCK = false;          // Bật/tắt tính năng unlock EPS
     private static string[] ALLOWED_IP_PREFIXES = new[]     // Dải IP được phép unlock
     {
@@ -35,7 +32,7 @@ public static class UpdateManager
     };
 
     // ⚙️ CẤU HÌNH ĐƯỜNG DẪN UNLOCK
-    private static readonly string UNLOCK_BAT_BASE_URL = "http://107.126.41.111:8888/unlock/"; //Đường dẫn chứa file .bat
+    private static string UNLOCK_BAT_BASE_URL = "http://107.126.41.111:8888/unlock/"; //Đường dẫn chứa file .bat
     #endregion
 
     #region BIẾN NỘI BỘ
@@ -569,7 +566,7 @@ public static class UpdateManager
         {
             Text = changelog,
             Location = new Point(50, 60),
-            Width = updateForm.Width - 60,
+            Width = updateForm.Width - 65,
             Height = 170,
             BorderStyle = BorderStyle.None,
             BackColor = Color.White,
@@ -626,12 +623,22 @@ public static class UpdateManager
             ForeColor = Color.Black,
             Cursor = Cursors.Hand
         };
+        var lblWarning = new Label
+        {
+            Text = "Nếu báo lỗi không tự động cập nhật\r\nHãy Unlock EPS trước khi bấm cập nhật ứng dụng",
+            ForeColor = Color.Red,
+            Font = new Font("Segoe UI", 8, FontStyle.Italic),
+            Width = panelButtons.Width,
+            Height = 30,
+            TextAlign = ContentAlignment.MiddleCenter,
+            Location = new Point(panelButtons.Width - 70, 40) // đặt dưới 2 nút (10 + 35 = 45)
+        };
         btnSkip.FlatAppearance.BorderSize = 0;
         btnSkip.FlatAppearance.MouseOverBackColor = Color.FromArgb(170, 170, 170);
         btnSkip.Region = Region.FromHrgn(CreateRoundRectRgn(0, 0, btnSkip.Width, btnSkip.Height, 10, 10));
 
-        btnUpdate.Location = new Point(70, 20);
-        btnSkip.Location = new Point(panelButtons.Width - btnSkip.Width - 70, 20);
+        btnUpdate.Location = new Point(70, 5);
+        btnSkip.Location = new Point(panelButtons.Width - btnSkip.Width - 70, 5);
         btnSkip.Anchor = AnchorStyles.Top | AnchorStyles.Right;
 
         btnSkip.Click += (s, e) => updateForm.Close();
@@ -670,6 +677,7 @@ public static class UpdateManager
         updateForm.Controls.Add(lblVersion);
         updateForm.Controls.Add(txtLog);
         updateForm.Controls.Add(rtbChangelog);
+        panelButtons.Controls.Add(lblWarning);
         updateForm.Controls.Add(panelButtons);
         updateForm.Show();
     }
@@ -723,30 +731,63 @@ public static class UpdateManager
             progress?.Report("🔄 Đang chuẩn bị cập nhật...");
 
             string currentExe = Application.ExecutablePath;
-            string oldExePath = currentExe + ".old";
+            string currentVersion = Application.ProductVersion.Replace(".", "_"); // Chuyển 1.0.0 thành 1_0_0
+            string exeDirectory = Path.GetDirectoryName(currentExe);
+            string exeBaseName = Path.GetFileNameWithoutExtension(currentExe);
+            string backupExePath = Path.Combine(exeDirectory, exeBaseName + "_v" + currentVersion + ".exe");
+
+            // XÓA CÁC BACKUP CŨ - CHỈ GIỮ 2 PHIÊN BẢN GẦN NHẤT
+            try
+            {
+                var backupFiles = Directory.GetFiles(exeDirectory, exeBaseName + "_v*.exe")
+                    .Select(f => new FileInfo(f))
+                    .OrderByDescending(f => f.LastWriteTime)
+                    .ToList();
+
+                if (backupFiles.Count >= 2)
+                {
+                    // Xóa các file backup cũ, chỉ giữ lại file mới nhất
+                    var filesToDelete = backupFiles.Skip(2).ToList();
+                    foreach (var oldBackup in filesToDelete)
+                    {
+                        try
+                        {
+                            File.Delete(oldBackup.FullName);
+                            progress?.Report($"🗑️ Đã xóa backup cũ: {oldBackup.Name}");
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine($"[Cleanup] Không thể xóa {oldBackup.Name}: {ex.Message}");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"[Cleanup] Lỗi khi dọn dẹp backup: {ex.Message}");
+            }
+
             string batFile = Path.Combine(Path.GetTempPath(), "update.bat");
 
             string batContent = $@"@echo off
 chcp 65001 >nul
 echo Đang chờ ứng dụng đóng...
 :waitloop
-timeout /t 2 /nobreak >nul
+timeout /t 3 /nobreak >nul
 tasklist /FI ""IMAGENAME eq {Path.GetFileName(currentExe)}"" 2>NUL | find /I /N ""{Path.GetFileName(currentExe)}"">NUL
 if ""%ERRORLEVEL%""==""0"" goto waitloop
 
 echo Bắt đầu cập nhật...
-timeout /t 2 /nobreak >nul
+timeout /t 3 /nobreak >nul
 
-if exist ""{oldExePath}"" del /f /q ""{oldExePath}""
-if exist ""{currentExe}"" ren ""{currentExe}"" ""{Path.GetFileName(oldExePath)}""
+if exist ""{currentExe}"" ren ""{currentExe}"" ""{Path.GetFileName(backupExePath)}""
 
 copy /y ""{tempFile}"" ""{currentExe}""
-timeout /t 2 /nobreak >nul
+timeout /t 3 /nobreak >nul
 
 if exist ""{currentExe}"" (
     start """" ""{currentExe}""
     del /f /q ""{tempFile}"" 2>nul
-    del /f /q ""{oldExePath}"" 2>nul
     del /f /q ""%~f0""
 )";
 
