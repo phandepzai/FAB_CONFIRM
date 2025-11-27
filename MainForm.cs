@@ -540,7 +540,6 @@ namespace FAB_CONFIRM
                 //UpdateStatus($"Lỗi cập nhật đồng hồ: {ex.Message}", Color.Red);
             }
         }
-
         #endregion
 
         #region THAY ĐỔI MÀU SẮC KHI DI CHUỘT VÀO TÊN
