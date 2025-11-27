@@ -33,7 +33,7 @@ namespace FAB_CONFIRM
         private bool isRainbowActive = false;
         private Color originalAuthorColor;
         private double rainbowPhase = 0;
-
+        private readonly object fileWriteLock = new object();
         // Đọc danh sách từ các file .ini
         private readonly List<string> patternList;
         private readonly List<string> defectList;
@@ -48,10 +48,12 @@ namespace FAB_CONFIRM
         private List<string> nasFilePaths = new List<string>();
         private List<NetworkCredential> nasCredentialsList = new List<NetworkCredential>();
         private List<NetworkConnection> nasConnections = new List<NetworkConnection>();
+        private readonly object nasConnectionsLock = new object();
         private string nasDirectoryPath; // Để tương thích với logic cũ
         private string nasFilePath;     // Để tương thích với logic cũ
         private HashSet<int> failedNasServers = new HashSet<int>(); // Lưu index các NAS lỗi
         private readonly object nasLockObject = new object(); // Thread-safe cho failedNasServers
+        private static readonly TimeZoneInfo VietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
         #endregion
 
         #region KHỞI TẠO GIAO DIỆN VÀ CHỨC NĂNG
@@ -362,7 +364,10 @@ namespace FAB_CONFIRM
                         else
                         {
                             // Nếu kết nối thành công, lưu vào danh sách
-                            nasConnections.Add(connection);
+                            lock (nasConnectionsLock)
+                            {
+                                nasConnections.Add(connection);
+                            }
                             this.Invoke(new Action(() =>
                             {
                                 UpdateStatus($"Đã kết nối tới NAS server {i + 1}: {path}", Color.Green);
@@ -563,26 +568,38 @@ namespace FAB_CONFIRM
         #endregion // KẾT NỐI NAS KHI MỞ FORM
 
         #region HIỆU ỨNG PHÍM VÀ TỰ ĐIỀU CHỈNH FONT
+        // ✅ THAY BẰNG CODE MỚI:
         private void AdjustLabelFont(Label lbl)
         {
             if (string.IsNullOrEmpty(lbl.Text)) return;
 
             float fontSize = lbl.Font.Size;
-            Size proposedSize;
+            Font originalFont = lbl.Font;
+            Font lastCreatedFont = null;
 
             using (Graphics g = lbl.CreateGraphics())
             {
-                proposedSize = g.MeasureString(lbl.Text, lbl.Font).ToSize();
+                Size proposedSize = g.MeasureString(lbl.Text, originalFont).ToSize();
 
                 while ((proposedSize.Width > lbl.Width || proposedSize.Height > lbl.Height) && fontSize > 6f)
                 {
                     fontSize -= 0.5f;
-                    Font newFont = new Font(lbl.Font.FontFamily, fontSize, lbl.Font.Style);
-                    proposedSize = g.MeasureString(lbl.Text, newFont).ToSize();
 
-                    // Giải phóng font cũ của Label trước khi gán font mới để tránh leak
-                    lbl.Font?.Dispose();
-                    lbl.Font = newFont;
+                    // Dispose font cũ trước khi tạo font mới (trừ font gốc)
+                    if (lastCreatedFont != null && lastCreatedFont != originalFont)
+                    {
+                        lastCreatedFont.Dispose();
+                    }
+
+                    lastCreatedFont = new Font(originalFont.FontFamily, fontSize, originalFont.Style);
+                    proposedSize = g.MeasureString(lbl.Text, lastCreatedFont).ToSize();
+                }
+
+                // Chỉ gán nếu đã tạo font mới
+                if (lastCreatedFont != null)
+                {
+                    lbl.Font = lastCreatedFont;
+                    // KHÔNG dispose originalFont vì nó có thể đang được dùng bởi Label
                 }
             }
         }
@@ -605,26 +622,14 @@ namespace FAB_CONFIRM
         {
             try
             {
-                // Lấy múi giờ GMT+7
-                TimeZoneInfo vietnamZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
-                // Lấy thời gian hiện tại theo UTC (GMT+0)
-                DateTime utcTime = DateTime.UtcNow;
-                // Chuyển đổi thời gian UTC sang thời gian Việt Nam (GMT+7)
-                DateTime vietnamTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, vietnamZone);
-
-                // Hiển thị thời gian đã chuyển đổi
+                DateTime vietnamTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, VietnamTimeZone);
                 LabelTime.Text = vietnamTime.ToString("HH:mm:ss");
                 LabelDate.Text = vietnamTime.ToString("dd/MM/yyyy");
             }
-            catch (TimeZoneNotFoundException ex)
-            {
-                // Xử lý ngoại lệ nếu không tìm thấy múi giờ "SE Asia Standard Time"
-                //UpdateStatus($"Lỗi múi giờ: {ex.Message}", Color.Red);
-            }
             catch (Exception ex)
             {
-                // Xử lý các lỗi khác
-                //UpdateStatus($"Lỗi cập nhật đồng hồ: {ex.Message}", Color.Red);
+                // Log lỗi nhưng không crash app
+                System.Diagnostics.Debug.WriteLine($"Timer error: {ex.Message}");
             }
         }
         #endregion
@@ -921,9 +926,11 @@ namespace FAB_CONFIRM
         {
             // Cập nhật lại filePath trước khi lưu để đảm bảo đúng ca
             await SetFilePathAsync();
+
             // Hiệu ứng nút nhấn
             ApplyButtonClickEffectWithOriginalColor(BtnXacNhan, BtnXacNhan.BackColor);
-            // Kiểm tra các trường bắt buộc (xem ô APN đã có dữ liệu hay chưa có)
+
+            // Kiểm tra bắt buộc xem ô APN đã có dữ liệu hay chưa có
             if (string.IsNullOrWhiteSpace(TxtAPN.Text))
             {
                 toolTip.ToolTipTitle = "Lỗi nhập liệu";
@@ -985,22 +992,27 @@ namespace FAB_CONFIRM
                 string escapedMapping = mapping.Contains(",") ? $"\"{mapping}\"" : mapping;
 
                 // Nhóm cặp tọa độ thành x,y và bao bọc bằng ngoặc kép
-                string coordX1Y1 = $"\"{x1},{y1}\"";
-                string coordX2Y2 = string.IsNullOrEmpty(x2) && string.IsNullOrEmpty(y2) ? "" : $"\"{x2},{y2}\"";
-                string coordX3Y3 = string.IsNullOrEmpty(x3) && string.IsNullOrEmpty(y3) ? "" : $"\"{x3},{y3}\"";
+                string coordX1Y1 = FormatCoordinate(x1, y1);
+                string coordX2Y2 = FormatCoordinate(x2, y2);
+                string coordX3Y3 = FormatCoordinate(x3, y3);
 
-                // Tạo dòng dữ liệu với phân cách bằng dấu phẩy
-                string dataLine = $"{apn},{coordX1Y1},{coordX2Y2},{coordX3Y3},{tenLoi},{formattedPattern},{level},{escapedMapping},{DateTime.Now:yyyy-MM-dd HH:mm:ss}\n";
+                string dataLine = $"{apn},{coordX1Y1},{coordX2Y2},{coordX3Y3},{tenLoi}," +
+                                  $"{EscapeCSVField(pattern)},{level},{EscapeCSVField(mapping)}," +
+                                  $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}\n";
 
                 // Khai báo headerLine ở đây để cả cục bộ và NAS dùng chung
                 string headerLine = "APN,\"X1,Y1\",\"X2,Y2\",\"X3,Y3\",TEN_LOI,PATTERN,LEVEL,MAPPING,THOI_GIAN\n";
 
                 // Lưu vào file cục bộ NGAY LẬP TỨC (không chờ NAS)
-                if (!File.Exists(filePath))
+                try
                 {
-                    File.AppendAllText(filePath, headerLine, Encoding.UTF8);
+                    SafeWriteToFile(filePath, dataLine, appendHeader: true);
                 }
-                File.AppendAllText(filePath, dataLine, Encoding.UTF8);
+                catch (IOException ex)
+                {
+                    UpdateStatus($"Lỗi ghi file cục bộ: {ex.Message}", Color.Red);
+                    return; // Dừng lại nếu không lưu được cục bộ
+                }
 
                 // Cập nhật count và labels (luôn tiếp tục dù NAS thất bại)
                 savedCellCount++;
@@ -1019,6 +1031,7 @@ namespace FAB_CONFIRM
                 LabelPattern.Text = "";
                 LabelMapping.Text = "";
                 TxtAPN.Focus();
+
                 // Cập nhật lại số APN duy nhất sau khi lưu
                 await LoadSavedCountAsync();
 
@@ -1030,14 +1043,19 @@ namespace FAB_CONFIRM
                 // Chạy lưu NAS async (background) để không block UI
                 await Task.Run(() =>
                 {
-                    for (int i = 0; i < nasFilePaths.Count; i++) // Lặp theo số lượng đường dẫn NAS đã được thiết lập
+                    List<string> nasPathsSnapshot;
+                    lock (nasConnectionsLock)
                     {
-                        // ✅ Bỏ qua NAS đã đánh dấu lỗi từ quá trình kết nối hoặc tạo file ban đầu
+                        nasPathsSnapshot = new List<string>(nasFilePaths); // Copy để tránh sửa đổi trong khi lặp
+                    }
+
+                    for (int i = 0; i < nasPathsSnapshot.Count; i++)
+                    {
                         lock (nasLockObject)
                         {
                             if (failedNasServers.Contains(i))
                             {
-                                UpdateStatus($"Bỏ qua lưu NAS Server {i + 1} (đã lỗi trước đó)\n", Color.Gray);
+                                UpdateStatus($"Bỏ qua NAS Server {i + 1} (đã lỗi trước đó)\n", Color.Gray);
                                 continue;
                             }
                         }
@@ -1072,7 +1090,7 @@ namespace FAB_CONFIRM
                                 }
 
                                 // Ghi dữ liệu vào file (header đã được tạo trước)
-                                File.AppendAllText(currentNasFilePath, dataLine, Encoding.UTF8);
+                                SafeWriteToFile(currentNasFilePath, dataLine, appendHeader: false);
                                 this.Invoke(new Action(() =>
                                 {
                                     // Chỉ hiển thị đường dẫn file NAS, không cần thông báo chi tiết mỗi lần
@@ -1124,21 +1142,47 @@ namespace FAB_CONFIRM
                     } // Kết thúc vòng lặp for
                 });
             }
+            // Xử lý ngoại lệ chi tiết
             catch (UnauthorizedAccessException ex)
             {
-                UpdateStatus($"Lỗi quyền truy cập: {ex.Message}", System.Drawing.Color.Red);
+                UpdateStatus($"❌ KHÔNG CÓ QUYỀN GHI FILE", Color.Red);
+                UpdateStatus($"Chi tiết: {ex.Message}", Color.DarkRed);
+                UpdateStatus($"Hướng dẫn: Chạy ứng dụng với quyền Administrator", Color.Blue);
             }
             catch (DirectoryNotFoundException ex)
             {
-                UpdateStatus($"Đường dẫn không hợp lệ: {ex.Message}", System.Drawing.Color.Red);
+                UpdateStatus($"❌ ĐƯỜNG DẪN KHÔNG TỒN TẠI", Color.Red);
+                UpdateStatus($"Chi tiết: {ex.Message}", Color.DarkRed);
+            }
+            catch (IOException ex) when (ex.Message.Contains("being used"))
+            {
+                UpdateStatus($"❌ FILE ĐANG ĐƯỢC MỞ BỞI CHƯƠNG TRÌNH KHÁC", Color.Red);
+                UpdateStatus($"Hướng dẫn: Đóng Excel/Notepad nếu đang mở file", Color.Blue);
             }
             catch (IOException ex)
             {
-                UpdateStatus($"Lỗi I/O khi lưu file: {ex.Message} ", System.Drawing.Color.Red);
+                UpdateStatus($"❌ LỖI GHI FILE: {ex.Message}", Color.Red);
+
+                // Log chi tiết để giải quyết sau
+                string logPath = Path.Combine(Path.GetTempPath(), "FAB_CONFIRM_Error.log");
+                File.AppendAllText(logPath,
+                    $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] IOException\n" +
+                    $"Message: {ex.Message}\n" +
+                    $"StackTrace: {ex.StackTrace}\n\n");
+
+                UpdateStatus($"Log lỗi đã lưu tại: {logPath}", Color.Gray);
             }
             catch (Exception ex)
             {
-                UpdateStatus($"Lỗi không xác định: {ex.Message} ", System.Drawing.Color.Red);
+                UpdateStatus($"❌ LỖI KHÔNG XÁC ĐỊNH: {ex.GetType().Name}", Color.Red);
+                UpdateStatus($"Chi tiết: {ex.Message}", Color.DarkRed);
+
+                // Ghi nhật ký lỗi nghiêm trọng
+                string logPath = Path.Combine(Path.GetTempPath(), "FAB_CONFIRM_Critical.log");
+                File.AppendAllText(logPath,
+                    $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {ex.GetType().Name}\n" +
+                    $"Message: {ex.Message}\n" +
+                    $"StackTrace: {ex.StackTrace}\n\n");
             }
         }
         private void BtnReset_Click(object sender, EventArgs e)
@@ -1319,14 +1363,13 @@ namespace FAB_CONFIRM
         }
         #endregion
 
-        #region XÁC ĐỊNH VÀ THIẾT LẬP ĐƯỜNG DẪN TỚI FILE LOG
-        //XÁC ĐỊNH VÀ THIẾT LẬP ĐƯỜNG DẪN TỚI FILE LOG
+        #region XÁC ĐỊNH VÀ THIẾT LẬP ĐƯỜNG DẪN LƯU FILE
+        //XÁC ĐỊNH VÀ THIẾT LẬP ĐƯỜNG DẪN LƯU FILE
         private async Task SetFilePathAsync()
         {
             await Task.Run(() =>
             {
-                TimeZoneInfo vietnamZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
-                DateTime vietnamTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vietnamZone);
+                DateTime vietnamTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, VietnamTimeZone);
 
                 string dateString;
                 string shift;
@@ -1663,6 +1706,80 @@ namespace FAB_CONFIRM
 
             // Dừng Timer cập nhật để tránh lỗi
             UpdateManager.StopAutoCheck();
+        }
+        #endregion
+
+        #region THAO TÁC LƯU FILE AN TOÀN
+        // Ghi file an toàn với retry logic
+        private void SafeWriteToFile(string path, string data, bool appendHeader = false)
+        {
+            lock (fileWriteLock)
+            {
+                // Đảm bảo thư mục tồn tại
+                string directory = Path.GetDirectoryName(path);
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+
+                // Ghi header nếu cần
+                if (appendHeader && !File.Exists(path))
+                {
+                    string headerLine = "APN,\"X1,Y1\",\"X2,Y2\",\"X3,Y3\",TEN_LOI,PATTERN,LEVEL,MAPPING,THOI_GIAN\n";
+                    File.WriteAllText(path, headerLine, Encoding.UTF8);
+                }
+
+                // Retry logic cho file đang bị lock
+                int retries = 3;
+                Exception lastException = null;
+
+                while (retries > 0)
+                {
+                    try
+                    {
+                        using (FileStream fs = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.Read))
+                        using (StreamWriter writer = new StreamWriter(fs, Encoding.UTF8))
+                        {
+                            writer.Write(data);
+                        }
+                        return; // Thành công
+                    }
+                    catch (IOException ex)
+                    {
+                        lastException = ex;
+                        retries--;
+
+                        if (retries > 0) // ✅ Chỉ sleep nếu còn retry
+                        {
+                            System.Threading.Thread.Sleep(100);
+                        }
+                    }
+                }
+
+                // Nếu retry hết mà vẫn lỗi
+                if (lastException != null)
+                {
+                    throw new IOException($"Không thể ghi file sau 3 lần thử: {lastException.Message}", lastException);
+                }
+            }
+        }
+        #endregion
+
+        #region ĐỊNH DẠNG DỮ LIỆU CSV
+        private string FormatCoordinate(string x, string y)
+        {
+            if (string.IsNullOrEmpty(x) && string.IsNullOrEmpty(y))
+                return "";
+
+            return $"\"{x},{y}\"";
+        }
+        // Escape field nếu chứa dấu phẩy
+        private string EscapeCSVField(string field)
+        {
+            if (string.IsNullOrEmpty(field))
+                return "";
+
+            return field.Contains(",") ? $"\"{field}\"" : field;
         }
         #endregion
     }

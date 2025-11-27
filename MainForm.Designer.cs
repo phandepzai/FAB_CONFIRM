@@ -131,7 +131,7 @@ namespace FAB_CONFIRM
             this.TxtAPN.MaxLength = 300;
             this.TxtAPN.Multiline = true;
             this.TxtAPN.Name = "TxtAPN";
-            this.TxtAPN.Size = new System.Drawing.Size(426, 36);
+            this.TxtAPN.Size = new System.Drawing.Size(454, 36);
             this.TxtAPN.TabIndex = 0;
             this.TxtAPN.Enter += new System.EventHandler(this.OnTextBoxEnter);
             // 
@@ -492,9 +492,9 @@ namespace FAB_CONFIRM
             this.BtnXacNhan.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnXacNhan.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnXacNhan.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.BtnXacNhan.Location = new System.Drawing.Point(461, 368);
+            this.BtnXacNhan.Location = new System.Drawing.Point(438, 368);
             this.BtnXacNhan.Name = "BtnXacNhan";
-            this.BtnXacNhan.Size = new System.Drawing.Size(88, 45);
+            this.BtnXacNhan.Size = new System.Drawing.Size(112, 45);
             this.BtnXacNhan.TabIndex = 31;
             this.BtnXacNhan.Text = "SAVE";
             this.BtnXacNhan.UseVisualStyleBackColor = false;
@@ -505,9 +505,9 @@ namespace FAB_CONFIRM
             this.BtnReset.BackColor = System.Drawing.Color.Goldenrod;
             this.BtnReset.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnReset.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BtnReset.Location = new System.Drawing.Point(568, 368);
+            this.BtnReset.Location = new System.Drawing.Point(565, 368);
             this.BtnReset.Name = "BtnReset";
-            this.BtnReset.Size = new System.Drawing.Size(88, 45);
+            this.BtnReset.Size = new System.Drawing.Size(112, 45);
             this.BtnReset.TabIndex = 32;
             this.BtnReset.Text = "RESET";
             this.BtnReset.UseVisualStyleBackColor = false;
@@ -518,7 +518,7 @@ namespace FAB_CONFIRM
             this.LabelSoCellDaLuu.Cursor = System.Windows.Forms.Cursors.Hand;
             this.LabelSoCellDaLuu.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LabelSoCellDaLuu.ForeColor = System.Drawing.Color.Blue;
-            this.LabelSoCellDaLuu.Location = new System.Drawing.Point(509, 436);
+            this.LabelSoCellDaLuu.Location = new System.Drawing.Point(505, 436);
             this.LabelSoCellDaLuu.Name = "LabelSoCellDaLuu";
             this.LabelSoCellDaLuu.Size = new System.Drawing.Size(100, 20);
             this.LabelSoCellDaLuu.TabIndex = 4;
@@ -528,7 +528,7 @@ namespace FAB_CONFIRM
             // 
             this.LabelCount.AutoSize = true;
             this.LabelCount.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LabelCount.Location = new System.Drawing.Point(599, 437);
+            this.LabelCount.Location = new System.Drawing.Point(595, 437);
             this.LabelCount.Name = "LabelCount";
             this.LabelCount.Size = new System.Drawing.Size(15, 17);
             this.LabelCount.TabIndex = 3;
@@ -542,7 +542,7 @@ namespace FAB_CONFIRM
             this.LabelTime.AutoSize = true;
             this.LabelTime.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LabelTime.ForeColor = System.Drawing.Color.Red;
-            this.LabelTime.Location = new System.Drawing.Point(535, 466);
+            this.LabelTime.Location = new System.Drawing.Point(531, 466);
             this.LabelTime.Name = "LabelTime";
             this.LabelTime.Size = new System.Drawing.Size(56, 17);
             this.LabelTime.TabIndex = 1;
@@ -602,7 +602,7 @@ namespace FAB_CONFIRM
             this.LabelDate.AutoSize = true;
             this.LabelDate.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LabelDate.ForeColor = System.Drawing.Color.Red;
-            this.LabelDate.Location = new System.Drawing.Point(528, 490);
+            this.LabelDate.Location = new System.Drawing.Point(524, 490);
             this.LabelDate.Name = "LabelDate";
             this.LabelDate.Size = new System.Drawing.Size(70, 17);
             this.LabelDate.TabIndex = 46;
@@ -615,7 +615,7 @@ namespace FAB_CONFIRM
             this.RichTextStatus.BackColor = System.Drawing.SystemColors.Control;
             this.RichTextStatus.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.RichTextStatus.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.RichTextStatus.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RichTextStatus.Font = new System.Drawing.Font("Segoe UI Semibold", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.RichTextStatus.ForeColor = System.Drawing.Color.Green;
             this.RichTextStatus.Location = new System.Drawing.Point(5, 525);
             this.RichTextStatus.Name = "RichTextStatus";
