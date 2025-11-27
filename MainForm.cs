@@ -54,6 +54,13 @@ namespace FAB_CONFIRM
         private HashSet<int> failedNasServers = new HashSet<int>(); // Lưu index các NAS lỗi
         private readonly object nasLockObject = new object(); // Thread-safe cho failedNasServers
         private static readonly TimeZoneInfo VietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+
+        // BIẾN CHO HIỆU ỨNG CHỮ CHẠY
+        private readonly Timer labelToggleTimer; // Timer cho hiệu ứng chữ chạy
+        private bool isShowingHintText = false;  // Trạng thái hiển thị
+        private string originalLabelText = "Số cell đã lưu:"; // Text gốc
+        private string hintLabelText = "Bấm vào đây để mở thư mục lưu file"; // Text gợi ý
+        private bool isShowingHintLabel = false; // Trạng thái hiển thị nhãn gợi ý
         #endregion
 
         #region KHỞI TẠO GIAO DIỆN VÀ CHỨC NĂNG
@@ -128,6 +135,12 @@ namespace FAB_CONFIRM
             timer.Tick += Timer_Tick;
             timer.Start();
 
+            // Khởi tạo timer cho hiệu ứng text chạy (5 giây = 5000ms)
+            labelToggleTimer = new Timer { Interval = 15000 };
+            labelToggleTimer.Tick += LabelToggleTimer_Tick;
+            labelToggleTimer.Start();
+            LabelHint.Click += LabelSoCellDaLuu_Click;
+
             TxtAPN.MaxLength = 23;
 
             RichTextStatus.Click += LabelStatus_Click;
@@ -183,6 +196,36 @@ namespace FAB_CONFIRM
             TxtY2.TextChanged += TextBox_TextChanged;
             TxtX3.TextChanged += TextBox_TextChanged;
             TxtY3.TextChanged += TextBox_TextChanged;
+        }
+        #endregion
+
+        #region HIỆU ỨNG TEXT CHẠY CHO LABEL
+        // Sự kiện Tick của labelToggleTimer - Thay đổi text mỗi 5 giây
+        private void LabelToggleTimer_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                if (isShowingHintLabel)
+                {
+                    // Hiển thị label gốc
+                    LabelSoCellDaLuu.Visible = true;
+                    LabelHint.Visible = false;
+                    LabelCount.Visible = true;
+                    isShowingHintLabel = false;
+                }
+                else
+                {
+                    // Hiển thị label gợi ý
+                    LabelSoCellDaLuu.Visible = false;
+                    LabelHint.Visible = true;
+                    LabelCount.Visible = false;
+                    isShowingHintLabel = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Lỗi chuyển đổi nhãn: {ex.Message}");
+            }
         }
         #endregion
 
@@ -1676,6 +1719,8 @@ namespace FAB_CONFIRM
             timer?.Dispose();
             rainbowTimer?.Stop();
             rainbowTimer?.Dispose();
+            labelToggleTimer?.Stop();
+            labelToggleTimer?.Dispose();
 
             // 2. Ngắt tất cả kết nối NAS (cả nasConnection và nasConnections)
             try

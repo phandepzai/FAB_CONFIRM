@@ -110,6 +110,7 @@ namespace FAB_CONFIRM
             this.LabelAuthor = new System.Windows.Forms.Label();
             this.LabelDate = new System.Windows.Forms.Label();
             this.RichTextStatus = new System.Windows.Forms.RichTextBox();
+            this.LabelHint = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -515,12 +516,13 @@ namespace FAB_CONFIRM
             // 
             // LabelSoCellDaLuu
             // 
+            this.LabelSoCellDaLuu.AutoSize = true;
             this.LabelSoCellDaLuu.Cursor = System.Windows.Forms.Cursors.Hand;
             this.LabelSoCellDaLuu.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LabelSoCellDaLuu.ForeColor = System.Drawing.Color.Blue;
-            this.LabelSoCellDaLuu.Location = new System.Drawing.Point(505, 436);
+            this.LabelSoCellDaLuu.Location = new System.Drawing.Point(506, 436);
             this.LabelSoCellDaLuu.Name = "LabelSoCellDaLuu";
-            this.LabelSoCellDaLuu.Size = new System.Drawing.Size(100, 20);
+            this.LabelSoCellDaLuu.Size = new System.Drawing.Size(91, 17);
             this.LabelSoCellDaLuu.TabIndex = 4;
             this.LabelSoCellDaLuu.Text = "Số cell đã lưu:";
             // 
@@ -528,7 +530,7 @@ namespace FAB_CONFIRM
             // 
             this.LabelCount.AutoSize = true;
             this.LabelCount.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LabelCount.Location = new System.Drawing.Point(595, 437);
+            this.LabelCount.Location = new System.Drawing.Point(595, 436);
             this.LabelCount.Name = "LabelCount";
             this.LabelCount.Size = new System.Drawing.Size(15, 17);
             this.LabelCount.TabIndex = 3;
@@ -623,12 +625,27 @@ namespace FAB_CONFIRM
             this.RichTextStatus.TabIndex = 47;
             this.RichTextStatus.Text = "";
             // 
+            // LabelHint
+            // 
+            this.LabelHint.AutoSize = true;
+            this.LabelHint.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.LabelHint.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelHint.ForeColor = System.Drawing.Color.Green;
+            this.LabelHint.Location = new System.Drawing.Point(448, 436);
+            this.LabelHint.Name = "LabelHint";
+            this.LabelHint.Size = new System.Drawing.Size(229, 17);
+            this.LabelHint.TabIndex = 48;
+            this.LabelHint.Text = "Bấm vào đây để mở thư mục lưu file";
+            this.LabelHint.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.LabelHint.Visible = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(689, 620);
+            this.Controls.Add(this.LabelHint);
             this.Controls.Add(this.LabelAuthor);
             this.Controls.Add(this.LabelDate);
             this.Controls.Add(this.pictureBox);
@@ -687,5 +704,7 @@ namespace FAB_CONFIRM
 
         }
         #endregion
+
+        private System.Windows.Forms.Label LabelHint;
     }
 }
