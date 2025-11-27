@@ -19,7 +19,7 @@ public static class UpdateManager
 
     // ⚙️ CẤU HÌNH CƠ BẢN (Có thể tùy chỉnh)
     private static int CHECK_INTERVAL_HOURS = 12;           // Kiểm tra mỗi 12 giờ
-    private static int HTTP_TIMEOUT_SECONDS = 8;            // Timeout khi tải file
+    private static readonly int HTTP_TIMEOUT_SECONDS = 8;            // Timeout khi tải file
     private static bool ENABLE_EPS_UNLOCK = false;          // Bật/tắt tính năng unlock EPS
     private static string[] ALLOWED_IP_PREFIXES = new[]     // Dải IP được phép unlock
     {
@@ -32,7 +32,7 @@ public static class UpdateManager
     };
 
     // ⚙️ CẤU HÌNH ĐƯỜNG DẪN UNLOCK
-    private static string UNLOCK_BAT_BASE_URL = "http://107.126.41.111:8888/unlock/"; //Đường dẫn chứa file .bat
+    private static readonly string UNLOCK_BAT_BASE_URL = "http://107.126.41.111:8888/unlock/"; //Đường dẫn chứa file .bat
     #endregion
 
     #region BIẾN NỘI BỘ
@@ -56,7 +56,9 @@ public static class UpdateManager
         string[] httpServers,
         int checkIntervalHours = 12,
         bool enableEpsUnlock = false,
+        #pragma warning disable IDE0060 
         string unlockBatBaseUrl = null)
+        #pragma warning restore IDE0060 
     {
         CHECK_INTERVAL_HOURS = checkIntervalHours;
         ENABLE_EPS_UNLOCK = enableEpsUnlock;

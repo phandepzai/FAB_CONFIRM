@@ -43,7 +43,6 @@ namespace FAB_CONFIRM
         private System.Windows.Forms.Button BtnXacNhan;
         private System.Windows.Forms.Button BtnReset;
         private System.Windows.Forms.Label LabelSoCellDaLuu;
-        private System.Windows.Forms.Label LabelDaLuuVao;
         private System.Windows.Forms.Label LabelCount;
         private System.Windows.Forms.Button BtnDK;
         private System.Windows.Forms.Button BtnBR;
@@ -60,10 +59,9 @@ namespace FAB_CONFIRM
             }
             base.Dispose(disposing);
         }
-#endregion
+        #endregion
 
         #region CÁC THÀNH PHẦN UI CỦA ỨNG DỤNG
-
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
@@ -105,7 +103,6 @@ namespace FAB_CONFIRM
             this.BtnReset = new System.Windows.Forms.Button();
             this.LabelSoCellDaLuu = new System.Windows.Forms.Label();
             this.LabelCount = new System.Windows.Forms.Label();
-            this.LabelDaLuuVao = new System.Windows.Forms.Label();
             this.LabelTime = new System.Windows.Forms.Label();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.BtnDK = new System.Windows.Forms.Button();
@@ -134,7 +131,7 @@ namespace FAB_CONFIRM
             this.TxtAPN.MaxLength = 300;
             this.TxtAPN.Multiline = true;
             this.TxtAPN.Name = "TxtAPN";
-            this.TxtAPN.Size = new System.Drawing.Size(404, 36);
+            this.TxtAPN.Size = new System.Drawing.Size(426, 36);
             this.TxtAPN.TabIndex = 0;
             this.TxtAPN.Enter += new System.EventHandler(this.OnTextBoxEnter);
             // 
@@ -537,16 +534,6 @@ namespace FAB_CONFIRM
             this.LabelCount.TabIndex = 3;
             this.LabelCount.Text = "0";
             // 
-            // LabelDaLuuVao
-            // 
-            this.LabelDaLuuVao.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.LabelDaLuuVao.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LabelDaLuuVao.ForeColor = System.Drawing.Color.Blue;
-            this.LabelDaLuuVao.Location = new System.Drawing.Point(16, 546);
-            this.LabelDaLuuVao.Name = "LabelDaLuuVao";
-            this.LabelDaLuuVao.Size = new System.Drawing.Size(448, 20);
-            this.LabelDaLuuVao.TabIndex = 2;
-            // 
             // LabelTime
             // 
             this.LabelTime.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -601,7 +588,7 @@ namespace FAB_CONFIRM
             this.LabelAuthor.BackColor = System.Drawing.Color.Transparent;
             this.LabelAuthor.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LabelAuthor.ForeColor = System.Drawing.Color.Silver;
-            this.LabelAuthor.Location = new System.Drawing.Point(583, 582);
+            this.LabelAuthor.Location = new System.Drawing.Point(573, 602);
             this.LabelAuthor.Name = "LabelAuthor";
             this.LabelAuthor.Size = new System.Drawing.Size(97, 13);
             this.LabelAuthor.TabIndex = 45;
@@ -630,24 +617,22 @@ namespace FAB_CONFIRM
             this.RichTextStatus.Cursor = System.Windows.Forms.Cursors.Hand;
             this.RichTextStatus.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.RichTextStatus.ForeColor = System.Drawing.Color.Green;
-            this.RichTextStatus.Location = new System.Drawing.Point(12, 518);
+            this.RichTextStatus.Location = new System.Drawing.Point(5, 525);
             this.RichTextStatus.Name = "RichTextStatus";
-            this.RichTextStatus.Size = new System.Drawing.Size(586, 85);
+            this.RichTextStatus.Size = new System.Drawing.Size(681, 92);
             this.RichTextStatus.TabIndex = 47;
-            this.RichTextStatus.Text = "Trạng thái: ";
+            this.RichTextStatus.Text = "";
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(689, 601);
+            this.ClientSize = new System.Drawing.Size(689, 620);
             this.Controls.Add(this.LabelAuthor);
-            this.Controls.Add(this.RichTextStatus);
             this.Controls.Add(this.LabelDate);
             this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.LabelTime);
-            this.Controls.Add(this.LabelDaLuuVao);
             this.Controls.Add(this.LabelCount);
             this.Controls.Add(this.LabelSoCellDaLuu);
             this.Controls.Add(this.BtnReset);
@@ -688,6 +673,7 @@ namespace FAB_CONFIRM
             this.Controls.Add(this.LabelX1);
             this.Controls.Add(this.TxtAPN);
             this.Controls.Add(this.LabelAPN);
+            this.Controls.Add(this.RichTextStatus);
             this.Cursor = System.Windows.Forms.Cursors.Default;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -701,6 +687,5 @@ namespace FAB_CONFIRM
 
         }
         #endregion
-
     }
 }

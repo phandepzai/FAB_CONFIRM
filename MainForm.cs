@@ -152,7 +152,7 @@ namespace FAB_CONFIRM
             toolTip.SetToolTip(RichTextStatus, "BẤM VÀO ĐỂ MỞ THƯ MỤC LƯU FILE");
             toolTip.SetToolTip(LabelSoCellDaLuu, "BẤM VÀO ĐỂ MỞ THƯ MỤC LƯU FILE");
 
-            UpdateStatus("Sẵn sàng nhập dữ liệu.\n", System.Drawing.Color.Green);
+            UpdateStatus("Sẵn sàng nhập dữ liệu.", System.Drawing.Color.BlueViolet);
 
             string defaultPatterns = "PATTERN-001,PATTERN-002,PATTERN-003,PATTERN-004,PATTERN-005,PATTERN-006,PATTERN-007,PATTERN-008,PATTERN-009,PATTERN-010,PATTERN-011,PATTERN-012,PATTERN-013,PATTERN-014,PATTERN-015,PATTERN-016,PATTERN-017,PATTERN-018,PATTERN-019,PATTERN-020,PATTERN-021,PATTERN-022,PATTERN-023,PATTERN-024,PATTERN-025,PATTERN-026,PATTERN-027";
             string defaultDefects = "Lỗi phần mềm hệ thống,Lỗi phần mềm ứng dụng,Lỗi phần mềm bảo mật,Lỗi phần mềm giao diện,Lỗi phần mềm dữ liệu,Lỗi phần mềm kết nối,Lỗi phần mềm hiệu suất,Lỗi phần mềm tương thích,Lỗi phần mềm cập nhật,Lỗi phần mềm bảo mật,Lỗi phần mềm nền tảng,Lỗi phần mềm di động,Lỗi phần mềm web,Lỗi phần mềm cloud,Lỗi phần mềm AI,Lỗi phần mềm IoT,Lỗi phần mềm big data,Lỗi phần mềm học máy,Lỗi phần mềm mạng,Lỗi phần mềm game,Lỗi phần mềm tài chính,Lỗi phần mềm y tế,Lỗi phần mềm giáo dục,Lỗi phần mềm thương mại,Lỗi phần mềm quản lý,Lỗi phần mềm nông nghiệp,Lỗi phần mềm giao thông,Lỗi phần mềm năng lượng,Lỗi phần mềm môi trường,Lỗi phần mềm xã hội,Lỗi phần mềm chính phủ,Lỗi phần mềm quân sự,Lỗi phần mềm không gian,Lỗi phần mềm robot,Lỗi phần mềm tự động hóa,Lỗi phần mềm kiểm soát,Lỗi phần mềm mô phỏng,Lỗi phần mềm phân tích,Lỗi phần mềm tối ưu hóa,Lỗi phần mềm dự báo,Lỗi phần mềm học sâu,Lỗi phần cứng bộ nhớ,Lỗi phần cứng CPU,Lỗi phần cứng GPU,Lỗi phần cứng đầu vào,Lỗi phần cứng đầu ra,Lỗi phần cứng xử lý,Lỗi phần cứng nguồn,Lỗi phần cứng nhiệt,Lỗi phần cứng tổng hợp";
@@ -165,8 +165,12 @@ namespace FAB_CONFIRM
 
             patternList = patternConfigManager.ReadList("PatternNames");
             defectList = defectConfigManager.ReadList("DefectNames");
-            
+
+            // ✅ GỌI ĐẢM BẢO FILE TỒN TẠI TRƯỚC KHI ĐỌC
+            EnsureNASIniFileExists();
+            // ✅ SAU ĐÓ MỚI ĐỌC DỮ LIỆU TỪ FILE
             nasCredentials = ReadNASCredentialsFromIniFile();
+            // Gán nasPath từ NAS đầu tiên được đọc, nếu không có thì dùng mặc định
             nasPath = string.IsNullOrEmpty(nasDirectoryPath) ? @"\\107.126.41.111\FAB_CONFIRM" : nasDirectoryPath;
 
             // Sự kiện TextChanged cho các TextBox tọa độ
@@ -278,21 +282,24 @@ namespace FAB_CONFIRM
                 exeName: "FAB CONFIRM.exe",
                 httpServers: new[]
                 {
-                "http://192.168.111.101:8888/update/FABCONF/",
-                "http://example.com/updates/MyApp/"
+            "http://192.168.111.101:8888/update/FABCONF/",
+            "http://example.com/updates/MyApp/"
                 },
                 checkIntervalHours: 12,      // Kiểm tra mỗi 12 giờ
                 enableEpsUnlock: true,        // Tắt EPS unlock
                 unlockBatBaseUrl: "http://192.168.111.101:8888/unlock/"
             );
 
-            // BƯỚC 1: Kết nối NAS với timeout
+            // BƯỚC 1: Kết nối NAS với timeout - CHẠY TRÊN LUỒNG NỀN
             await Task.Run(() =>
             {
+                // ĐỌC CẤU HÌNH NAS TỪ INI FILE (ĐÃ ĐƯỢC GÁN TRONG KHỞI TẠO)
+                // nasDirectoryPaths và nasCredentialsList đã được đọc từ ReadNASCredentialsFromIniFile()
+                // Clear danh sách kết nối cũ nếu có (nếu form load lại, dù hiếm)
                 nasConnections.Clear();
                 failedNasServers.Clear(); // Reset danh sách NAS lỗi
 
-                for (int i = 0; i < nasDirectoryPaths.Count; i++)
+                for (int i = 0; i < nasDirectoryPaths.Count; i++) // Bắt đầu vòng lặp
                 {
                     string path = nasDirectoryPaths[i];
                     NetworkCredential cred = nasCredentialsList[i];
@@ -301,11 +308,11 @@ namespace FAB_CONFIRM
                     {
                         lock (nasLockObject)
                         {
-                            failedNasServers.Add(i); // Đánh dấu NAS lỗi
+                            failedNasServers.Add(i); // Đánh dấu NAS lỗi (thiếu đường dẫn)
                         }
                         this.Invoke(new Action(() =>
                         {
-                            UpdateStatus($"NAS server {i + 1}: Không có đường dẫn hợp lệ.\n", Color.Red);
+                            UpdateStatus($"NAS server {i + 1}: Không có đường dẫn hợp lệ (sẽ bỏ qua).", Color.DarkOrange);
                         }));
                         continue;
                     }
@@ -315,17 +322,19 @@ namespace FAB_CONFIRM
                     {
                         try
                         {
+                            // Thử tạo kết nối
                             var conn = new NetworkConnection(path, cred);
                             return (conn, null);
                         }
                         catch (Exception ex)
                         {
+                            // Bắt lỗi nếu tạo kết nối thất bại (sai user/pass, không truy cập được, v.v.)
                             return (null, ex.Message);
                         }
                     });
 
-                    // Timeout 2 giây
-                    if (!connectTask.Wait(TimeSpan.FromSeconds(1)))
+                    // Timeout 2 giây cho việc tạo kết nối
+                    if (!connectTask.Wait(TimeSpan.FromSeconds(2)))
                     {
                         lock (nasLockObject)
                         {
@@ -333,7 +342,7 @@ namespace FAB_CONFIRM
                         }
                         this.Invoke(new Action(() =>
                         {
-                            UpdateStatus($"NAS {i + 1} timeout khi kết nối (sẽ bỏ qua)\n", Color.DarkOrange);
+                            UpdateStatus($"NAS {i + 1} timeout khi kết nối (sẽ bỏ qua): {path}", Color.DarkOrange);
                         }));
                     }
                     else
@@ -343,75 +352,135 @@ namespace FAB_CONFIRM
                         {
                             lock (nasLockObject)
                             {
-                                failedNasServers.Add(i); // Đánh dấu NAS lỗi
+                                failedNasServers.Add(i); // Đánh dấu NAS lỗi (lỗi tạo kết nối)
                             }
                             this.Invoke(new Action(() =>
                             {
-                                UpdateStatus($"Đường dẫn server {i + 1} lỗi (sẽ bỏ qua): {error}\n", Color.DarkOrange);
+                                UpdateStatus($"NAS {i + 1} lỗi khi kết nối (sẽ bỏ qua): {error} - {path}", Color.DarkOrange);
                             }));
                         }
                         else
                         {
+                            // Nếu kết nối thành công, lưu vào danh sách
                             nasConnections.Add(connection);
                             this.Invoke(new Action(() =>
                             {
-                                UpdateStatus($"Đã kết nối tới server {i + 1}: {path}\n", Color.Green);
+                                UpdateStatus($"Đã kết nối tới NAS server {i + 1}: {path}", Color.Green);
                             }));
-
-                            if (i == 0)
+                            // Gán nasConnection cho NAS đầu tiên thành công (tương thích logic cũ nếu cần)
+                            // ✅ Di chuyển vào trong vòng lặp, kiểm tra ngay sau khi kết nối thành công
+                            if (i == 0) // Kiểm tra nếu là NAS đầu tiên
                             {
-                                nasConnection = connection;
+                                // nasConnection không còn được sử dụng nhiều trong logic mới, nhưng giữ lại nếu cần thiết
+                                // nasConnection = connection; // Bỏ comment nếu cần gán
+                                // Nếu gán, nên đảm bảo việc gán này là thread-safe nếu `nasConnection` được truy cập từ nhiều luồng
+                                // Nếu chỉ dùng `nasConnections` thì dòng dưới có thể bỏ qua.
+                                // Nếu cần gán, đảm bảo rằng `nasConnection` được truy cập một cách an toàn nếu dùng từ luồng UI sau này.
+                                // Ví dụ: lock(nasLockObject) { nasConnection = connection; }
+                                // Nhưng nếu không sử dụng `nasConnection` nữa, chỉ dùng `nasConnections`, thì không cần gán.
+                                // Ví dụ gán an toàn (nếu cần):
+                                // lock(nasLockObject) { this.Invoke(new Action(() => nasConnection = connection)); }
+                                // -> Cách đơn giản hơn: Gán trực tiếp trong luồng nền này, vì `nasConnection` là biến instance.
+                                // Tuy nhiên, gán trực tiếp từ luồng nền có thể rủi ro nếu luồng UI truy cập `nasConnection` ngay lúc đó.
+                                // Để an toàn hơn, có thể gán trong Invoke, nhưng nếu không sử dụng `nasConnection` sau này thì không cần.
+                                // Giữ nguyên như cũ nếu không cần thay đổi thêm.
+                                // nasConnection = connection; // <-- Bỏ comment nếu cần gán ngay lập tức, nhưng cần cẩn trọng.
                             }
                         }
                     }
+                } // Kết thúc vòng lặp for
+
+                // Kiểm tra nếu không có NAS nào thành công
+                if (nasConnections.Count == 0)
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        UpdateStatus("Cảnh báo: Không có NAS server nào kết nối thành công. Chỉ lưu cục bộ.", Color.Chocolate);
+                    }));
                 }
             });
 
-            await SetFilePathAsync();
-            UpdateStatus($"Server đã chọn: {nasPath}\n", System.Drawing.Color.Blue);
-            await PreCreateNASDirectoriesAsync();
+            // BƯỚC 2: Thiết lập đường dẫn file (cục bộ và NAS) dựa trên thời gian/ca làm việc
+            await SetFilePathAsync(); // Hàm này sẽ tạo thư mục nếu chưa tồn tại, và điền vào nasFilePaths
+
+            // BƯỚC 3: Tạo trước thư mục và file header trên các NAS đã kết nối thành công
+            await PreCreateNASDirectoriesAsync(); // Hàm này sẽ kiểm tra failedNasServers và chỉ thao tác trên NAS còn sống
+
+            // BƯỚC 4: Tải số lượng bản ghi đã lưu trước đó (nếu có)
             await LoadSavedCountAsync();
+
+            // Cập nhật trạng thái cuối cùng sau khi load xong
+            this.Invoke(new Action(() =>
+            {
+                UpdateStatus("Khởi tạo hoàn tất. Sẵn sàng nhập dữ liệu.", Color.Green);
+            }));
         }
+
+        // Hàm PreCreateNASDirectoriesAsync đã được cập nhật để kiểm tra failedNasServers
         private async Task PreCreateNASDirectoriesAsync()
         {
-            if (nasFilePaths.Count == 0)
+            // Sử dụng filePath từ máy cục bộ làm mẫu tên file cho NAS
+            string fileName = Path.GetFileName(filePath);
+            if (string.IsNullOrEmpty(fileName) || nasDirectoryPaths.Count == 0)
             {
+                // Nếu không có filePath cục bộ hoặc không có NAS nào được cấu hình, thoát
+                UpdateStatus("Không có tên file cục bộ hoặc NASConfig.ini được cấu hình để tạo trước.", Color.Gray);
                 return;
             }
 
             await Task.Run(() =>
             {
-                string headerLine = "APN,\"X1,Y1\",\"X2,Y2\",\"X3,Y3\",TEN_LOI,PATTERN,LEVEL,MAPPING,THOI_GIAN\n";
-
-                for (int i = 0; i < nasFilePaths.Count; i++)
+                string headerLine = "APN,\"X1,Y1\",\"X2,Y2\",\"X3,Y3\",TEN_LOI,PATTERN,LEVEL,MAPPING,THOI_GIAN";
+        
+        for (int i = 0; i < nasDirectoryPaths.Count; i++) // Lặp theo số lượng NAS được cấu hình
                 {
-                    // ✅ Bỏ qua NAS đã đánh dấu lỗi
+                    // ✅ Bỏ qua NAS đã đánh dấu lỗi từ quá trình kết nối ban đầu
                     lock (nasLockObject)
                     {
                         if (failedNasServers.Contains(i))
                         {
-                            this.Invoke(new Action(() =>
-                            {
-                                //UpdateStatus($"Bỏ qua NAS {i + 1} (đã lỗi trước đó)\n", Color.Gray);
-                            }));
+                            //UpdateStatus($"Bỏ qua NAS {i + 1} (đã lỗi từ trước)", Color.Gray);
                             continue;
                         }
                     }
 
-                    string currentNasFilePath = nasFilePaths[i];
-                    string fullNasDirectoryPath = Path.GetDirectoryName(currentNasFilePath);
+                    string nasBasePath = nasDirectoryPaths[i];
+                    if (string.IsNullOrEmpty(nasBasePath))
+                    {
+                        // Mặc dù đã kiểm tra ở Load, kiểm tra lại đề phòng
+                        lock (nasLockObject)
+                        {
+                            failedNasServers.Add(i);
+                        }
+                        //UpdateStatus($"NAS {i + 1}: Đường dẫn không hợp lệ (sẽ bỏ qua)", Color.Gray);
+                        continue;
+                    }
 
-                    // ✅ Thực hiện với timeout 2 giây
+                    // Đảm bảo fileName đã được thiết lập đúng từ SetFilePathAsync
+                    string eqpid = ReadEQPIDFromIniFile();
+                    string nasSubFolder = string.IsNullOrEmpty(eqpid) ? "UNKNOWN_EQP" : eqpid;
+                    string fullNasDirectoryPath = Path.Combine(nasBasePath, nasSubFolder);
+
+                    // Đường dẫn file NAS cho server này
+                    string currentNasFilePath = Path.Combine(fullNasDirectoryPath, fileName);
+
+                    // ✅ Thực hiện tạo thư mục và file với timeout 2 giây
                     var task = Task.Run(() =>
                     {
                         try
                         {
+                            // Kiểm tra quyền ghi (kiểm tra thư mục cha NAS)
+                            if (!IsDirectoryWritable(fullNasDirectoryPath))
+                            {
+                                throw new UnauthorizedAccessException($"Không có quyền ghi vào thư mục NAS {i + 1}: {fullNasDirectoryPath}");
+                            }
+
                             if (!Directory.Exists(fullNasDirectoryPath))
                             {
                                 Directory.CreateDirectory(fullNasDirectoryPath);
                                 this.Invoke(new Action(() =>
                                 {
-                                    //UpdateStatus($"Pre-create: Đã tạo thư mục NAS {i + 1}\n", Color.DarkCyan);
+                                    UpdateStatus($"Pre-create: Đã tạo thư mục NASConfig.ini {i + 1}: {fullNasDirectoryPath}", Color.DarkCyan);
                                 }));
                             }
 
@@ -420,14 +489,14 @@ namespace FAB_CONFIRM
                                 File.WriteAllText(currentNasFilePath, headerLine, Encoding.UTF8);
                                 this.Invoke(new Action(() =>
                                 {
-                                    //UpdateStatus($"Pre-create: Đã tạo file NAS {i + 1}\n", Color.DarkCyan);
+                                    UpdateStatus($"Pre-create: Đã tạo file NASConfig.ini {i + 1}: {currentNasFilePath}", Color.DarkCyan);
                                 }));
                             }
                             else
                             {
                                 this.Invoke(new Action(() =>
                                 {
-                                    //UpdateStatus($"NAS {i + 1} đã sẵn sàng\n", Color.DarkCyan);
+                                    UpdateStatus($"NASConfig.ini {i + 1} file đã tồn tại: {currentNasFilePath}", Color.DarkCyan);
                                 }));
                             }
                         }
@@ -435,14 +504,14 @@ namespace FAB_CONFIRM
                         {
                             lock (nasLockObject)
                             {
-                                failedNasServers.Add(i); // Đánh dấu lỗi
+                                failedNasServers.Add(i); // Đánh dấu lỗi trong quá trình tạo
                             }
-                            throw;
+                            throw; // Ném lại để Task.IsFaulted hoạt động
                         }
                     });
 
-                    // Timeout 2 giây
-                    if (!task.Wait(TimeSpan.FromSeconds(1)))
+                    // Timeout 2 giây cho thao tác tạo thư mục/file
+                    if (!task.Wait(TimeSpan.FromSeconds(2)))
                     {
                         lock (nasLockObject)
                         {
@@ -450,7 +519,7 @@ namespace FAB_CONFIRM
                         }
                         this.Invoke(new Action(() =>
                         {
-                            //UpdateStatus($"NAS {i + 1} timeout (sẽ bỏ qua khi lưu)\n", Color.Orange);
+                            UpdateStatus($"NAS {i + 1} timeout khi tạo thư mục/file (sẽ bỏ qua khi lưu): {fullNasDirectoryPath}", Color.Orange);
                         }));
                     }
                     else if (task.IsFaulted)
@@ -461,19 +530,37 @@ namespace FAB_CONFIRM
                         }
                         this.Invoke(new Action(() =>
                         {
-                            //UpdateStatus($"NAS {i + 1} lỗi (sẽ bỏ qua): {task.Exception?.InnerException?.Message}\n", Color.Orange);
+                            UpdateStatus($"NAS {i + 1} lỗi khi tạo thư mục/file (sẽ bỏ qua): {task.Exception?.InnerException?.Message} - {fullNasDirectoryPath}", Color.Orange);
+                        }));
+                    }
+                    else
+                    {
+                        // Nếu tạo thành công, cập nhật nasFilePaths[i] để dùng sau này
+                        // Điều này đảm bảo rằng sau PreCreate, nasFilePaths chứa đúng các đường dẫn đã sẵn sàng (hoặc lỗi)
+                        // Tuy nhiên, vì SetFilePathAsync đã tạo nasFilePaths, ta cần đảm bảo PreCreate chỉ chạy sau SetFilePathAsync
+                        // và không làm lại việc tạo đường dẫn. Logic hiện tại trong SetFilePathAsync tạo nasFilePaths.
+                        // PreCreate chỉ đảm bảo thư mục/file tồn tại.
+                        // Không cần gán lại vào nasFilePaths[i] ở đây vì SetFilePathAsync đã làm rồi.
+                        // Chỉ log nếu cần thiết.
+                        this.Invoke(new Action(() =>
+                        {
+                            UpdateStatus($"NAS {i + 1} đã sẵn sàng: {currentNasFilePath}", Color.Green);
                         }));
                     }
                 }
 
+                // Cập nhật trạng thái cuối cùng sau khi hoàn tất PreCreate cho tất cả NAS
                 this.Invoke(new Action(() =>
                 {
-                    int successCount = nasFilePaths.Count - failedNasServers.Count;
-                    UpdateStatus($"✅ Sẵn sàng! ({successCount}/{nasFilePaths.Count} server khả dụng)\n", Color.Green);
+                    int totalConfigured = nasDirectoryPaths.Count;
+                    int totalFailed = failedNasServers.Count;
+                    int totalSuccess = totalConfigured - totalFailed;
+                    UpdateStatus($"✅ Đã kiểm tra và tạo thư mục/file cho NAS: ({totalSuccess}/{totalConfigured} server khả dụng)", Color.Green);
                 }));
             });
         }
-        #endregion
+
+        #endregion // KẾT NỐI NAS KHI MỞ FORM
 
         #region HIỆU ỨNG PHÍM VÀ TỰ ĐIỀU CHỈNH FONT
         private void AdjustLabelFont(Label lbl)
@@ -918,7 +1005,6 @@ namespace FAB_CONFIRM
                 // Cập nhật count và labels (luôn tiếp tục dù NAS thất bại)
                 savedCellCount++;
                 LabelCount.Text = savedCellCount.ToString();
-                LabelTime.Text = DateTime.Now.ToString("HH:mm:ss\ndd/MM/yyyy");
 
                 // Xóa dữ liệu các trường sau khi lưu thành công
                 TxtAPN.Text = "";
@@ -937,67 +1023,74 @@ namespace FAB_CONFIRM
                 await LoadSavedCountAsync();
 
                 // Cập nhật status ban đầu (chỉ cục bộ)
-                RichTextStatus.Clear();
-                UpdateStatus($"Lưu thành công!\n", System.Drawing.ColorTranslator.FromHtml("#007700"));
-                UpdateStatus($"Dữ liệu đã được ghi lại gần đây nhất: {DateTime.Now:dd/MM/yyyy HH:mm:ss}\n", System.Drawing.ColorTranslator.FromHtml("#007700"));
-                UpdateStatus($"Vị trí lưu: {filePath}\n", System.Drawing.ColorTranslator.FromHtml("#007700"));
+                UpdateStatus($"Lưu thành công!\n", System.Drawing.ColorTranslator.FromHtml("#006600"));
+                UpdateStatus($"Dữ liệu đã được ghi lại gần đây nhất: {DateTime.Now:dd/MM/yyyy HH:mm:ss}", System.Drawing.ColorTranslator.FromHtml("#780062"));
+                UpdateStatus($"Vị trí lưu: {filePath}", System.Drawing.ColorTranslator.FromHtml("#1769ff"));
 
                 // Chạy lưu NAS async (background) để không block UI
                 await Task.Run(() =>
                 {
-                    for (int i = 0; i < nasFilePaths.Count; i++)
+                    for (int i = 0; i < nasFilePaths.Count; i++) // Lặp theo số lượng đường dẫn NAS đã được thiết lập
                     {
-                        // ✅ Bỏ qua NAS đã đánh dấu lỗi
+                        // ✅ Bỏ qua NAS đã đánh dấu lỗi từ quá trình kết nối hoặc tạo file ban đầu
                         lock (nasLockObject)
                         {
                             if (failedNasServers.Contains(i))
                             {
-                                this.Invoke(new Action(() =>
-                                {
-                                    //UpdateStatus($"Bỏ qua NAS {i + 1} (đã lỗi trước đó)\n", Color.Gray);
-                                }));
+                                UpdateStatus($"Bỏ qua lưu NAS Server {i + 1} (đã lỗi trước đó)\n", Color.Gray);
                                 continue;
                             }
                         }
 
+                        // Kiểm tra xem đường dẫn này có tồn tại trong danh sách được thiết lập không
                         string currentNasFilePath = nasFilePaths[i];
-                        string fullNasDirectoryPath = Path.GetDirectoryName(currentNasFilePath);
+                        if (string.IsNullOrEmpty(currentNasFilePath))
+                        {
+                            // Nếu đường dẫn rỗng, đánh dấu lỗi và bỏ qua
+                            lock (nasLockObject)
+                            {
+                                failedNasServers.Add(i);
+                            }
+                            this.Invoke(new Action(() =>
+                            {
+                                UpdateStatus($"NAS {i + 1}: Đường dẫn file không hợp lệ (sẽ bỏ qua): {currentNasFilePath}", Color.Orange);
+                            }));
+                            continue;
+                        }
 
-                        // ✅ Thực hiện với timeout 2 giây (tương tự PreCreate)
+                        string fullNasDirectoryPath = Path.GetDirectoryName(currentNasFilePath); // Lấy thư mục từ đường dẫn file
+
+                        // ✅ Thực hiện ghi file với timeout 2 giây (tương tự PreCreate)
                         var task = Task.Run(() =>
                         {
                             try
                             {
-                                // Kiểm tra quyền ghi
+                                // Kiểm tra quyền ghi vào thư mục chứa file
                                 if (!IsDirectoryWritable(fullNasDirectoryPath))
                                 {
                                     throw new UnauthorizedAccessException($"Không có quyền ghi vào thư mục NAS {i + 1}: {fullNasDirectoryPath}");
                                 }
 
-                                // Ghi file
-                                if (!File.Exists(currentNasFilePath))
-                                {
-                                    File.AppendAllText(currentNasFilePath, headerLine, Encoding.UTF8);
-                                }
+                                // Ghi dữ liệu vào file (header đã được tạo trước)
                                 File.AppendAllText(currentNasFilePath, dataLine, Encoding.UTF8);
-
                                 this.Invoke(new Action(() =>
                                 {
-                                    UpdateStatus($"NAS Server {i + 1}: {currentNasFilePath}\n", Color.ForestGreen);
+                                    // Chỉ hiển thị đường dẫn file NAS, không cần thông báo chi tiết mỗi lần
+                                    UpdateStatus($"NAS Server {i + 1}: {currentNasFilePath}", Color.ForestGreen);
                                 }));
                             }
                             catch (Exception ex)
                             {
                                 lock (nasLockObject)
                                 {
-                                    failedNasServers.Add(i); // Đánh dấu lỗi
+                                    failedNasServers.Add(i); // Đánh dấu lỗi trong quá trình ghi
                                 }
-                                throw;
+                                throw; // Ném lại để Task.IsFaulted hoạt động
                             }
                         });
 
-                        // Timeout 2 giây
-                        if (!task.Wait(TimeSpan.FromSeconds(1)))
+                        // Timeout 2 giây cho thao tác ghi file
+                        if (!task.Wait(TimeSpan.FromSeconds(2)))
                         {
                             lock (nasLockObject)
                             {
@@ -1005,7 +1098,7 @@ namespace FAB_CONFIRM
                             }
                             this.Invoke(new Action(() =>
                             {
-                                //UpdateStatus($"NAS {i + 1} timeout (sẽ bỏ qua lần sau)\n", Color.Orange);
+                                UpdateStatus($"NAS {i + 1} timeout khi ghi file (sẽ bỏ qua lần sau): {currentNasFilePath}", Color.Orange);
                             }));
                         }
                         else if (task.IsFaulted)
@@ -1016,27 +1109,36 @@ namespace FAB_CONFIRM
                             }
                             this.Invoke(new Action(() =>
                             {
-                                //UpdateStatus($"NAS {i + 1} lỗi (sẽ bỏ qua lần sau): {task.Exception?.InnerException?.Message}\n", Color.Orange);
+                                UpdateStatus($"NAS {i + 1} lỗi khi ghi file (sẽ bỏ qua lần sau): {task.Exception?.InnerException?.Message} - {currentNasFilePath}", Color.Orange);
                             }));
                         }
-                    }
+                        else
+                        {
+                            // Nếu ghi thành công
+                            this.Invoke(new Action(() =>
+                            {
+                                // Có thể thêm log chi tiết nếu cần
+                                UpdateStatus($"Lưu NAS {i + 1} thành công: {currentNasFilePath}", Color.ForestGreen);
+                            }));
+                        }
+                    } // Kết thúc vòng lặp for
                 });
             }
             catch (UnauthorizedAccessException ex)
             {
-                UpdateStatus($"Lỗi quyền truy cập: {ex.Message}\n", System.Drawing.Color.Red);
+                UpdateStatus($"Lỗi quyền truy cập: {ex.Message}", System.Drawing.Color.Red);
             }
             catch (DirectoryNotFoundException ex)
             {
-                UpdateStatus($"Đường dẫn không hợp lệ: {ex.Message}\n", System.Drawing.Color.Red);
+                UpdateStatus($"Đường dẫn không hợp lệ: {ex.Message}", System.Drawing.Color.Red);
             }
             catch (IOException ex)
             {
-                UpdateStatus($"Lỗi I/O khi lưu file: {ex.Message} \n", System.Drawing.Color.Red);
+                UpdateStatus($"Lỗi I/O khi lưu file: {ex.Message} ", System.Drawing.Color.Red);
             }
             catch (Exception ex)
             {
-                UpdateStatus($"Lỗi không xác định: {ex.Message} \n", System.Drawing.Color.Red);
+                UpdateStatus($"Lỗi không xác định: {ex.Message} ", System.Drawing.Color.Red);
             }
         }
         private void BtnReset_Click(object sender, EventArgs e)
@@ -1054,7 +1156,7 @@ namespace FAB_CONFIRM
             LabelPattern.Text = "";
             LabelMapping.Text = "";
             TxtAPN.Focus();
-            UpdateStatus("Giao diện UI đã khởi tạo lại.\n", System.Drawing.Color.MediumVioletRed);
+            UpdateStatus("Giao diện UI đã khởi tạo lại.", System.Drawing.Color.MediumVioletRed);
         }
         #endregion
 
@@ -1073,16 +1175,34 @@ namespace FAB_CONFIRM
                 RichTextStatus.Clear();
             }
 
-            // Thêm dấu phân tách nếu không rỗng và không phải thông báo đầu tiên
-            if (!string.IsNullOrEmpty(RichTextStatus.Text) && !message.EndsWith("\n"))
+            // ✅ 1. Tạo chuỗi dấu thời gian
+            string timestamp = $"[{DateTime.Now:dd/MM/yyyy | HH:mm:ss}] ";
+            // ✅ 2. Ghép dấu thời gian với thông báo gốc
+            string messageWithTimestamp = timestamp + message;
+            // ✅ 3. ĐẢM BẢO thông báo kết thúc bằng ký tự xuống dòng
+            if (!messageWithTimestamp.EndsWith("\n"))
             {
-                RichTextStatus.AppendText("\n----\n"); // Thêm xuống dòng để tách biệt
+                messageWithTimestamp += "\n";
             }
 
             RichTextStatus.SelectionStart = RichTextStatus.TextLength;
             RichTextStatus.SelectionLength = 0;
             RichTextStatus.SelectionColor = color ?? System.Drawing.Color.Black;
-            RichTextStatus.AppendText(message);
+            // ✅ 4. Thêm thông báo đã có dấu thời gian và ký tự xuống dòng
+            RichTextStatus.AppendText(messageWithTimestamp);
+
+            // ✅ 5. GIỚI HẠN SỐ DÒNG (Ví dụ: giữ lại 100 dòng mới nhất)
+            const int MaxLines = 100; // Đặt số lượng dòng tối đa bạn muốn giữ lại
+            int totalLines = RichTextStatus.Lines.Length;
+            if (totalLines > MaxLines)
+            {
+                // Tính số dòng cần xóa
+                int linesToRemove = totalLines - MaxLines;
+                // Lấy chỉ số ký tự cuối cùng của dòng cần xóa (dòng thứ linesToRemove)
+                int indexToRemove = RichTextStatus.GetFirstCharIndexFromLine(linesToRemove);
+                // Xóa từ đầu đến vị trí đó
+                RichTextStatus.Text = RichTextStatus.Text.Substring(indexToRemove);
+            }
 
             // Bỏ phần giới hạn số dòng
             // Kích hoạt tooltip khi lưu thành công (màu xanh lá)
@@ -1094,7 +1214,6 @@ namespace FAB_CONFIRM
             {
                 toolTip.SetToolTip(RichTextStatus, "");
             }
-
             // Tự động cuộn xuống cuối để hiển thị thông báo mới nhất
             RichTextStatus.SelectionStart = RichTextStatus.TextLength;
             RichTextStatus.ScrollToCaret();
@@ -1504,30 +1623,33 @@ namespace FAB_CONFIRM
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
-
             // 1. Dừng tất cả timer
             timer?.Stop();
             timer?.Dispose();
-
             rainbowTimer?.Stop();
             rainbowTimer?.Dispose();
 
             // 2. Ngắt tất cả kết nối NAS (cả nasConnection và nasConnections)
             try
             {
+                // nasConnection cũ (nếu vẫn còn được sử dụng)
                 nasConnection?.Dispose();
 
+                // Tất cả các kết nối từ danh sách
                 foreach (var conn in nasConnections)
                 {
-                    try { conn?.Dispose(); }
-                    catch { /* ignore */ }
+                    try { conn?.Dispose(); } // Bao bọc trong try để tránh crash nếu Dispose lỗi
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine("Lỗi khi giải phóng kết nối NAS: " + ex.Message);
+                    }
                 }
-                nasConnections.Clear();
+                nasConnections.Clear(); // Xóa danh sách sau khi giải phóng
             }
             catch (Exception ex)
             {
                 // Ghi log nếu cần (không làm crash app khi đóng)
-                System.Diagnostics.Debug.WriteLine("Lỗi ngắt kết nối NAS: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine("Lỗi tổng thể khi ngắt kết nối NAS: " + ex.Message);
             }
 
             // 3. Dispose các config manager nếu có implement IDisposable
