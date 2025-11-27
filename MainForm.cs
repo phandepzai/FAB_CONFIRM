@@ -1380,10 +1380,10 @@ namespace FAB_CONFIRM
             return "";
         }
 
-        // Thêm phương thức mới để đảm bảo file NAS.ini tồn tại
+        // Thêm phương thức mới để đảm bảo file NASConfig.ini tồn tại
         private void EnsureNASIniFileExists()
         {
-            string filePath = @"C:\FAB_CONFIRM\Config\NAS.ini";
+            string filePath = @"C:\FAB_CONFIRM\Config\NASConfig.ini";
 
             // Giá trị mặc định cho khối đầu tiên
             string defaultNasPath1 = @"\\107.126.41.111\FAB_CONFIRM";
@@ -1426,16 +1426,16 @@ namespace FAB_CONFIRM
             }
             catch (Exception ex)
             {
-                UpdateStatus($"Lỗi khi tạo NAS.ini: {ex.Message}\n", Color.Red);
+                UpdateStatus($"Lỗi khi tạo NASConfig.ini: {ex.Message}\n", Color.Red);
             }
         }
 
-        // Đọc thông tin NAS từ file NAS.ini, chỉ xử lý các khối có NASPATH
+        // Đọc thông tin NAS từ file NASConfig.ini, chỉ xử lý các khối có NASPATH
         private NetworkCredential ReadNASCredentialsFromIniFile()
         {
-            string filePath = @"C:\FAB_CONFIRM\Config\NAS.ini";
+            string filePath = @"C:\FAB_CONFIRM\Config\NASConfig.ini";
 
-            // Đảm bảo file NAS.ini tồn tại trước khi đọc
+            // Đảm bảo file NASConfig.ini tồn tại trước khi đọc
             EnsureNASIniFileExists();
 
             try
@@ -1489,12 +1489,12 @@ namespace FAB_CONFIRM
 
                 // Nếu không có server nào hợp lệ
                 nasDirectoryPath = "";
-                UpdateStatus("Không tìm thấy NAS server hợp lệ trong file NAS.ini.\n", Color.Chocolate);
+                UpdateStatus("Không tìm thấy NAS server hợp lệ trong file NASConfig.ini.\n", Color.Chocolate);
                 return new NetworkCredential("", "");
             }
             catch (Exception ex)
             {
-                //UpdateStatus($"Lỗi khi đọc NAS.ini: {ex.Message}\n", Color.Red);
+                //UpdateStatus($"Lỗi khi đọc NASConfig.ini: {ex.Message}\n", Color.Red);
                 nasDirectoryPath = "";
                 return new NetworkCredential("", "");
             }
