@@ -342,7 +342,7 @@ namespace FAB_CONFIRM
                         }
                         this.Invoke(new Action(() =>
                         {
-                            UpdateStatus($"NAS {i + 1} timeout khi kết nối (sẽ bỏ qua): {path}", Color.DarkOrange);
+                            UpdateStatus($"NAS {i + 1} timeout khi kết nối (sẽ bỏ qua): {path}", System.Drawing.ColorTranslator.FromHtml("#C60000"));
                         }));
                     }
                     else
@@ -1098,7 +1098,7 @@ namespace FAB_CONFIRM
                             }
                             this.Invoke(new Action(() =>
                             {
-                                UpdateStatus($"NAS {i + 1} timeout khi ghi file (sẽ bỏ qua lần sau): {currentNasFilePath}", Color.Orange);
+                                UpdateStatus($"NAS {i + 1} timeout khi ghi file (sẽ bỏ qua lần sau): {currentNasFilePath}", Color.SaddleBrown);
                             }));
                         }
                         else if (task.IsFaulted)
@@ -1160,7 +1160,7 @@ namespace FAB_CONFIRM
         }
         #endregion
 
-        #region CẬP NHẬT TRẠNG THÁI
+        #region CẬP NHẬT LOG TRẠNG THÁI
         private void UpdateStatus(string message, System.Drawing.Color? color = null, bool clearPrevious = false)
         {
             if (RichTextStatus.InvokeRequired)
@@ -1175,24 +1175,29 @@ namespace FAB_CONFIRM
                 RichTextStatus.Clear();
             }
 
-            // ✅ 1. Tạo chuỗi dấu thời gian
-            string timestamp = $"[{DateTime.Now:dd/MM/yyyy | HH:mm:ss}] ";
-            // ✅ 2. Ghép dấu thời gian với thông báo gốc
-            string messageWithTimestamp = timestamp + message;
-            // ✅ 3. ĐẢM BẢO thông báo kết thúc bằng ký tự xuống dòng
-            if (!messageWithTimestamp.EndsWith("\n"))
-            {
-                messageWithTimestamp += "\n";
-            }
-
             RichTextStatus.SelectionStart = RichTextStatus.TextLength;
             RichTextStatus.SelectionLength = 0;
-            RichTextStatus.SelectionColor = color ?? System.Drawing.Color.Black;
-            // ✅ 4. Thêm thông báo đã có dấu thời gian và ký tự xuống dòng
-            RichTextStatus.AppendText(messageWithTimestamp);
 
-            // ✅ 5. GIỚI HẠN SỐ DÒNG (Ví dụ: giữ lại 100 dòng mới nhất)
-            const int MaxLines = 100; // Đặt số lượng dòng tối đa bạn muốn giữ lại
+            // ✅ 1. Tạo chuỗi dấu thời gian
+            string timestamp = $"[{DateTime.Now:dd/MM/yyyy | HH:mm:ss}] ";
+            // ✅ 2. Đặt màu cho dấu thời gian là ĐEN
+            RichTextStatus.SelectionColor = System.Drawing.Color.Black;
+            // ✅ 3. Thêm dấu thời gian vào RichTextBox
+            RichTextStatus.AppendText(timestamp);
+
+            // ✅ 4. Đặt màu cho phần nội dung thông báo
+            RichTextStatus.SelectionColor = color ?? System.Drawing.Color.Black; // Sử dụng màu được truyền vào, hoặc màu đen nếu null
+            // ✅ 5. Thêm nội dung thông báo vào RichTextBox
+            RichTextStatus.AppendText(message);
+
+            // ✅ 6. Đảm bảo dòng kết thúc bằng ký tự xuống dòng
+            if (!message.EndsWith("\n"))
+            {
+                RichTextStatus.AppendText("\n");
+            }
+
+            // ✅ 7. GIỚI HẠN SỐ DÒNG (Ví dụ: giữ lại 200 dòng mới nhất)
+            const int MaxLines = 200; // Đặt số lượng dòng tối đa bạn muốn giữ lại
             int totalLines = RichTextStatus.Lines.Length;
             if (totalLines > MaxLines)
             {
