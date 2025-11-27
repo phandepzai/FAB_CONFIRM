@@ -136,7 +136,6 @@ namespace FAB_CONFIRM
             this.TxtAPN.Name = "TxtAPN";
             this.TxtAPN.Size = new System.Drawing.Size(404, 36);
             this.TxtAPN.TabIndex = 0;
-            this.TxtAPN.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TxtAPN.Enter += new System.EventHandler(this.OnTextBoxEnter);
             // 
             // LabelX1
@@ -493,6 +492,7 @@ namespace FAB_CONFIRM
             // BtnXacNhan
             // 
             this.BtnXacNhan.BackColor = System.Drawing.Color.SeaGreen;
+            this.BtnXacNhan.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnXacNhan.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnXacNhan.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.BtnXacNhan.Location = new System.Drawing.Point(461, 368);
@@ -506,6 +506,7 @@ namespace FAB_CONFIRM
             // BtnReset
             // 
             this.BtnReset.BackColor = System.Drawing.Color.Goldenrod;
+            this.BtnReset.Cursor = System.Windows.Forms.Cursors.Hand;
             this.BtnReset.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BtnReset.Location = new System.Drawing.Point(568, 368);
             this.BtnReset.Name = "BtnReset";
@@ -631,7 +632,7 @@ namespace FAB_CONFIRM
             this.RichTextStatus.ForeColor = System.Drawing.Color.Green;
             this.RichTextStatus.Location = new System.Drawing.Point(12, 518);
             this.RichTextStatus.Name = "RichTextStatus";
-            this.RichTextStatus.Size = new System.Drawing.Size(586, 91);
+            this.RichTextStatus.Size = new System.Drawing.Size(586, 85);
             this.RichTextStatus.TabIndex = 47;
             this.RichTextStatus.Text = "Trạng thái: ";
             // 

@@ -14,6 +14,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ExplorerBar;
 
 namespace FAB_CONFIRM
@@ -27,7 +28,7 @@ namespace FAB_CONFIRM
         private readonly System.Windows.Forms.Timer timer;
         private readonly ToolTip toolTip;
         private readonly ToolTip validationToolTip;
-
+        private Color defaultTextBoxBackColor; // Biến lưu trữ màu nền mặc định
         private readonly Timer rainbowTimer;// Các biến cho hiệu ứng chuyển màu cầu vồng mượt mà
         private bool isRainbowActive = false;
         private Color originalAuthorColor;
@@ -38,7 +39,7 @@ namespace FAB_CONFIRM
         private readonly List<string> defectList;
         private readonly ConfigManager patternConfigManager;
         private readonly ConfigManager defectConfigManager;
-#pragma warning disable
+        #pragma warning disable
         private NetworkConnection nasConnection;
         private NetworkCredential nasCredentials;
         private string nasPath;
@@ -57,6 +58,7 @@ namespace FAB_CONFIRM
         public MainForm()
         {
             InitializeComponent();
+            InitializeFocusColor(); // Gọi hàm khởi tạo màu nền khi focus
             //Sử dụng async Load event
             this.Load += async (s, e) => await MainForm_LoadAsync(s, e);
 
@@ -73,6 +75,7 @@ namespace FAB_CONFIRM
                 {
                     b.UseVisualStyleBackColor = false;
                     b.BackColor = Color.White;
+                    b.TabStop = false; // 🔥 Ngăn Button cướp focus
                 }
             }
 
@@ -95,7 +98,7 @@ namespace FAB_CONFIRM
             TxtY2.KeyPress += new KeyPressEventHandler(CoordinateTextBox_KeyPress);
             TxtX3.KeyPress += new KeyPressEventHandler(CoordinateTextBox_KeyPress);
             TxtY3.KeyPress += new KeyPressEventHandler(CoordinateTextBox_KeyPress);
-
+            
             TxtX1.KeyDown += TxtCoord_KeyDown;
             TxtY1.KeyDown += TxtCoord_KeyDown;
             TxtX2.KeyDown += TxtCoord_KeyDown;
@@ -111,21 +114,6 @@ namespace FAB_CONFIRM
             TxtY2.MaxLength = 3;
             TxtX3.MaxLength = 3;
             TxtY3.MaxLength = 3;
-
-            TxtAPN.GotFocus += TextBox_GotFocus;
-            TxtAPN.LostFocus += TextBox_LostFocus;
-            TxtX1.GotFocus += TextBox_GotFocus;
-            TxtX1.LostFocus += TextBox_LostFocus;
-            TxtY1.GotFocus += TextBox_GotFocus;
-            TxtY1.LostFocus += TextBox_LostFocus;
-            TxtX2.GotFocus += TextBox_GotFocus;
-            TxtX2.LostFocus += TextBox_LostFocus;
-            TxtY2.GotFocus += TextBox_GotFocus;
-            TxtY2.LostFocus += TextBox_LostFocus;
-            TxtX3.GotFocus += TextBox_GotFocus;
-            TxtX3.LostFocus += TextBox_LostFocus;
-            TxtY3.GotFocus += TextBox_GotFocus;
-            TxtY3.LostFocus += TextBox_LostFocus;
 
             this.rainbowTimer = new Timer { Interval = 20 };
             this.rainbowTimer.Tick += new EventHandler(this.RainbowTimer_Tick);
@@ -177,10 +165,108 @@ namespace FAB_CONFIRM
 
             patternList = patternConfigManager.ReadList("PatternNames");
             defectList = defectConfigManager.ReadList("DefectNames");
-
+            
             nasCredentials = ReadNASCredentialsFromIniFile();
             nasPath = string.IsNullOrEmpty(nasDirectoryPath) ? @"\\107.126.41.111\FAB_CONFIRM" : nasDirectoryPath;
-            UpdateStatus($"Server đã chọn: {nasPath}\n", System.Drawing.Color.Blue);
+
+            // Sự kiện TextChanged cho các TextBox tọa độ
+            TxtAPN.TextChanged += TxtAPN_TextChanged;
+            TxtX1.TextChanged += TextBox_TextChanged;
+            TxtY1.TextChanged += TextBox_TextChanged;
+            TxtX2.TextChanged += TextBox_TextChanged;
+            TxtY2.TextChanged += TextBox_TextChanged;
+            TxtX3.TextChanged += TextBox_TextChanged;
+            TxtY3.TextChanged += TextBox_TextChanged;
+        }
+        #endregion
+
+        #region TỰ ĐỘNG CHUYỂN Ô KHI NHẬP ĐỦ 3 KÝ TỰ
+        private void TextBox_TextChanged(object sender, EventArgs e)
+        {
+            TextBox currentTextBox = (TextBox)sender;
+
+            // Kiểm tra xem TextBox hiện tại có phải là một trong các ô tọa độ không
+            // và có phải là ô có giới hạn 3 ký tự (loại trừ ô sAPN có 89 ký tự)
+            // Danh sách các TextBox tọa độ có giới hạn 3 ký tự
+            var TextBoxes = new TextBox[] {
+                
+                TxtX1, TxtY1, TxtX2, TxtY2, TxtX3
+            };
+
+            if (TextBoxes.Contains(currentTextBox))
+            {
+                // Kiểm tra độ dài và đảm bảo không phải "ALL"
+                if (currentTextBox.Text.Length == 3)
+                {
+                    // Chuyển sang ô tiếp theo trong danh sách
+                    // SelectNextControl sẽ chọn ô tiếp theo theo thứ tự tab index
+                    // Nếu bạn muốn thứ tự cụ thể, bạn cần tự quản lý danh sách và logic chuyển tiếp
+                    this.SelectNextControl(currentTextBox, true, true, true, true);
+                }
+            }
+        }
+
+        private void TxtAPN_TextChanged(object sender, EventArgs e)
+        {
+            int remaining = 23 - TxtAPN.Text.Length;
+            if (remaining <= 5 && remaining >= 0)
+            {
+                validationToolTip.Show($"Còn {remaining} ký tự", TxtAPN, 0, TxtAPN.Height, 3000);
+            }
+            // Kiểm tra nếu độ dài văn bản đạt 89 ký tự
+            if (TxtAPN.Text.Length == 23)
+            {
+                // Chuyển focus sang TxtX1
+                TxtX1.Focus();
+                // (Tùy chọn) Nếu bạn cũng muốn chọn (select) toàn bộ văn bản trong TxtX1 khi focus,
+                // bạn có thể thêm: TxtX1.SelectAll();
+            }           
+        }
+        #endregion
+
+        #region THAY ĐỔI MÀU NỀN KHI FOCUS VÀO TEXTBOX
+        private void InitializeFocusColor()
+        {
+            // Lưu màu nền mặc định của một TextBox bất kỳ, hoặc sử dụng SystemColors.Window
+            // Nếu bạn không thay đổi màu nền mặc định trong Designer, SystemColors.Window là an toàn.
+            defaultTextBoxBackColor = SystemColors.Window; // Hoặc Color.FromKnownColor(KnownColor.Window);
+
+            // Gán sự kiện Enter và Leave cho các TextBox tọa độ
+            // Bạn có thể thêm TxtAPN vào đây nếu muốn áp dụng cho cả ô sAPN
+            TxtX1.Enter += TextBox_Enter;
+            TxtX1.Leave += TextBox_Leave;
+            TxtY1.Enter += TextBox_Enter;
+            TxtY1.Leave += TextBox_Leave;
+            TxtX2.Enter += TextBox_Enter;
+            TxtX2.Leave += TextBox_Leave;
+            TxtY2.Enter += TextBox_Enter;
+            TxtY2.Leave += TextBox_Leave;
+            TxtX3.Enter += TextBox_Enter;
+            TxtX3.Leave += TextBox_Leave;
+            TxtY3.Enter += TextBox_Enter;
+            TxtY3.Leave += TextBox_Leave;
+
+            // Nếu muốn áp dụng cho TxtAPN:
+            TxtAPN.Enter += TextBox_Enter;
+            TxtAPN.Leave += TextBox_Leave;
+        }
+
+        private void TextBox_Enter(object sender, EventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+                // Đặt màu nền khi nhận focus (ví dụ: màu vàng nhạt)
+                textBox.BackColor = System.Drawing.ColorTranslator.FromHtml("#C8E2B1");
+            }
+        }
+
+        private void TextBox_Leave(object sender, EventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+                // Khôi phục màu nền mặc định khi mất focus
+                textBox.BackColor = defaultTextBoxBackColor;
+            }
         }
         #endregion
 
@@ -247,7 +333,7 @@ namespace FAB_CONFIRM
                         }
                         this.Invoke(new Action(() =>
                         {
-                            UpdateStatus($"NAS {i + 1} timeout khi kết nối (sẽ bỏ qua)\n", Color.Orange);
+                            UpdateStatus($"NAS {i + 1} timeout khi kết nối (sẽ bỏ qua)\n", Color.DarkOrange);
                         }));
                     }
                     else
@@ -261,7 +347,7 @@ namespace FAB_CONFIRM
                             }
                             this.Invoke(new Action(() =>
                             {
-                                UpdateStatus($"Đường dẫn server {i + 1} lỗi (sẽ bỏ qua): {error}\n", Color.Orange);
+                                UpdateStatus($"Đường dẫn server {i + 1} lỗi (sẽ bỏ qua): {error}\n", Color.DarkOrange);
                             }));
                         }
                         else
@@ -282,6 +368,7 @@ namespace FAB_CONFIRM
             });
 
             await SetFilePathAsync();
+            UpdateStatus($"Server đã chọn: {nasPath}\n", System.Drawing.Color.Blue);
             await PreCreateNASDirectoriesAsync();
             await LoadSavedCountAsync();
         }
@@ -419,22 +506,9 @@ namespace FAB_CONFIRM
             if (button != null)
             {
                 button.BackColor = Color.LightGreen;
-                await Task.Delay(150); // Chờ 150ms để hiệu ứng hiển thị
+                await Task.Delay(100); // Chờ 150ms để hiệu ứng hiển thị
                 button.BackColor = Color.White;
             }
-        }
-
-        // Sự kiện thay đổi màu nền khi TextBox được focus
-        private void TextBox_GotFocus(object sender, EventArgs e)
-        {
-            TextBox textBox = sender as TextBox;
-            textBox.BackColor = ColorTranslator.FromHtml("#E6F1D8"); // Màu xanh lá mạ nhạt khi focus
-        }
-
-        private void TextBox_LostFocus(object sender, EventArgs e)
-        {
-            TextBox textBox = sender as TextBox;
-            textBox.BackColor = SystemColors.Window; // Trở về màu trắng mặc định khi mất focus
         }
         #endregion
 
@@ -608,31 +682,29 @@ namespace FAB_CONFIRM
             {
                 Button Btn = sender as Button;
                 bool isCoordTextBox = activeTextBox.Name.StartsWith("TxtX") || activeTextBox.Name.StartsWith("TxtY");
-
                 if (isCoordTextBox)
                 {
                     string newText = activeTextBox.Text + Btn.Text;
                     if (newText.Length > activeTextBox.MaxLength)
                     {
-                        // Hiển thị tooltip cảnh báo khi nhập quá số ký tự tối đa
                         toolTip.ToolTipTitle = "Lỗi nhập liệu";
                         toolTip.Show("Chỉ cho phép nhập tối đa 3 số!", activeTextBox, 0, activeTextBox.Height, 3500);
-                        return; // Ngăn không cho nhập thêm
-                    }
-
-                    // Ngăn không cho nhập dấu chấm ở bất kỳ vị trí nào trừ vị trí đầu tiên
-                    if (Btn.Text == "." && activeTextBox.Text.Length > 0)
-                    {
                         return;
                     }
-
-                    // Ngăn không cho nhập '0' ở vị trí đầu tiên
-                    if (Btn.Text != "." && activeTextBox.Text.Length == 0 && Btn.Text == "0")
+                    if (Btn.Text == ".")
                     {
-                        return;
+                        if (activeTextBox.Text.Contains("."))
+                        {
+                            return; // Đã có dấu chấm rồi
+                        }
+                    }
+
+                    // Ngăn nhập '0' ở đầu nếu không phải là '0.' hoặc số hợp lệ
+                    if (Btn.Text != "." && activeTextBox.Text.Length == 0 && Btn.Text == "0" && activeTextBox.MaxLength > 1)
+                    {
+                        // Có thể cho phép "0" nếu người dùng muốn nhập "0.5"
                     }
                 }
-
                 activeTextBox.Text += Btn.Text;
                 activeTextBox.SelectionStart = activeTextBox.Text.Length;
                 activeTextBox.Focus();
