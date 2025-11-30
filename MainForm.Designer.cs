@@ -4,53 +4,7 @@ namespace FAB_CONFIRM
     
     partial class MainForm
     {
-        #region KHAI BÁO CÁC THÀNH PHẦN UI
-        private System.ComponentModel.IContainer components = null;
-        private System.Windows.Forms.Label LabelAPN;
-        private System.Windows.Forms.TextBox TxtAPN;
-        private System.Windows.Forms.Label LabelX1;
-        private System.Windows.Forms.TextBox TxtX1;
-        private System.Windows.Forms.Label LabelY1;
-        private System.Windows.Forms.TextBox TxtY1;
-        private System.Windows.Forms.Label LabelX2;
-        private System.Windows.Forms.TextBox TxtX2;
-        private System.Windows.Forms.Label LabelY2;
-        private System.Windows.Forms.TextBox TxtY2;
-        private System.Windows.Forms.Label LabelX3;
-        private System.Windows.Forms.TextBox TxtX3;
-        private System.Windows.Forms.Label LabelY3;
-        private System.Windows.Forms.TextBox TxtY3;
-        private System.Windows.Forms.Button Btn7;
-        private System.Windows.Forms.Button Btn8;
-        private System.Windows.Forms.Button Btn9;
-        private System.Windows.Forms.Button Btn4;
-        private System.Windows.Forms.Button Btn5;
-        private System.Windows.Forms.Button Btn6;
-        private System.Windows.Forms.Button Btn1;
-        private System.Windows.Forms.Button Btn2;
-        private System.Windows.Forms.Button Btn3;
-        private System.Windows.Forms.Button Btn0;
-        private System.Windows.Forms.Button BtnDot;
-        private System.Windows.Forms.Button BtnDelete;
-        private System.Windows.Forms.Button BtnTenLoi;
-        private System.Windows.Forms.Label LabelTenLoi;
-        private System.Windows.Forms.Button BtnLevel;
-        private System.Windows.Forms.Label LabelLevel;
-        private System.Windows.Forms.Button BtnPattern;
-        private System.Windows.Forms.Label LabelPattern;
-        private System.Windows.Forms.Button BtnMapping;
-        private System.Windows.Forms.Label LabelMapping;
-        private System.Windows.Forms.Button BtnXacNhan;
-        private System.Windows.Forms.Button BtnReset;
-        private System.Windows.Forms.Label LabelSoCellDaLuu;
-        private System.Windows.Forms.Label LabelCount;
-        private System.Windows.Forms.Button BtnDK;
-        private System.Windows.Forms.Button BtnBR;
-        private System.Windows.Forms.Label LabelAuthor;
-        private System.Windows.Forms.Label LabelTime;
-        private System.Windows.Forms.Label LabelDate;
-        private System.Windows.Forms.PictureBox pictureBox;
-        private System.Windows.Forms.RichTextBox RichTextStatus;
+        #region GIẢI PHÓNG TÀI NGUYÊN
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -61,7 +15,7 @@ namespace FAB_CONFIRM
         }
         #endregion
 
-        #region CÁC THÀNH PHẦN UI CỦA ỨNG DỤNG
+        #region MÃ TỰ SINH BỞI TRÌNH THIẾT KẾ WINDOWS FORM
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
@@ -701,10 +655,57 @@ namespace FAB_CONFIRM
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
         #endregion
 
+        #region KHAI BÁO CÁC THÀNH PHẦN UI
+        private System.ComponentModel.IContainer components = null;
+        private System.Windows.Forms.Label LabelAPN;
+        private System.Windows.Forms.TextBox TxtAPN;
+        private System.Windows.Forms.Label LabelX1;
+        private System.Windows.Forms.TextBox TxtX1;
+        private System.Windows.Forms.Label LabelY1;
+        private System.Windows.Forms.TextBox TxtY1;
+        private System.Windows.Forms.Label LabelX2;
+        private System.Windows.Forms.TextBox TxtX2;
+        private System.Windows.Forms.Label LabelY2;
+        private System.Windows.Forms.TextBox TxtY2;
+        private System.Windows.Forms.Label LabelX3;
+        private System.Windows.Forms.TextBox TxtX3;
+        private System.Windows.Forms.Label LabelY3;
+        private System.Windows.Forms.TextBox TxtY3;
+        private System.Windows.Forms.Button Btn7;
+        private System.Windows.Forms.Button Btn8;
+        private System.Windows.Forms.Button Btn9;
+        private System.Windows.Forms.Button Btn4;
+        private System.Windows.Forms.Button Btn5;
+        private System.Windows.Forms.Button Btn6;
+        private System.Windows.Forms.Button Btn1;
+        private System.Windows.Forms.Button Btn2;
+        private System.Windows.Forms.Button Btn3;
+        private System.Windows.Forms.Button Btn0;
+        private System.Windows.Forms.Button BtnDot;
+        private System.Windows.Forms.Button BtnDelete;
+        private System.Windows.Forms.Button BtnTenLoi;
+        private System.Windows.Forms.Label LabelTenLoi;
+        private System.Windows.Forms.Button BtnLevel;
+        private System.Windows.Forms.Label LabelLevel;
+        private System.Windows.Forms.Button BtnPattern;
+        private System.Windows.Forms.Label LabelPattern;
+        private System.Windows.Forms.Button BtnMapping;
+        private System.Windows.Forms.Label LabelMapping;
+        private System.Windows.Forms.Button BtnXacNhan;
+        private System.Windows.Forms.Button BtnReset;
+        private System.Windows.Forms.Label LabelSoCellDaLuu;
+        private System.Windows.Forms.Label LabelCount;
+        private System.Windows.Forms.Button BtnDK;
+        private System.Windows.Forms.Button BtnBR;
+        private System.Windows.Forms.Label LabelAuthor;
+        private System.Windows.Forms.Label LabelTime;
+        private System.Windows.Forms.Label LabelDate;
+        private System.Windows.Forms.PictureBox pictureBox;
+        private System.Windows.Forms.RichTextBox RichTextStatus;
         private System.Windows.Forms.Label LabelHint;
+        #endregion
     }
 }

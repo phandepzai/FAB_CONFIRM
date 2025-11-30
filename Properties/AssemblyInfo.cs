@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("FAB CONFIRM")]
 [assembly: AssemblyCompany("NONG VAN PHAN")]
 [assembly: AssemblyProduct("FAB CONFIRM")]
-[assembly: AssemblyCopyright("Copyright © 2025")]
+[assembly: AssemblyCopyright("Copyright ©NONG VAN PHAN 2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -29,8 +29,9 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("3.8.0.180")]
-[assembly: AssemblyFileVersion("3.8.0.180")]
+[assembly: AssemblyVersion("3.5.2.223")]
+[assembly: AssemblyFileVersion("3.5.2.223")]
+
 
 
 
